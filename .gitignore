@@ -1,22 +1,51 @@
+# Development environments and caches
 __pycache__/
 *.py[cod]
 .venv/
 venv/
 node_modules/
 .pytest_cache/
+
+# Local credentials and signing material
 .env
 .env.*
+!.env.example
+.ssh/
+.secrets/
+secrets/
 *.pem
 *.key
 *.pfx
 *.p12
+*.jks
+*.keystore
+id_rsa
+id_ed25519
+credentials.json
+token.txt
+token-*.txt
 lan-private/
 private/
+
+# Private experiment data, local work and exported review packages
 evidence-private/
 data/
 work/
 .cognition/
+*.log
+*.sqlite
+*.sqlite3
+*.db
 *.zip
 *.partial
 slice-manifests/
 browser-results/
+
+# Local editor and operating-system state
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Ignore rules are not secret scanning and do not remove tracked files/history.
+# Review intentionally public test fixtures before adding an explicit exception.
