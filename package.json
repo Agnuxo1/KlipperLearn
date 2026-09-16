@@ -1,0 +1,16 @@
+{
+  "name": "klipperlearn-validation",
+  "version": "0.5.1",
+  "private": true,
+  "description": "Offline browser and JavaScript validation for KlipperLearn",
+  "scripts": {
+    "test": "node scripts/run-node-tests.cjs && node --test tests/core.test.js"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "license": "GPL-3.0-or-later"
+}

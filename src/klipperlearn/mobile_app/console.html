@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#141715">
+  <meta name="referrer" content="no-referrer">
+  <title>KlipperLearn · Console</title>
+  <link rel="stylesheet" href="console.css?ui=10">
+  <script src="console-shell.js?v=5" defer></script>
+  <script src="trial-telemetry.js?v=3" defer></script>
+  <script src="photo-pair.js?v=2" defer></script>
+  <script src="telemetry-outbox.js?v=1" defer></script>
+  <script src="device-owner.js?v=1" defer></script>
+  <script src="console.js?v=25" defer></script>
+  <script src="calibration-workflow.js?v=7" defer></script>
+  <script src="review.js?v=6" defer></script>
+  <script src="printer-cameras.js?v=1" defer></script>
+  <script src="learning-status.js?v=3" defer></script>
+</head>
+<body>
+  <svg class="icon-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-printer" viewBox="0 0 32 32"><path d="M7 12V4h18v8M7 24H4V12h24v12h-3M8 20h16v9H8zM23 16h1M12 8h8"/></symbol>
+    <symbol id="i-files" viewBox="0 0 32 32"><path d="M6 3h13l7 7v19H6zM19 3v8h7M11 17h10M11 22h7"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 32 32"><path d="M3 9h7l3-4h7l3 4h6v19H3z"/><circle cx="16" cy="18" r="6"/></symbol>
+    <symbol id="i-calibration" viewBox="0 0 32 32"><path d="M4 5v23h24M8 23l5-14 6 10 8-15M9 28v-3M16 28v-3M23 28v-3"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 32 32"><path d="m12 3 8 0 1 5 4 2 4 4-3 4 0 5-5 1-3 5-5-2-5-1-1-5-4-4 2-5 5-3z"/><circle cx="16" cy="16" r="5"/></symbol>
+    <symbol id="i-hotend" viewBox="0 0 32 32"><path d="M7 3h18v7H7zM9 10v11l7 8 7-8V10M12 15h8M16 3v7"/></symbol>
+    <symbol id="i-bed" viewBox="0 0 32 32"><path d="m3 22 13-6 13 6-13 7zM9 13c-5-4 4-5 0-10M16 11c-5-4 4-5 0-10M23 13c-5-4 4-5 0-10"/></symbol>
+    <symbol id="i-home" viewBox="0 0 32 32"><path d="m3 15 13-12 13 12M7 12v16h18V12M13 28V18h6v10"/></symbol>
+    <symbol id="i-heat" viewBox="0 0 32 32"><path d="M17 2c3 9-2 9 3 14 2-2 3-3 4-6 8 12 2 20-8 20C4 30 1 17 11 9c-1 6 1 8 3 9 0-5 5-7 3-16z"/></symbol>
+    <symbol id="i-cool" viewBox="0 0 32 32"><path d="M16 2v28M4 9l24 14M4 23 28 9M11 5l5 4 5-4M11 27l5-4 5 4M4 15l5-3-1-6M24 26l-1-6 5-3M4 17l5 3-1 6M24 6l-1 6 5 3"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 32 32"><path d="M27 12A12 12 0 0 0 5 9M27 4v8h-8M5 20a12 12 0 0 0 22 3M5 28v-8h8"/></symbol>
+    <symbol id="i-play" viewBox="0 0 32 32"><path d="m10 4 18 12-18 12z"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 32 32"><path d="M9 5v22M23 5v22"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 32 32"><path d="M7 7h18v18H7z"/></symbol>
+    <symbol id="i-light" viewBox="0 0 32 32"><path d="M12 24h8M13 29h6M11 20a9 9 0 1 1 10 0v4H11z"/></symbol>
+    <symbol id="i-close" viewBox="0 0 32 32"><path d="m8 8 16 16M24 8 8 24"/></symbol>
+  </svg>
+
+  <main class="console-shell">
+    <header class="topbar">
+      <div class="brand"><h1>Klipper<span>Learn</span></h1></div>
+      <span id="pairingStatus" class="pairing-status" role="status" aria-live="polite">Not paired</span>
+      <button type="button" id="connectionBadge" class="badge warn" aria-label="Printer connection: connect or retry" aria-live="polite">Connecting…</button>
+      <button id="settingsOpen" class="icon-button" type="button" data-dialog="settingsDialog" aria-label="Open settings"><svg aria-hidden="true"><use href="#i-settings"/></svg></button>
+    </header>
+
+    <nav class="navigation" aria-label="Console views">
+      <button type="button" data-view="printer" aria-current="page" aria-controls="view-printer"><svg aria-hidden="true"><use href="#i-printer"/></svg><span>Printer</span></button>
+      <button type="button" data-view="files" aria-controls="view-files"><svg aria-hidden="true"><use href="#i-files"/></svg><span>Files</span></button>
+      <button type="button" data-view="camera" aria-controls="view-camera"><svg aria-hidden="true"><use href="#i-camera"/></svg><span>Camera</span></button>
+      <button type="button" data-view="calibration" aria-controls="view-calibration"><svg aria-hidden="true"><use href="#i-calibration"/></svg><span>Calibration</span></button>
+    </nav>
+
+    <div class="viewport">
+      <section id="view-printer" class="view printer-view" aria-label="Printer">
+        <div class="temperature-cards">
+          <button type="button" id="hotendCard" class="temperature-card" data-dialog="temperatureDialog" aria-label="Hotend: open temperature targets">
+            <svg aria-hidden="true"><use href="#i-hotend"/></svg><span class="temperature-copy"><span>Hotend <span class="edit-mark">↗</span></span><strong id="hotend">—</strong><small id="hotendTargetReading">Target: —</small></span>
+          </button>
+          <button type="button" id="bedCard" class="temperature-card" data-dialog="temperatureDialog" aria-label="Bed: open temperature targets">
+            <svg aria-hidden="true"><use href="#i-bed"/></svg><span class="temperature-copy"><span>Bed <span class="edit-mark">↗</span></span><strong id="bed">—</strong><small id="bedTargetReading">Target: —</small></span>
+          </button>
+        </div>
+        <article class="print-card">
+          <img class="watermark" src="klipper-logo.svg" alt="">
+          <div class="print-heading"><span id="printState">Unknown</span><strong id="progress">—</strong></div>
+          <h2 id="file">No print</h2>
+          <progress id="progressBar" max="100" value="0" aria-label="Print progress"></progress>
+          <div class="transport-actions">
+            <button type="button" id="pause" disabled hidden><svg aria-hidden="true"><use href="#i-pause"/></svg>Pause</button>
+            <button type="button" id="resume" disabled hidden><svg aria-hidden="true"><use href="#i-play"/></svg>Continue</button>
+            <button type="button" id="cancel" class="danger" disabled hidden><svg aria-hidden="true"><use href="#i-stop"/></svg>Cancel</button>
+          </div>
+        </article>
+        <div class="quick-actions">
+          <button type="button" id="home" disabled><svg aria-hidden="true"><use href="#i-home"/></svg>Home</button>
+          <button type="button" id="heatOpen" data-dialog="temperatureDialog" disabled><svg aria-hidden="true"><use href="#i-heat"/></svg>Heat</button>
+          <button type="button" id="coolAll" disabled><svg aria-hidden="true"><use href="#i-cool"/></svg>Cool down</button>
+        </div>
+      </section>
+
+      <section id="view-files" class="view files-view" aria-labelledby="modelsTitle" hidden>
+        <div id="modelCard" class="files-panel" aria-busy="false">
+          <div class="view-heading"><h2 id="modelsTitle">Your models</h2><button type="button" id="refreshModels" class="compact" disabled><svg aria-hidden="true"><use href="#i-refresh"/></svg>Refresh</button></div>
+          <div id="modelList" class="model-list" role="group" aria-label="Select G-code model"><p class="empty">Models will appear after connecting.</p></div>
+          <div class="file-footer">
+            <label class="sr-only" for="modelSelect">Selected G-code model</label>
+            <select id="modelSelect" disabled><option value="">Select a model</option></select>
+            <button type="button" id="printModel" class="primary" disabled><svg aria-hidden="true"><use href="#i-play"/></svg>Print model</button>
+          </div>
+          <p id="modelsStatus" class="network-status" role="status" aria-live="polite">Connect to retrieve models.</p>
+        </div>
+      </section>
+
+      <section id="view-camera" class="view camera-view" aria-labelledby="cameraTitle" hidden>
+        <div class="camera-image"><video id="preview" autoplay muted playsinline aria-label="Camera preview"></video><div id="printerCameras" class="printer-cameras" hidden></div><span class="camera-overlay" id="cameraTitle">Printer cameras</span></div>
+        <div class="camera-controls">
+          <button type="button" id="cameraStart" class="primary"><svg aria-hidden="true"><use href="#i-camera"/></svg>Connect printer</button>
+          <button type="button" id="cameraStop" disabled><svg aria-hidden="true"><use href="#i-stop"/></svg>Stop camera</button>
+          <button type="button" id="cameraTorch" disabled aria-label="Turn light on" aria-pressed="false"><svg aria-hidden="true"><use href="#i-light"/></svg><span id="torchLabel">Turn light on</span></button>
+          <p id="cameraStatus" class="network-status" role="status" aria-live="polite">Camera off</p>
+          <small>1 fps · no video recording</small>
+        </div>
+      </section>
+
+      <section id="view-calibration" class="view calibration-view" aria-labelledby="calibrationTitle" hidden>
+        <div class="view-heading"><h2 id="calibrationTitle">Preparation</h2><button type="button" id="refreshCapabilities" class="compact"><svg aria-hidden="true"><use href="#i-refresh"/></svg>Query</button></div>
+        <div class="calibration-grid">
+          <figure class="calibration-chart">
+            <svg viewBox="0 0 280 170" role="img" aria-labelledby="chartTitle chartDescription">
+              <title id="chartTitle">Illustrative geometric chart</title><desc id="chartDescription">Grid, lines and curves for visual reference. This illustration does not represent printer measurements.</desc>
+              <defs><pattern id="chartGrid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#3b4540" stroke-width=".7"/></pattern></defs>
+              <rect x="10" y="10" width="260" height="150" rx="8" fill="url(#chartGrid)"/>
+              <g fill="none" stroke="#b6f886" stroke-width="1.6"><path d="M25 135h95V35M30 130l80-80M30 110l60-60M30 90l40-40"/><circle cx="198" cy="63" r="34"/><circle cx="198" cy="63" r="24"/><path d="M145 136c15-70 25 30 40-10s25 30 40-10 20-10 30-10"/></g>
+              <g fill="#b6f886"><circle cx="120" cy="35" r="3"/><circle cx="25" cy="135" r="3"/></g>
+            </svg>
+            <figcaption>Illustration · not measurements</figcaption>
+          </figure>
+          <div class="calibration-data">
+            <p id="capabilityStatus" role="status" aria-live="polite">Unknown state</p>
+            <dl id="capabilityDetails"><dt>Machine</dt><dd>Unknown</dd></dl>
+            <p id="calibrationTruth" class="muted">Calibration and model status: unknown.</p>
+            <p id="learningStatus" class="muted" role="status" aria-live="polite">Learning: waiting for a connection.</p>
+            <button type="button" id="sixZonePrepare" class="button">Six-zone screening</button>
+            <p id="sixZoneStatus" class="muted" role="status" aria-live="polite"></p>
+            <div id="sixZoneResults" class="calibration-workflow-actions" aria-label="Results by zone"></div>
+            <button type="button" id="reviewOpen" class="button" data-dialog="reviewDialog">History and ratings</button>
+          </div>
+        </div>
+        <div class="calibration-next"><span>Pending: capture → review → validate</span><div class="calibration-workflow-actions"><button type="button" class="button primary" data-dialog="calibrationWorkflowDialog">Experimental chart</button><button type="button" class="button" data-dialog="calibrationAdjustmentDialog">Manual adjustment</button></div></div>
+      </section>
+    </div>
+    <footer class="statusbar"><p id="command" role="status" aria-live="polite">Local control · ready to connect</p></footer>
+  </main>
+
+  <section id="onboardingCard" class="onboarding-card" role="dialog" aria-modal="true" aria-labelledby="onboardingTitle" aria-describedby="onboardingStatus">
+    <div class="onboarding-surface">
+      <div class="onboarding-body">
+        <div class="onboarding-heading">
+          <p class="onboarding-eyebrow">FIRST CONNECTION</p>
+          <h2 id="onboardingTitle">Connect your printer</h2>
+        </div>
+        <p id="onboardingStatus" class="network-status" role="status" aria-live="polite">Ready to connect your printer.</p>
+        <ol id="onboardingProgress" class="onboarding-progress" aria-label="Connection progress">
+          <li id="onboardingStepPermissions" data-state="pending">Camera, motion and microphone permissions</li>
+          <li id="onboardingStepStream" data-state="pending">Live view and telemetry</li>
+          <li id="onboardingStepPrinter" data-state="pending">Backend and printer</li>
+        </ol>
+      </div>
+      <div class="onboarding-footer">
+        <button type="button" id="activatePrinter" class="primary"><svg aria-hidden="true"><use href="#i-printer"/></svg>Connect printer</button>
+      </div>
+    </div>
+  </section>
+
+  <dialog id="temperatureDialog" aria-labelledby="temperatureTitle">
+    <div class="dialog-heading"><h2 id="temperatureTitle">Temperature targets</h2><button type="button" class="icon-button" data-close aria-label="Close temperature controls"><svg aria-hidden="true"><use href="#i-close"/></svg></button></div>
+    <p class="muted">Apply sends both temperature targets.</p>
+    <div class="target-grid">
+      <div><label for="hotendTarget">Hotend · °C</label><input id="hotendTarget" type="number" inputmode="decimal" min="0" max="275" step="0.1" value="0" required aria-describedby="hotendTargetHint" disabled><small id="hotendTargetHint">Between 0 and 275 °C</small><button id="applyHotend" type="button" class="primary" aria-label="Apply temperature targets from hotend controls" disabled>Apply</button></div>
+      <div><label for="bedTarget">Bed · °C</label><input id="bedTarget" type="number" inputmode="decimal" min="0" max="110" step="0.1" value="0" required aria-describedby="bedTargetHint" disabled><small id="bedTargetHint">Between 0 and 110 °C</small><button id="applyBed" type="button" class="primary" aria-label="Apply temperature targets from bed controls" disabled>Apply</button></div>
+    </div>
+    <p id="temperatureStatus" class="network-status" role="status" aria-live="polite"></p>
+  </dialog>
+
+  <dialog id="calibrationWorkflowDialog" class="calibration-dialog" aria-labelledby="calibrationWorkflowTitle">
+    <div class="dialog-heading"><h2 id="calibrationWorkflowTitle">Experimental chart</h2><button type="button" class="icon-button" data-close aria-label="Close experimental chart"><svg aria-hidden="true"><use href="#i-close"/></svg></button></div>
+    <p class="workflow-warning">EXPERIMENTAL · creates local files without starting a print or uploading anything. Continue only between prints and review manually.</p>
+    <p id="calibrationWorkflowStatus" class="network-status" role="status" aria-live="polite">Checking actual capabilities…</p>
+    <dl id="calibrationWorkflowMachine" class="workflow-machine"><dt>Machine</dt><dd>Unknown</dd></dl>
+    <div class="workflow-tabs" role="tablist" aria-label="Experimental chart steps"><button type="button" data-workflow-tab="generate" aria-selected="true">1 · Generate</button><button type="button" data-workflow-tab="analyze" aria-selected="false">2 · Review photograph</button></div>
+    <section data-workflow-panel="generate" aria-labelledby="calibrationWorkflowTitle">
+      <p class="muted workflow-help">Material settings and temperatures are required; temperature defaults are not invented. The machine supplies actual dimensions and limits.</p>
+      <form id="calibrationChartForm" class="workflow-form" novalidate>
+        <div class="workflow-form-grid">
+          <label>Hotend · °C<input id="calibrationHotendTemp" type="number" inputmode="decimal" step="0.1" required></label>
+          <label>Bed · °C<input id="calibrationBedTemp" type="number" inputmode="decimal" step="0.1" required></label>
+          <label>Layer height · mm<input id="calibrationLayerHeight" type="number" inputmode="decimal" min="0.01" step="0.01" required></label>
+          <label>Nozzle · mm<input id="calibrationNozzle" type="number" inputmode="decimal" min="0.01" step="0.01" required></label>
+          <label>Filament · mm<input id="calibrationFilament" type="number" inputmode="decimal" min="0.1" step="0.01" required></label>
+          <label>Line width · mm<input id="calibrationLineWidth" type="number" inputmode="decimal" min="0.01" step="0.01" required></label>
+          <label>Speed · mm/s<input id="calibrationPrintSpeed" type="number" inputmode="decimal" min="0.1" step="0.1" required></label>
+          <label>Travel · mm/s<input id="calibrationTravelSpeed" type="number" inputmode="decimal" min="0.1" step="0.1" required></label>
+          <label>Flow · mm³/s<input id="calibrationVolumetric" type="number" inputmode="decimal" min="0.01" step="0.1" required></label>
+          <label>Size · mm<input id="calibrationSize" type="number" inputmode="decimal" min="1" step="1" value="100" required></label>
+          <label>Origin X · mm<input id="calibrationOriginX" type="number" inputmode="decimal" min="0" step="1" value="10" required></label>
+          <label>Origin Y · mm<input id="calibrationOriginY" type="number" inputmode="decimal" min="0" step="1" value="10" required></label>
+        </div>
+        <button id="calibrationGenerate" type="submit" class="primary" disabled>Generate chart</button>
+      </form>
+      <p id="calibrationGenerateStatus" class="network-status" role="status" aria-live="polite"></p>
+      <div id="calibrationChartDownloads" class="workflow-downloads" hidden><span>Local files:</span><button type="button" data-download-chart="chart.json">JSON</button><button type="button" data-download-chart="chart.svg">SVG</button><button type="button" data-download-chart="chart.gcode">G-code</button></div>
+    </section>
+    <section data-workflow-panel="analyze" hidden aria-labelledby="calibrationWorkflowTitle">
+      <p class="workflow-help">Upload the completed photograph. Mark TL, TR, BR and BL on the four manifest fiducials; results always require human review.</p>
+      <label for="calibrationPhoto">Completed JPEG photograph</label><input id="calibrationPhoto" type="file" accept="image/jpeg,.jpg,.jpeg">
+      <canvas id="calibrationCanvas" class="calibration-canvas" width="640" height="480" hidden aria-label="Select corners TL, TR, BR and BL"></canvas>
+      <div class="corner-grid">
+        <label>TL X<input id="calibrationTLX" type="number" inputmode="decimal" min="0" step="1"></label><label>TL Y<input id="calibrationTLY" type="number" inputmode="decimal" min="0" step="1"></label>
+        <label>TR X<input id="calibrationTRX" type="number" inputmode="decimal" min="0" step="1"></label><label>TR Y<input id="calibrationTRY" type="number" inputmode="decimal" min="0" step="1"></label>
+        <label>BR X<input id="calibrationBRX" type="number" inputmode="decimal" min="0" step="1"></label><label>BR Y<input id="calibrationBRY" type="number" inputmode="decimal" min="0" step="1"></label>
+        <label>BL X<input id="calibrationBLX" type="number" inputmode="decimal" min="0" step="1"></label><label>BL Y<input id="calibrationBLY" type="number" inputmode="decimal" min="0" step="1"></label>
+      </div>
+      <label for="calibrationPolarity">Polarity</label><select id="calibrationPolarity"><option value="dark">Dark on light</option><option value="light">Light on dark</option></select>
+      <button id="calibrationAnalyze" type="button" class="primary" disabled>Analyze photograph</button>
+      <p id="calibrationAnalyzeStatus" class="network-status" role="status" aria-live="polite"></p>
+      <p id="calibrationHumanReview" class="workflow-review" hidden>Result for human review · not automatic validation.</p>
+      <pre id="calibrationReport" class="workflow-report" hidden></pre>
+    </section>
+  </dialog>
+
+  <dialog id="calibrationAdjustmentDialog" class="calibration-dialog" aria-labelledby="calibrationAdjustmentTitle">
+    <div class="dialog-heading"><h2 id="calibrationAdjustmentTitle">Manual adjustment</h2><button type="button" class="icon-button" data-close aria-label="Close manual adjustment"><svg aria-hidden="true"><use href="#i-close"/></svg></button></div>
+    <p class="workflow-warning">MANUAL EXPERIMENTAL · only between prints. Preview applies nothing; Apply and Restore require separate confirmation.</p>
+    <p id="adjustmentMachineStatus" class="network-status" role="status" aria-live="polite">Querying actual state…</p>
+    <form id="adjustmentForm" class="workflow-form" novalidate>
+      <label>Parameter<select id="adjustmentParameter"><option value="pressure_advance">PA</option><option value="extrusion_factor">Flow</option><option value="accel_mm_s2">Acceleration</option></select></label>
+      <div class="workflow-form-grid"><label>Value<input id="adjustmentValue" type="number" inputmode="decimal" step="0.001" required></label><label>Minimum bound<input id="adjustmentMin" type="number" inputmode="decimal" step="0.001" required></label><label>Maximum bound<input id="adjustmentMax" type="number" inputmode="decimal" step="0.001" required></label><label>Maximum step<input id="adjustmentStep" type="number" inputmode="decimal" min="0.0001" step="0.001" required></label></div>
+      <button id="adjustmentPreview" type="submit" class="primary">Preview</button>
+    </form>
+    <p id="adjustmentStatus" class="network-status" role="status" aria-live="polite"></p>
+    <pre id="adjustmentProposalDetails" class="workflow-report" hidden></pre>
+    <div class="workflow-adjustment-actions"><button id="adjustmentApply" type="button" class="primary" disabled>Apply proposal</button><button id="adjustmentRestore" type="button" disabled>Restore</button></div>
+  </dialog>
+
+  <dialog id="reviewDialog" class="calibration-dialog" aria-labelledby="reviewTitle">
+    <div class="dialog-heading"><h2 id="reviewTitle">History and review</h2><button type="button" class="icon-button" data-close aria-label="Close rating"><svg aria-hidden="true"><use href="#i-close"/></svg></button></div>
+    <p class="muted">Evidence score 40% · your rating 60%. A manual photograph is optional.</p>
+    <p id="reviewStatus" class="network-status" role="status" aria-live="polite"></p>
+    <label>Print<select id="reviewTrial"></select></label>
+    <div class="workflow-adjustment-actions"><button id="reviewPrevious" type="button">Most recent</button><button id="reviewNext" type="button">Older</button><button id="reviewExport" type="button">Export history</button></div>
+    <form id="reviewForm" class="workflow-form" novalidate>
+      <div id="reviewStars" class="review-stars"></div>
+      <label>Comment<textarea id="reviewComment" maxlength="4096"></textarea></label>
+      <label>Optional manual photograph · JPEG, maximum 8 MiB<input id="reviewPhoto" type="file" accept="image/jpeg,.jpg,.jpeg" capture="environment"></label>
+      <button id="reviewSave" type="submit" class="primary">Save rating</button>
+    </form>
+    <details><summary>Saved data and revisions</summary><pre id="reviewRecord" style="white-space:pre-wrap;overflow-wrap:anywhere"></pre></details>
+  </dialog>
+
+  <dialog id="settingsDialog" aria-labelledby="settingsTitle">
+    <div class="dialog-heading"><h2 id="settingsTitle">Settings</h2><button type="button" class="icon-button" data-close aria-label="Close settings"><svg aria-hidden="true"><use href="#i-close"/></svg></button></div>
+    <p id="pairingInfo" class="pairing-info" role="status" aria-live="polite">Tap Connect printer to connect.</p>
+    <p id="connection" class="network-status" role="status" aria-live="polite">Connecting…</p>
+    <label class="switch-row" for="soundEnabled"><span>Touch sounds</span><input id="soundEnabled" type="checkbox" role="switch"></label>
+    <label class="volume-row" for="soundVolume">Volume <output id="volumeReading" for="soundVolume">30 %</output><input id="soundVolume" type="range" min="0" max="100" value="30"></label>
+    <label class="switch-row" for="welcomeEnabled"><span>Show welcome screen</span><input id="welcomeEnabled" type="checkbox" role="switch" checked></label>
+    <label class="switch-row" for="automaticEnabled"><span>Small adjustments for subsequent trials</span><input id="automaticEnabled" type="checkbox" role="switch" disabled></label>
+    <button type="button" id="evidenceExport">Full history and photograph backup</button>
+    <button type="button" id="fullscreen">Full screen</button>
+    <p id="settingsStatus" class="network-status" role="status" aria-live="polite"></p>
+    <section aria-labelledby="sensorTitle">
+      <h3 id="sensorTitle">Trial sensors</h3>
+      <p id="sensorStatus" class="network-status" role="status" aria-live="polite">Pair this console and authorize sensors with one touch.</p>
+      <div class="settings-links">
+        <button type="button" id="sensorPermissions" class="primary">Pair and authorize</button>
+        <button type="button" id="sensorStop" disabled>Stop sensors</button>
+      </div>
+      <p id="photoPairStatus" class="network-status" role="status" aria-live="polite">Paired-photo queue: inactive.</p>
+    </section>
+    <p class="muted">The main connection action requests permissions and connects the required services with one gesture.</p>
+    <details><summary>Technical details</summary><p>Interface 0.5.1 · status every 3 s. Camera at 1 fps: only the latest frame, expiring after 5 s. Trials upload metrics and aggregated acoustic features, not raw audio.</p><p>Pairing is stored on this device and sent in an authentication header. Sound and welcome preferences are stored locally.</p></details>
+    <details><summary>About</summary><p>KlipperLearn is an independent project. Klipper logo: <a href="https://www.klipper3d.org/" target="_blank" rel="noopener noreferrer">Klipper ↗</a>.</p></details>
+  </dialog>
+
+  <dialog id="confirmDialog" aria-labelledby="confirmTitle">
+    <div class="dialog-heading"><h2 id="confirmTitle">Confirm action</h2></div>
+    <p id="confirmMessage"></p>
+    <div class="confirm-actions"><button type="button" data-close autofocus>Back</button><button type="button" id="confirmAccept" class="primary">Confirm</button></div>
+  </dialog>
+
+  <dialog id="welcomeDialog" class="welcome" aria-labelledby="welcomeTitle">
+    <div class="welcome-logo"><img src="klipper-logo.svg" alt="Klipper" width="240" height="80"></div>
+    <h2 id="welcomeTitle">Klipper<span>Learn</span></h2><p>Your printer. One touch away.</p>
+    <div class="welcome-actions"><button type="button" id="enterWelcome" class="primary">Connect printer</button><button type="button" id="enterSilent">Connect silently</button></div>
+    <small>Sound preferences can be changed later.</small>
+  </dialog>
+</body>
+</html>

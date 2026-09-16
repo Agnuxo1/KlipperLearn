@@ -1,197 +1,160 @@
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/122cfb10-01cd-4fd9-9c8f-4e0828812500" width="1200" alt="KlipperLearn concept: an older phone alongside a legacy 3D printer, with a camera and sensor dashboard." />
-</p>
+<p align="center"><img src="assets/hero.png" alt="KlipperLearn: a phone-first future for older 3D printers" width="100%"></p>
 
 # KlipperLearn
 
-**Same printer. More possibilities.**
+**Keep the printer. Reuse the phone. Learn from real prints.**
 
-Modernize a compatible legacy 3D printer with an older Android phone: a touchscreen,
-Wi-Fi connectivity, camera and sensor evidence, and repeatable calibration trials.
-The goal is to use the phone as the Klipper host over USB, without a Raspberry Pi,
-and improve print quality and speed through measured comparisons.
+[![Validation](https://github.com/Agnuxo1/KlipperLearn/actions/workflows/ci.yml/badge.svg)](https://github.com/Agnuxo1/KlipperLearn/actions/workflows/ci.yml)
+[![License: GPL-3.0-or-later](https://img.shields.io/badge/core-GPL--3.0--or--later-blue)](LICENSE)
 
-**Current release: 0.1.0 research preview — advisory tools, not a complete printer controller.**
-The original workstation application has not yet been imported. This public release
-provides a working offline reviewer and integration utilities; it does not yet ship
-a phone-host installer, live sensor capture, a trained visual model or autonomous
-printing. See the [implementation status](docs/STATUS.md).
+KlipperLearn combines a touch-friendly phone interface, local camera and sensor
+evidence, reproducible calibration charts, and bounded tuning proposals for
+compatible Klipper / Moonraker printers. Its purpose is to make existing machines
+more useful rather than require a new printer.
 
-[Quick start](#quick-start) · [Two modes](#two-advisor-modes) ·
-[Calibration loop](#the-3d-calibration-chart) · [Integration tools](#integration-tools) ·
-[Workshop progress](#workshop-progress) · [Contribute](CONTRIBUTING.md)
+**0.5.1 — reviewed source release.** This repository now contains the original
+Python application and its HTML/JavaScript phone companion, not only the earlier
+advisory demonstration. The original installation is not overwritten by this
+publication. Read the [capability matrix](docs/STATUS.md) before connecting hardware.
 
-> **About the images:** the header and diagrams are AI-generated concept illustrations,
-> not screenshots or compatibility evidence. The workshop poster is an AI-retouched
-> presentation of a supplied photograph. Values and apparent surface finish in these
-> images are not verified measurements or recommended printer settings.
+> **Phone-only hosting is a development target, not a delivered Android installer.**
+> The shipped deployment uses a Python host running beside Klipper/Moonraker and
+> a phone browser as interface, camera and sensor source. An HTML page alone does
+> not supply a native Klipper process or reliable USB access. No trained defect
+> weights or universally validated automatic calibration profile are bundled.
 
 ## Two advisor modes
 
-Both modes aim to run on the same phone-host architecture. They differ in who
-analyzes the evidence, not in the safety limits or permission to operate the printer.
-
-| Mode | Product goal | Available in this release |
+| Mode | Available now | Deliberate boundary |
 | --- | --- | --- |
-| **1. Local** | Phone-local sensor fusion, visual analysis and a small validated model, with no mandatory cloud service. | A dependency-free HTML/JavaScript reviewer with deterministic, one-variable comparisons and evidence gates. No trained CNN is included. |
-| **2. External advisor** | Optional multimodal review by ChatGPT or another capable model. | Export a structured request and validate manually returned JSON. No API call, credential or paid service is required by the reference tools. |
+| **Local learning** | Local evidence storage, registered chart analysis, small ridge-model experiments, bounded parameter proposals, and optional MobileNet training/inference tools. | A fitted model is not proof of general print-quality accuracy. No pretrained defect model is bundled; low-quality or incomplete evidence must be rejected. |
+| **External advisor** | An offline HTML reviewer exports a structured request and validates manually returned JSON from ChatGPT or another reviewer. | No cloud account, API key or automatic API call is built in. Returned text is not executable G-code and does not directly control a printer. |
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/82527f6a-5a08-4163-8390-742567cbb2d2" width="1100" alt="Concept comparison of local analysis and an external multimodal advisor using the same evidence and bounded proposal contract." />
-</p>
+![Two advisor modes — conceptual illustration](assets/advisor-modes-concept.png)
+*Concept art: the diagrams describe the project direction, not a validated native-phone deployment.*
 
-*Concept illustration: local and external analysis share an evidence format.
-The illustrated automatic analysis and printer-configuration controls are product
-ideas, not functions shipped in this preview.*
+Both modes use explicit evidence and bounded proposals. Hardware protection stays
+with Klipper and a qualified operator; neither mode may bypass thermal limits,
+trusted configuration or confirmation requirements.
 
-An advisor proposes a change. A separately validated controller would decide
-whether an explicitly approved action is permitted. That controller is not shipped
-here; the current reviewer cannot move, heat or start a printer.
+## What is in the application
 
-## Quick start
+- **Touch console:** printer status, temperatures, file selection, explicit manual
+  controls, camera preview, history and human ratings.
+- **Phone evidence:** motion, orientation, aggregated acoustic features, a durable
+  upload queue, and controlled paired photographs when supported by the device.
+  Raw microphone recordings are not saved by the sensor collector.
+- **Calibration workflow:** chart generation and geometry checks, immutable file
+  hashes, reviewed observations, one-variable proposals, and experimental six-zone
+  screening. Specified limits are not a guarantee that a machine can safely reach them.
+- **Integrations:** Moonraker APIs, camera registration/proxy interoperability with
+  Mainsail, candidate Orca profile exports, and a source-preserving Orca slice manifest.
+- **Privacy:** local storage by default, authenticated private routes, bounded request
+  bodies, and no publication of the author's private keys, runtime data or old Git history.
 
-Run the existing reference reviewer locally:
+## Install and open the console
+
+Use Python **3.11 or newer** on a compatible host. These steps install the application,
+not Klipper firmware, a native Android host, or printer-specific configuration.
+
+```sh
+git clone https://github.com/Agnuxo1/KlipperLearn.git
+cd KlipperLearn
+python -m venv .venv
+```
+
+Activate the environment with `.venv\Scripts\activate` on Windows or
+`source .venv/bin/activate` on Linux, then:
+
+```sh
+python -m pip install -e ".[learning]"
+python -m klipperlearn serve --host 127.0.0.1 --port 8765
+```
+
+Open **http://127.0.0.1:8765/mobile/console.html**. This default invocation does
+**not** enable printer control or connect to a printer. For an authenticated phone
+connection over HTTPS, follow the complete [installation guide](docs/INSTALLATION.md).
+Do not expose Moonraker or this application directly to the public Internet.
+
+For the separate, dependency-free external-advisor reviewer:
 
 ```sh
 python -m http.server 8080 --bind 127.0.0.1 --directory reference
 ```
 
-Open `http://127.0.0.1:8080`, select **Load synthetic example**, then choose
-**Analyze locally** or **Export advisor request**.
-
-The example uses invented measurements for software testing, not a printer profile.
-Import real JSON sessions using the [evidence contract](docs/EVIDENCE_CONTRACT.md).
-The UI does not upload your files, contact a printer or download model weights.
-Its content security policy disables network API connections.
-
-Python serves the development page; this command does **not** install Klipper on
-Android. See [validation](docs/VALIDATION.md) for the environments actually tested.
-
-## Phone-first architecture
-
-The intended system separates four responsibilities: the phone's user interface
-and evidence collection, a real Klipper host runtime, the printer MCU, and the
-slicing workflow. **An HTML page alone does not provide the Klipper host or native
-USB access.** The [Android host design](docs/ANDROID_HOST.md) documents that boundary.
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/d558722d-72fd-4b23-b44f-ed0d2bf19cfd" width="1100" alt="High-level concept diagram linking the phone, printer, slicing tools and experiment evidence store." />
-</p>
-
-*Conceptual data flow, not a deployment or wiring diagram. In the phone-only goal,
-Klipper's host process and Moonraker run in a compatible phone runtime; the printer
-MCU runs its firmware. The illustration's grouping of software under the printer
-must not be read as placing all those services on the printer board.*
-
-The historical companion arrangement must not be presented as a demonstrated
-phone-only replacement for a Raspberry Pi. Phone/OS compatibility, USB transport,
-charging, process lifetime and recovery still require documented tests.
+Open **http://127.0.0.1:8080**. Its clearly labelled synthetic example is for
+software demonstration and is **not a printer profile**. The reference page has
+no printer transport and its content security policy disables network API calls.
 
 ## The 3D calibration chart
 
-The **3D calibration chart** is the project's repeatable test-and-compare workflow:
-print a known artifact, collect evidence, review the outcome, propose a bounded
-change and compare the next trial against the baseline.
+![Calibration cycle — conceptual illustration](assets/calibration-cycle-concept.png)
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/42c81d3e-e645-4c4e-b94a-3b75909cc326" width="1100" alt="Concept loop: prepare a calibration artifact, print, capture evidence, review, propose an adjustment and compare the next trial." />
-</p>
+The intended loop is **establish a baseline → collect synchronized evidence →
+review → propose one bounded change → run an explicitly approved trial → compare
+and repeat or stop**. A failed trial remains useful negative evidence; a `completed`
+Moonraker job does not prove dimensional accuracy or acceptable surface quality.
 
-*Target workflow. The preview does not automate slicing, photography, bed clearing
-or printer operation. Illustrated scores and parameter changes are synthetic;
-multiple changes shown together are not the one-variable trial protocol.*
-
-Comparisons need the same artifact and documented print settings. A shorter print
-time is not enough: quality, failed trials, repeatability and missing evidence must
-remain visible. Proposals stay within an operator-defined budget and limits; a
-failure or an uncertain result must not be silently recorded as an improvement.
-
-Read the [calibration protocol](docs/CALIBRATION_PROTOCOL.md),
-[model card](docs/MODEL_CARD.md) and [safety case](docs/SAFETY.md).
-
-## Integration tools
-
-### Klipper, Moonraker and Mainsail
-
-The GET-only history reader and conservative workspace exporter live in
-`tools/exporter/`. They preserve source bytes, report exclusions, refuse redirects
-and public-IP destinations, and retain partial history without claiming a complete
-transactional snapshot.
-
-```sh
-python tools/exporter/export_workspace.py --root /path/to/existing/KlipperLearn --offline
-python tools/exporter/export_workspace.py --root /path/to/existing/KlipperLearn --moonraker-url http://127.0.0.1:7125
-```
-
-The result is a **private review package**, not an archive to publish wholesale.
-A Moonraker job marked `completed` records job completion, not a quality assessment.
-
-### OrcaSlicer
-
-The post-processing adapter records a content-addressed slice manifest without
-changing the G-code or contacting a printer:
-
-```sh
-python integrations/orca/klipperlearn_manifest.py --output-dir ./slice-manifests model.gcode
-```
-
-See [integration instructions](docs/INTEGRATIONS.md) for scope and verification.
-These are external tools; no incorporation into or endorsement by Klipper,
-Moonraker, Mainsail, OrcaSlicer or Voron is claimed.
+Automatic trial preparation must be explicitly enabled. Starting a new physical
+print still requires an explicit request and a clear bed; this release does not
+implement robotic bed clearing or a validated unattended safety supervisor.
+See the [calibration protocol](docs/CALIBRATION_PROTOCOL.md) and
+[local learning guide](docs/LOCAL_LEARNING.md).
 
 ## Workshop progress
 
-The project author reports iterative trials with the official 3DBenchy on a stock
-Flashforge Creator Pro more than 12 years old, reaching an approximately
-**20-minute print judged acceptable by the author, without reducing the layer count**.
-This is a report about the historical workshop prototype, not a benchmark achieved
-by the public reference reviewer.
+<p align="center"><img src="assets/benchy-workshop-retouched.png" alt="Editorial presentation of the author's Benchy tuning progression" width="620"></p>
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/c2355c51-6cf1-4714-b0f1-a45a55a27c42" width="720" alt="AI-retouched presentation based on the author's workshop photograph of successive turquoise Benchy trials, illustrating reported progress toward a 20-minute print." />
-</p>
+*Author-reported workshop result: progressively tuned Benchy trials reached
+approximately 20 minutes with an acceptable visual result, without reducing the
+layer count, on a stock-mechanical Flashforge Creator Pro described by the author
+as more than 12 years old. The image above is AI-retouched editorial artwork.
+It is not an independently measured benchmark or evidence that this release runs
+Klipper directly on an Android phone. The [unaltered source-photo pixels](assets/benchy-workshop-original.png)
+and [image provenance notes](assets/README.md) are available separately. Reproducing
+the timing and quality requires the original slicer settings, G-code and print logs.*
 
-*AI-retouched presentation based on a real workshop photograph supplied by the
-author. The setting, labels and visible surfaces have been generated or altered;
-this is not an unmodified experimental photograph. The report above is not
-independently verified. Original photographs, G-code, logs and the layer-count
-comparison are needed for a reproducible performance claim; the poster alone
-cannot establish print quality, duration or unchanged geometry.*
+## Architecture and integration
 
-## Develop and test
+![Phone-first architecture — conceptual illustration](assets/architecture-concept.png)
 
-Python 3.8+ and Node.js 18+ are sufficient for the offline unit tests. These tools
-require no third-party production Python or JavaScript packages.
+The current application separates the phone browser, Python companion, Moonraker,
+Klipper host, and printer MCU. Keep those roles distinct when reporting results.
+See [architecture](docs/ARCHITECTURE.md), [Android host requirements](docs/ANDROID_HOST.md),
+[integration boundaries](docs/INTEGRATIONS.md), [model documentation](docs/MODEL_CARD.md),
+[safety](docs/SAFETY.md), and [privacy](docs/PRIVACY.md).
+
+These are **external integrations**, not changes accepted by Klipper, Moonraker,
+Mainsail, OrcaSlicer or Voron. Contributions should solve a concrete problem and
+follow the relevant project's process; see [community collaboration](docs/COMMUNITY.md).
+
+## Development and validation
 
 ```sh
-python -m unittest discover -s tools/exporter/tests -v
-python -m unittest discover -s tests -p 'test_*.py' -v
+python -m pip install -e ".[learning,dev]"
+npm ci
+python tools/run_offline_tests.py
+node scripts/run-node-tests.cjs
 node --test tests/core.test.js
+python -m unittest discover -s tools/exporter/tests -v
 python tools/check_repository.py
 ```
 
-The [validation record](docs/VALIDATION.md) distinguishes software checks from
-hardware and model validation. Passing unit tests is not evidence of mechanical
-safety or successful phone-only operation.
+Browser tests require Playwright Chromium: run `npx playwright install chromium`.
+On Windows an already installed Edge can be selected with
+`KL_TEST_BROWSER_CHANNEL=msedge`. All browser printer endpoints are simulated;
+software tests never prove hardware safety. Details and measured results are in
+[validation](docs/VALIDATION.md) and the [0.5.1 review](docs/RELEASE_REVIEW_0.5.1.md).
 
-## Publication, privacy and contributions
+## License, provenance and attribution
 
-The original application will be reviewed in a separate staging copy: preserve the
-working installation, exclude credentials and private records, inspect licensing,
-and reproduce its tests before merging. See the [source-import procedure](docs/SOURCE_IMPORT.md)
-and [privacy policy](docs/PRIVACY.md). Adding a file to `.gitignore` does not remove
-an already committed copy or sanitize Git history.
+The imported application is **GPL-3.0-or-later**; see [LICENSE](LICENSE) and
+[COPYING](COPYING). The separately published 0.1.0 reference reviewer and integration
+tools retain their MIT license in [LICENSES/MIT-reference.txt](LICENSES/MIT-reference.txt).
+Third-party notices and the included Klipper logo are documented in
+[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
-[Contributions](CONTRIBUTING.md) should be focused, tested and supported by evidence.
-The [community plan](docs/COMMUNITY.md) avoids promotional issues, duplicate messages
-and premature printer-control patches.
-
-## License and attribution
-
-MIT applies to the newly published source and documentation. Existing workstation
-source and third-party materials retain their applicable licenses when imported.
-No upstream firmware, slicer source, STL models or trained weights are bundled.
-Illustrations reference product names but do not establish affiliation or endorsement.
-See [third-party and visual notices](THIRD_PARTY_NOTICES.md).
-
-Created by **Francisco Angulo de Lafuente**.
+Created by **Francisco Angulo de Lafuente** and KlipperLearn contributors.
+Independent project: no upstream affiliation, endorsement or hardware certification
+is implied. [Source-import provenance](docs/SOURCE_IMPORT.md) explains what was
+imported, revised, excluded and preserved privately.

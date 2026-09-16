@@ -1,0 +1,32 @@
+[moonraker]
+url = "http://192.168.50.15:7125"
+
+[camera]
+snapshot_url = "http://192.168.50.15/webcam/?action=snapshot"
+name = "webcam-usb-v88"
+view = "front-oblique"
+lighting = "describe before collecting training data"
+
+[observer]
+mode = "observe"
+sample_interval_seconds = 5
+save_frames_while_printing = true
+
+[atlas]
+bed_width_mm = 220
+bed_depth_mm = 140
+margin_mm = 12
+cell_width_mm = 45
+cell_depth_mm = 45
+
+[machine]
+name = "FlashForge Creator Pro converted to Klipper"
+host = "Scishion V88 / Armbian"
+active_extruder = "T0"
+nozzle_diameter_mm = 0.4
+
+[material]
+type = "PLA"
+brand = "unknown"
+color = "unknown"
+lot = "unknown"

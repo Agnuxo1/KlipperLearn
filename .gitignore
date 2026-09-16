@@ -49,3 +49,13 @@ Thumbs.db
 
 # Ignore rules are not secret scanning and do not remove tracked files/history.
 # Review intentionally public test fixtures before adding an explicit exception.
+.private/
+build/
+dist/
+*.egg-info/
+.ruff_cache/
+*.pth
+*.pt
+*.onnx
+test-results/
+playwright-report/

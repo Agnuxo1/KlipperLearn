@@ -1,58 +1,47 @@
 # Architecture
 
-## Product goal, not a claim of completed deployment
+## Runtime boundaries
 
-```text
-Phone
-  HTML/JavaScript interface and trial review
-  Local advisor OR optional external multimodal advisor
-                 | proposals only
-  Evidence store + policy gate + bounded trial scheduler
-                 | explicit approved actions
-  Native/OS service: Klipper host + Moonraker + USB access
-                 | USB
-Printer MCU running compatible Klipper firmware
-```
+The phone browser supplies the touch UI, camera, motion/orientation readings,
+aggregated acoustic features, and a persistent upload outbox. It connects over
+trusted HTTPS to the Python companion. The companion communicates with Moonraker;
+Klipper's host and MCU remain responsible for motion scheduling and firmware
+protections. The phone is not automatically a Klipper host merely because its
+browser can control the console.
 
-Mainsail remains a Moonraker client. OrcaSlicer remains a slicer; it can prepare
-printer-specific artifacts on a separate computer. A complete phone-only product
-must provide validated local chart generation or suitable pre-approved artifacts,
-not quietly require a computer during every calibration cycle.
+## Source map
 
-## Separate deployment from advisor choice
+| Area | Main modules |
+| --- | --- |
+| Application and authenticated API | `webapp.py`, `companion.py`, `request_safety.py`, `__main__.py` |
+| Read-only observations | `observer.py`, `moonraker.py`, `http_readonly.py`, `storage.py` |
+| Durable trials and reviewed evidence | `experiment_store.py`, `experiment_api.py`, `trial_telemetry.py`, `photo_pair.py` |
+| Geometry and camera evidence | `calibration_chart.py`, `chart_vision.py`, `registered_vision.py`, `printer_cameras.py` |
+| Bounded adjustment proposals | `calibration_loop.py`, `calibration_control.py`, `experiment_learning.py`, `adaptive_policy.py` |
+| Optional controlled trial workflow | `automatic_print.py`, `learning_service.py`, `six_zone_service.py`, `six_zone_batch.py` |
+| Local model experiments | `multimodal_learning.py`, `dataset.py`, `training.py`, `inference.py` |
+| Slicer and archive interoperability | `orca_export.py`, `gcode.py`, `evidence_backup.py`, `integrations/` |
+| Browser implementation | `src/klipperlearn/mobile_app/` |
+| Separate advisory-only reviewer | `reference/` |
 
-A companion phone connected to an existing Linux host is a useful test topology,
-but it is not the primary phone-only goal. Local and external advisors must both
-be usable with either deployment after each deployment is independently validated.
+## Data and control
 
-The historical prototype is to be imported under its existing module paths. The
-new `reference/` reviewer is isolated deliberately: it has no device credentials,
-transport, native bridge or command execution and cannot move a printer.
+Status queries are not print commands. Explicit authenticated actions are checked
+against printer state and configured limits. Proposals are previewed before use;
+physical application and restoration need confirmation or a previously enabled,
+bounded trial workflow. An uncertain operation is not retried blindly. Independent
+firmware protections must remain active even when the browser disconnects.
 
-## Contracts
+Evidence routes enforce bounded inputs and reject malformed/ambiguous JSON.
+Private API responses are non-cacheable. Camera snapshots expire after five
+seconds, and a stopped/cached camera cannot impersonate a current observation.
+No raw audio or private runtime evidence is shipped in the source repository.
 
-A session fixes printer, material, geometry, mount, slicer profile and dimensions.
-Only the declared parameter varies in this reference comparator. All unrecorded
-configuration changes invalidate the comparison. Values supplied by a caller are
-not proof that the machine actually used them.
+## Packaging
 
-Evidence references are immutable IDs in the reference contract, not image bytes.
-The full controller must resolve them to verified hashes and synchronized data,
-retain original records, and keep image registration and camera geometry versioned.
-
-Local and external advisors produce proposals. The current reference validates
-shape, provenance references and declared bounds, and always returns
-`executable: false`. A future control service must independently check live
-printer state, capabilities, limits, freshness, authorization and an explicit
-user decision. Never grant an external model shell or arbitrary G-code access.
-
-## Failure independence
-
-Firmware heater protection and host/MCU communication protections remain active.
-A web page, remote model, subscription quota, UI heartbeat or cloud connection must
-never be the sole safety mechanism. Heavy inference must not starve the host's
-motion planning. An evidence logger should survive a UI disconnect, bounded by
-storage and privacy policy; it must not infer that a lost UI means printing stopped.
-
-See the official [Klipper architecture](https://www.klipper3d.org/Code_Overview.html)
-and [Moonraker API](https://moonraker.readthedocs.io/en/latest/external_api/).
+The Python host and phone assets form the GPL-3.0-or-later application. The earlier
+MIT offline reviewer is a separately scoped tool. Optional vision/training
+libraries are installed only through their package extras. No native Android
+USB bridge, universal printer profile or trained checkpoint is silently bundled.
+See [Android requirements](ANDROID_HOST.md), [installation](INSTALLATION.md),
+[local learning](LOCAL_LEARNING.md), and [status](STATUS.md).

@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.5.1 — reviewed source release
+
+- Import the original 0.5.0 application, browser companion and full test suites;
+  preserve GPL-3.0-or-later and the separate MIT reference tools.
+- Translate application messages and the touch interface into English; publish
+  consolidated English guides and versioned, metadata-stripped artwork.
+- Reject stale/cached live camera frames, malformed JSON, duplicate authentication
+  headers, oversized request bodies, non-finite settings and invalid model outputs.
+- Authenticate private session routes, disable their caching, validate read-only
+  HTTP URLs and bound responses without following redirects.
+- Block known-vulnerable optional checkpoint runtimes below PyTorch 2.10.0.
+- Add exclusive private token-file creation and portable browser-test tooling.
+- Extend tests, packaging and CI. No live printer actuation or service replacement
+  is part of this publication. Phone-only Android hosting remains a development target.
+
 ## 0.1.0 — 2026-09-16
 
 Initial research publication after a README-only repository.

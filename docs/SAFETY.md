@@ -1,29 +1,39 @@
-# Safety case and control boundary
+# Safety boundaries
 
-This publication is advisory-only. There is no hardware controller to enable.
-The reference UI cannot print, home, heat, cool, pause, cancel, reset or flash a
-printer. Its accepted proposal means only that the declared data passed software
-checks. It does not establish that the physical setting is safe.
+This software is experimental printer software, not a certified safety system.
+A 3D printer contains hot surfaces and moving components. Software review does not
+establish the condition of a particular machine or justify unattended operation.
 
-Future actuation must enforce an independently reviewed allowlist, live-state
-checks, per-device/material limits, fresh evidence, exclusive job ownership,
-explicit consent and auditable rollback. Never allow text from a model to become
-G-code, a shell command, a configuration rewrite or a firmware change.
+## Preserve independent protection
 
-Firmware heater protection must remain enabled. Do not increase thermal-check
-tolerances, motor current, acceleration ceilings, travel limits or temperature
-limits to conceal a fault. Do not disable filament or endstop sensors to finish a
-benchmark. Use proven shutdown/cancel paths and preserve cooling where required.
+Do not disable thermal runaway checks, alter stepper current or raise firmware
+limits merely to improve a benchmark. Configured limits are upper constraints,
+not evidence that a worn machine, hotend, belt or filament can safely reach them.
+Do not use a phone's frame-mounted accelerometer as an exact carriage encoder.
 
-Keep motion-control work independent of the browser, heavy inference and external
-services. Loss of quota or a chat session must not remove safety supervision.
-A local watchdog may be part of the future design, but is not implemented here and
-must not replace firmware safeguards or responsible physical supervision.
+## Control requires explicit intent
 
-Record failures as failures. A phone camera or microphone may miss a defect, and
-an accelerometer mounted on the frame cannot prove absolute nozzle position.
-A no-error firmware log does not prove that no steps were lost.
+The default server does not install printer control. The companion, learning and
+bounded automatic trial preparation are explicit options. Manual proposals require
+preview and separate confirmation. Uncertain starts/restorations are not blindly
+retried. Check the actual machine and its current state before any physical action.
 
-Operator control remains essential for bed clearance, nozzle condition, battery
-health, cabling and physical inspection. Reject unsafe or unsupported hardware
-combinations rather than presenting them as universal compatibility.
+A new print requires a clear bed and explicit operator intent. No robotic bed
+clearing, independently validated vision watchdog or unattended recursive tuner is
+provided. Phone sleep, Wi-Fi loss, cloud limits or a model failure must not become
+the printer's primary protection mechanism.
+
+## Evidence quality
+
+A completed job does not establish a good part. Stale frames return unavailable,
+not a misleading current image. Missing sensors, insufficient image resolution,
+non-finite numbers and unvalidated models must remain explicit. Synthetic tests
+and AI-retouched illustrations are not measured hardware evidence.
+
+## Deployment and update discipline
+
+Keep Moonraker and the companion off the public Internet, use trusted HTTPS and
+private credentials, and leave the original working installation intact while
+validating a new source release. Install it only after idle-state and recovery
+checks on the actual setup. No movement, heating, printing, firmware update or
+service restart was performed as part of this source-publication review.

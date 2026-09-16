@@ -1,22 +1,20 @@
 # Contributing
 
-Thank you for helping make old printers useful for longer. Public documentation,
-code, comments and user-facing strings in this repository are in English.
+Keep changes focused, in English, and accompanied by reproducible tests. The core
+application is GPL-3.0-or-later; retain existing attribution and any separately scoped
+MIT notices. Never include private runtime data, credentials, unlicensed models or
+unverified performance claims in a pull request.
 
-Start with the status document and explain which component a change improves.
-Keep scope small, preserve existing behavior and include offline regression tests.
-Report measured results and limitations separately; never invent benchmarks,
-trained weights, hardware support or successful upstream integration.
+Use Python 3.11+, install `.[learning,dev]`, run `npm ci`, and install the Playwright
+browser required by the tests. Run the commands in the README. Browser printer APIs
+are simulated and Python source tests block outbound sockets. Do not use a running
+printer as a unit-test fixture.
 
-Run the commands in the README. For hardware work, name the exact configuration,
-record consent, preserve safety protections and attach redacted evidence. Do not
-run printing or heating from CI. Fixture data must be visibly synthetic and must
-not be advertised as recommended printer settings.
+For control changes, document state checks, explicit intent, bounds, ambiguous-result
+handling and restoration. For models, separate sessions and report data provenance,
+uncertainty and failure cases. A passing synthetic test does not validate hardware.
 
-Do not commit private experiments, tokens, keys, household images, raw conversations,
-unsigned third-party models or unexplained binaries. Preserve third-party licenses.
-Declare generated/assisted code and who reviewed and tested it. Contributors remain
-responsible for reviewing their changes; do not submit unreviewed generated patches.
-
-For upstream contributions, follow each project's rules and obtain the author's
-own required sign-off. Do not open promotional issues or duplicate cross-posts.
+Before proposing an upstream change, follow that project's contribution guidance,
+search for duplicate issues, and provide a specific interoperability improvement.
+Do not send promotional issues or repeated requests for attention. This repository
+is independent of Klipper, Moonraker, Mainsail, OrcaSlicer and Voron.

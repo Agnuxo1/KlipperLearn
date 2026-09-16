@@ -1,0 +1,20 @@
+include README.md CHANGELOG.md LICENSE COPYING THIRD_PARTY_NOTICES.md SECURITY.md CONTRIBUTING.md
+include package.json package-lock.json
+recursive-include LICENSES *.txt
+recursive-include src *.py *.html *.js *.css *.svg *.txt *.json *.webmanifest
+recursive-include tests *.py *.js *.cjs
+recursive-include docs *.md *.json
+recursive-include assets *.png *.md *.json
+recursive-include tools *.py *.cmd *.md
+recursive-include scripts *.cjs
+recursive-include integrations *.py *.md
+recursive-include reference *.html *.js *.css
+recursive-include schemas *.json
+recursive-include config *.toml
+prune .git
+prune .private
+prune .secrets
+prune data
+prune work
+prune node_modules
+global-exclude *.py[cod]

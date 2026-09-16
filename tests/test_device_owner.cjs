@@ -1,0 +1,17 @@
+'use strict';
+const assert=require('node:assert/strict');
+const {createDeviceOwner}=require('../src/klipperlearn/mobile_app/device-owner.js');
+let time=1000;
+const values=new Map(), timers=new Map();let seq=0,lostA=0;
+const storage={getItem:k=>values.get(k)||null,setItem:(k,v)=>values.set(k,v),removeItem:k=>values.delete(k)};
+const opts={storage,channel:null,now:()=>time,setInterval:fn=>{const id=++seq;timers.set(id,fn);return id;},clearInterval:id=>timers.delete(id)};
+const a=createDeviceOwner({...opts,id:'a',onLost:()=>lostA++});
+const b=createDeviceOwner({...opts,id:'b'});
+assert.equal(a.claim(),true);
+assert.equal(b.claim(),false,'automatic claimant cannot steal live devices');
+assert.equal(b.claim({takeover:true}),true,'a deliberate visible action may take over');
+for(const fn of [...timers.values()]) fn();
+assert.equal(a.isOwner(),false);assert.equal(lostA,1);assert.equal(b.isOwner(),true);
+b.release();assert.equal(values.size,0);
+time+=8000;assert.equal(a.claim(),true,'expired leases do not block recovery');a.release();
+console.log('single device owner: PASS');

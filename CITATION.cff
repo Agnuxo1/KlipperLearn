@@ -5,8 +5,8 @@ type: software
 authors:
   - family-names: "Angulo de Lafuente"
     given-names: "Francisco"
-version: "0.1.0"
+version: "0.5.1"
 date-released: 2026-09-16
-license: MIT
+license: GPL-3.0-or-later
 repository-code: "https://github.com/Agnuxo1/KlipperLearn"
 abstract: "An advisory research toolkit and architecture for phone-first calibration with local and optional external analysis. No validated Android host or trained model is included."

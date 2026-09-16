@@ -1,0 +1,48 @@
+# Perfil de observación de la FlashForge Creator Pro convertida a Klipper.
+# Copiar a creator-pro-v88.local.toml antes de personalizarlo.
+# No contiene credenciales ni permite control de la impresora.
+
+[moonraker]
+url = "http://192.168.50.15:7125"
+
+[camera]
+# Crowsnest/uStreamer de la webcam USB conectada a la V88.
+snapshot_url = "http://192.168.50.15/webcam/?action=snapshot"
+name = "webcam-usb-v88"
+view = "front-oblique"
+lighting = "fixed; describe lamp and enclosure before collecting training data"
+
+[observer]
+mode = "observe"
+sample_interval_seconds = 5
+save_frames_while_printing = true
+
+[atlas]
+# Área actualmente usada por el perfil Klipper de esta máquina.
+bed_width_mm = 220
+bed_depth_mm = 140
+margin_mm = 12
+cell_width_mm = 45
+cell_depth_mm = 45
+
+[machine]
+name = "FlashForge Creator Pro converted to Klipper"
+host = "Scishion V88 / Armbian"
+active_extruder = "T0 right / T1 left, selectable extruder steppers"
+nozzle_diameter_mm = 0.4
+filament_diameter_mm = 1.75
+hotend_sensor = "single central MAX6675 thermocouple shared by both nozzles"
+hotend_heaters = "PB5 and PH3 synchronized, initial max_power 0.50"
+nozzle_x_spacing_mm = 35.0
+layer_fan = "PL5"
+hotend_fans = "PB6 and PH4 synchronized above 50 C"
+z_endstop_mm = -3.25
+z_position_min_mm = -3.25
+
+[material]
+# Sustituir estos valores por la bobina real. No usar "PLA genérico" en una serie.
+type = "PLA"
+brand = "unknown"
+color = "green"
+lot = "legacy-spool-unidentified"
+condition = "old; storage history unknown"

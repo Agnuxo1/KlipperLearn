@@ -1,42 +1,24 @@
-# Publication status
+# Release status and capability matrix
 
-Status reviewed: 2026-09-16. Release scope: 0.1.0 research preview.
+Release: **0.5.1 reviewed source**, September 2026. This imports the workstation
+application previously identified as 0.5.0 and preserves the earlier MIT reference
+reviewer. Software verification is separate from hardware and statistical validation.
 
-## Available and executable
+| Capability | Implementation | Validation boundary |
+| --- | --- | --- |
+| Python package and CLI | Included | Unit tests and package smoke tests; not a native Android installer. |
+| HTML/JavaScript touch console | Included, English UI | Browser tests use simulated device permissions and APIs. |
+| Motion, orientation and aggregated audio | Collectors and persistent upload queues included | Sensor availability, sample quality and mounting are device-dependent. |
+| Camera and paired photographs | Included | A stale snapshot fails closed; physical torch support is not universal. |
+| Authenticated printer controls | Included, explicitly enabled | Mocked transport tests; no printer actuation in this review. |
+| Charts and bounded proposals | Included | Geometry and numeric tests do not prove a physical result. |
+| Local ridge model | Included | Session-split experimental quality estimation, not a general defect detector. |
+| Optional MobileNet training/inference | Included | Requires trusted labelled data and patched optional dependencies; no trained weights bundled. |
+| External advisor | Manual request export and response validation | No automatic cloud API integration or direct model-to-G-code execution. |
+| Phone-only Klipper host over USB | Design target | Not shipped or newly hardware-validated. |
+| Unattended recursive optimization | Not claimed | No automatic bed clearing or independent visual safety certification. |
+| Upstream acceptance | Not claimed | Interoperability tools live in this repository. |
 
-- Local HTML/JavaScript session reviewer and deterministic comparison engine.
-- Strict session validation; explicit synthetic-data labels; missing-evidence gates.
-- External-advisor request export and bounded JSON proposal validation.
-- Read-only Moonraker history export and filtered source-review packaging.
-- OrcaSlicer-compatible post-processing CLI for exact sliced-file fingerprints.
-- Offline tests, public schemas, contribution guidance and safety documentation.
-
-## Not included or not established
-
-- The historical workstation source, its tests, records and exact dependency versions.
-- Android packaging, a Klipper host on a phone, native USB access or a tested installer.
-- Live phone sensor capture, camera streaming, microphone analysis or sensor fusion.
-- A trained visual model, a representative training set or measured detection accuracy.
-- Automatic slicing, device actuation, bed clearing or unattended recursive calibration.
-- A measured speed/quality improvement on hardware using this publication.
-- Acceptance, endorsement or integration into an upstream project's own repository.
-
-The project history describes a more advanced local prototype. Descriptions and
-reported historical test counts are not substitutes for its source or repeatable
-results. This publication adds separately named reference and integration tools;
-it does not silently replace `src/klipperlearn` or invent missing files.
-
-## Product acceptance gates
-
-1. Import the actual workstation snapshot with provenance, licenses and secret review.
-2. Reproduce its tests and document dependencies; reconcile rather than overwrite changes.
-3. Demonstrate a phone-only host on a named phone/OS/USB configuration, including
-   charging, thermal behavior, process lifetime, reconnection and recovery.
-4. Bind real, timestamped sensor/photo evidence to a specific print and immutable artifacts.
-5. Validate a local visual model on held-out printers, mounts and materials, with
-   uncertainty, abstention and false-positive/false-negative reporting.
-6. Demonstrate bounded trials, non-overlapping placement or acknowledged bed clearing,
-   failure recovery, safe cancellation and independent firmware protections.
-7. Obtain real installation and usability results before claiming a production release.
-
-Passing software tests closes none of the hardware or model-validation gates by itself.
+Historical workshop observations must be labelled as historical and author-reported.
+An AI-retouched photograph cannot be used as a quantitative quality measurement.
+A completed job, successful upload or passing unit test is not proof of a good print.

@@ -1,53 +1,44 @@
-# 3D calibration chart protocol
+# Reproducible calibration protocol
 
-The "3D calibration chart" is the project's repeatable physical test artifact,
-not necessarily a 3DBenchy model. The repository does not redistribute third-party
-STL files or provide universal, ready-to-print G-code.
+## Define a comparable trial
 
-## Controlled comparison
+Record printer identity, nozzle, material, source model and sliced-file hashes,
+layer settings, effective temperatures, speed/acceleration, volumetric limits and
+pressure/flow settings. Preserve the reference geometry and layer count when
+making a speed comparison. A renamed file is not a new independent experiment.
 
-Record the exact model license and geometry hash, nozzle, layer height, line width,
-material/batch, moisture treatment, plate, room conditions, slicer/version/profile,
-firmware/configuration and phone/camera mount. Record both requested and observed
-settings. Fix everything except the selected variable. A changed model, infill or
-extrusion geometry must start a different comparison, not count as a speed win.
+Use the same camera mounting, lighting, framing and measurement procedure. Record
+motion/orientation sampling quality, missing intervals and microphone permissions.
+Aggregated audio describes a signal; it does not by itself identify a mechanical fault.
 
-The new slice-manifest tool fingerprints exact bytes. It does not prove that two
-different G-code files have equivalent geometry, extrusion or machine effects.
-The existing prototype's geometry-preservation checks must be recovered and tested.
+## Baseline and one-variable changes
 
-Collect a repeated baseline. Define a quality floor and a bounded search interval
-from hardware/material limits and measured stability, not an LLM's confidence.
-Use repeat trials, a stopping budget and an unchanged reference. Where conditions
-drift, interleave reference runs. Two repeats are only a minimum software gate,
-not evidence of statistical significance or generalization.
+Establish repeated baseline observations. The local proposal engine needs reviewed,
+comparable values; a proposed local vertex is an experiment, not a global optimum.
+Change one parameter at a time within an explicit maximum step and configured limits.
+Keep failures and rejected proposals, and return to the verified baseline when
+results deteriorate. Do not raise acceleration after a layer shift without checking
+the mechanical cause and the actual machine configuration.
 
-## Evidence and scoring
+Six-zone charts are useful for screening. All zones share one physical session and
+must not be counted as independent validation sessions. Clear the bed before a new
+physical print; the application does not remove completed objects.
 
-Capture synchronized telemetry during each zone/trial and registered photographs
-afterwards. Record resolution, lighting, camera pose, blur and occlusion. Flash and
-non-flash views should remain separate. Reject stale images or insufficient detail.
-Missing data remain missing, never synthetic measurements silently used as real ones.
+## End-of-trial evidence
 
-Quality needs observable dimensions: dimensional error, visible layer shift,
-ringing, stringing, bridging and extrusion consistency, each with a declared rubric.
-Time, material use and failures are separate outcomes. A finished job can have
-poor quality. A safety failure remains valuable negative evidence, but must not
-be relabeled as a successful quality sample.
+Capture current camera views and supported paired phone photographs. Retain original
+images for measurements; generative retouching is for presentation only. Associate
+samples with the actual print interval and preserve raw reported job status. Record
+human surface/geometry ratings separately from model estimates. Missing evidence
+must remain missing rather than receiving an invented favourable score.
 
-## Bounded loop
+Verify heater targets, final position and restoration through the actual machine
+state. A completed job or a successful HTTP response is insufficient. If an operation's
+outcome is uncertain, inspect the state before retrying or starting another trial.
 
-1. Verify a clear build area, approved limits and sufficient supplies.
-2. Execute only a separately authorized, validated trial.
-3. Capture evidence, review quality and record failures without erasing history.
-4. Compare repeated observations and propose at most one bounded adjustment.
-5. Require the execution gate and operator decision before the next physical trial.
-6. Stop on faults, missing evidence, exhausted budget or the approved boundary.
+## Report a result
 
-Success means a measured trade-off improvement within tested conditions, not an
-assurance that a global maximum has been found. Avoid automatic retries after
-layer shifts, collisions, detachments or thermal faults.
-
-A completed object does not leave the build plate automatically. Sequential trials
-need confirmed removal or a validated non-overlapping batch plan, toolhead clearance
-and remaining-space checks. No unattended bed-clearing capability is claimed.
+Publish the reproducible profile, immutable artifacts, actual timing convention,
+quality criteria, repeated measurements and failures. Distinguish author-reported
+workshop observations from independently reproduced measurements. Do not generalize
+a result from one printer/material/mounting to all old printers or Android phones.

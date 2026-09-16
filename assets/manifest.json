@@ -1,0 +1,44 @@
+[
+  {
+    "file": "hero.png",
+    "width": 2172,
+    "height": 724,
+    "sha256": "a3990b8615b69f811fe7e1c2be526aaac39e47a9cf4d67d37f41160cfe2eabb0",
+    "metadata_removed": true
+  },
+  {
+    "file": "architecture-concept.png",
+    "width": 1672,
+    "height": 941,
+    "sha256": "931e0c000475411e47e5b8ccef82f3d3480ebee36cbfa350d3f1179812a91dfc",
+    "metadata_removed": true
+  },
+  {
+    "file": "calibration-cycle-concept.png",
+    "width": 1672,
+    "height": 941,
+    "sha256": "980abef877381ab10ea573acf09bbcd40de6852c250c67f1d2760cb68c04ea7f",
+    "metadata_removed": true
+  },
+  {
+    "file": "advisor-modes-concept.png",
+    "width": 1672,
+    "height": 941,
+    "sha256": "e0a69cf2c6d5ce779aa92bf2ebfbde3413fdb658ac7cad68901119c14229face",
+    "metadata_removed": true
+  },
+  {
+    "file": "benchy-workshop-retouched.png",
+    "width": 1086,
+    "height": 1448,
+    "sha256": "50fbdd36ddd8a6e5103cd09cbac9390b2c43bed5901b4c4bbca13616aef7e097",
+    "metadata_removed": true
+  },
+  {
+    "file": "benchy-workshop-original.png",
+    "width": 1536,
+    "height": 2048,
+    "sha256": "bb0df388b5b6bf9e0049af0326e9af01041ffc4b19e765a55ba9eb044234a413",
+    "metadata_removed": true
+  }
+]

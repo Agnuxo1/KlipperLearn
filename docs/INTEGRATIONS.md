@@ -1,64 +1,58 @@
 # External integrations
 
-No integration described here means acceptance into an upstream repository.
-The current tools do not require upstream code changes.
-
 ## Klipper and Moonraker
 
-Use the existing Moonraker server's documented
-[`GET /server/history/list`](https://moonraker.readthedocs.io/en/latest/external_api/history/)
-endpoint. `tools/exporter/export_workspace.py` paginates with a cutoff, checks
-unique job IDs and preserves incomplete results on failures. It is GET-only,
-refuses redirects and environment proxies, and accepts literal private/loopback IPs.
+The companion uses Moonraker APIs for status, files, camera information and explicit
+bounded controls. The default server is evidence-only; enabling `--moonraker`
+installs the companion adapter. Read [installation](INSTALLATION.md) and
+[safety](SAFETY.md) before configuring live access. Local pairing is a trusted-LAN
+feature and must not be exposed as Internet authentication.
 
-Example on the same Linux host:
+The read-only observer disables redirects and environment proxies and bounds HTTP
+responses. The separate `tools/exporter/` utility retrieves paginated history and
+prepares a filtered private review archive. Its output is not a ZIP to publish
+wholesale. Neither a history status nor the absence of firmware errors establishes
+physical print quality.
 
-```sh
-python tools/exporter/export_workspace.py --root ./existing-workspace --moonraker-url http://127.0.0.1:7125
-```
+## Mainsail and cameras
 
-A `401` or `403` is reported; authentication is not bypassed. Authenticated export
-is not implemented. Use an approved export path from the existing interface rather
-than weakening Moonraker authorization. TLS verification is never disabled.
-The tools do not perform a transactional database backup or infer quality from status.
+KlipperLearn remains an external application. A deployment can expose its authenticated
+snapshot/MJPEG endpoints through a restricted local proxy and register that camera
+in Moonraker for Mainsail. Preserve existing cameras and verify proxy TLS and viewer
+permissions. The camera must be active; snapshots expire after five seconds.
+Do not reuse a full control token as a publicly exposed viewing URL.
 
-## Mainsail
-
-Mainsail's history view and this exporter consume Moonraker data; the HTML `/history`
-page is not the JSON endpoint. No scraping, replacement UI, injected browser extension
-or patch to Mainsail is required for history export. The historical Samsung stream
-must be recovered with its actual code and credentials; no sample endpoint is
-advertised as an installed camera in this publication.
+Phone capture, torch control, wake locks and Wi-Fi recovery depend on the actual
+browser and hardware. The release's camera tests use simulated devices, not a new
+validation of the author's original Mainsail installation.
 
 ## OrcaSlicer
 
-Use `integrations/orca/klipperlearn_manifest.py` through the documented
-[post-processing scripts](https://github.com/OrcaSlicer/OrcaSlicer/wiki/others_settings_post_processing_scripts)
-setting. This is a post-processing adapter, **not** the newer native Python plugin API.
-Python 3.8+ is required. The script accepts the generated file as its positional
-argument; Orca appends it when invoking the post-processing command.
+`orca_export.py` generates candidate overrides from reviewed values and existing
+profiles. It preserves source profiles and does not silently edit the user's Orca
+configuration. Re-slice and inspect the effective settings: inherited values and
+G-code commands may override assumptions, especially acceleration and flow.
 
-For a development checkout in `C:\KlipperLearn` with a Python executable at
-`C:\Python\python.exe`, a configured command is:
+The separate post-processing adapter fingerprints an already-sliced file without
+changing any G-code bytes:
 
-```text
-"C:\Python\python.exe" "C:\KlipperLearn\integrations\orca\klipperlearn_manifest.py" --output-dir "C:\KlipperLearnEvidence\slice-manifests"
+```sh
+python integrations/orca/klipperlearn_manifest.py --output-dir ./slice-manifests model.gcode
 ```
 
-Paths in this example describe the installation, not hard-coded source settings.
-Select the actual interpreter and checkout paths in the slicer's UI. Install the
-adapter last if other post-processors alter G-code; the manifest identifies bytes
-at the time this adapter ran, not later transformations or proof of actual printing.
-Orca may use a temporary file, so the manifest goes into an explicit persistent
-output directory rather than beside that temporary file.
+This establishes artifact identity, not a safe or optimal profile. The local Python
+source tests verify the adapter; actual Orca UI installation must be checked in the
+chosen environment.
 
-The adapter never changes source bytes or inferred temperatures/speeds. Existing
-conflicting manifests are not overwritten. Test with a non-printing fixture first;
-CLI tests are not a claim of a completed Orca desktop integration test.
+## External models
 
-## Voron and other compatible machines
+The `reference/` reviewer exports a structured request and validates a manually
+returned JSON proposal. It has no API key or printer transport. This release does
+not automatically send application photographs to a cloud model. Keep manual
+review and local action limits separate from model-generated recommendations.
 
-Treat each machine as a separate capability/configuration profile. Do not publish
-unmeasured universal acceleration, pressure advance or temperature presets. A Voron
-profile and supporting evidence can be contributed here without modifying Voron's
-firmware or claiming support for every Voron build.
+## Upstream projects
+
+No changes have been merged into Klipper, Moonraker, Mainsail, OrcaSlicer or Voron by
+this publication. There is no upstream endorsement. Follow each community's
+contribution process with a narrow, tested change rather than promotional issues.

@@ -1,61 +1,75 @@
-# Validation record — 2026-09-16
+# Validation of the 0.5.1 source release
 
-Scope: the new 0.1.0 research preview in this repository, not the historical
-workstation application and not a physical printer installation.
+## Scope and reproducible commands
 
-## Executed locally
+This review used the real workstation source identified as 0.5.0, copied into a
+separate release directory and revised as 0.5.1. It did not connect tests to the
+printer, change firmware, restart the existing service, or alter private evidence.
 
-Environment: Linux container, Python 3.13.5, Node.js 22.16.0.
+The original selected source snapshot contained 140 files. Its SHA-256 inventory
+was checked after editing the publication copy; all originals remained unchanged.
 
-| Suite | Result | What it establishes |
-| --- | --- | --- |
-| Workspace exporter / history reader | 25 passed | Selected byte preservation, exclusions, bounded paginated GET requests, partial failures, redirect refusal and malformed-response handling. |
-| Orca post-processing manifest | 9 passed | Exact SHA-256, unchanged source bytes, no private source path in output, idempotency, conflict refusal and invalid-file rejection. |
-| JavaScript advisory core | 47 passed | Evidence gates, comparison logic, bounded non-executable proposals, schema export, stale proposals and unsupported-field rejection. |
+| Check | Result on the review workstation |
+| --- | --- |
+| Original source baseline | 215 Python tests and 185 subtests passed. |
+| Reviewed application | 275 Python tests and 185 subtests passed; zero failures. |
+| Read-only exporter | 25 unittest tests passed against simulated endpoints. |
+| JavaScript application programs | All 10 programs passed, including four real headless-browser suites using simulated devices/APIs. |
+| Separate reference advisor | All 47 Node test cases passed. |
+| Ruff E9/F source and test checks | No findings. |
+| Source syntax | All imported and new Python modules parsed. |
+| Runtime dependency audit | 19 resolved packages; no known vulnerabilities reported by pip-audit at review time. |
+| Bandit | Two reviewed alerts: a rejected wildcard-listener literal and XML escaping, not XML parsing. No high-severity findings. |
 
-**81 unit tests passed.** Fixtures are synthetic; HTTP servers in these tests are
-local simulations. These results do not prove physical safety, reliable Android
-USB, printed quality or the accuracy of a neural model.
+The final Python run took 11.88 seconds on the review workstation. Subtests are
+reported separately and are not counted again as independent top-level tests.
+There were two third-party deprecation warnings from the Starlette HTTPX test
+adapter and its AnyIO portal alias; neither was suppressed or treated as a pass
+for a failed test.
 
-## UI inspection
+## Environment
 
-A Chromium in-memory DOM harness exercised loading four synthetic records, local
-analysis, external-request download, proposal acceptance/rejection and a 390-pixel
-mobile viewport. There were no JavaScript page errors or network requests in that
-harness and no horizontal page overflow. Desktop and mobile layouts were visually
-inspected. The returned proposal remained explicitly non-executable.
+- Python 3.12.14 on Windows; Node.js 22.18.0.
+- Headless Microsoft Edge through Playwright 1.63.0; fresh isolated browser contexts.
+- FastAPI 0.141.1, Starlette 1.6.0, Uvicorn 0.52.4, HTTPX 0.28.1.
+- Pydantic 2.13.5, Pillow 12.3.0, NumPy 2.5.3, OpenCV 5.0.0.93.
+- Optional local model tests used PyTorch 2.14.0+cpu and torchvision 0.29.0+cpu.
 
-Browser navigation in this validation environment was blocked by an administrator
-policy. No policy was changed. The harness injected the actual local HTML, CSS and
-JavaScript into an in-memory page; its CSP meta element was omitted in memory to
-allow that test injection. Consequently this is **not a deployed-page, CSP,
-static-asset-loading or real-phone test**. The shipped HTML retains its restrictive
-CSP. The standalone unit tests do not require this harness.
+These are observed review versions, not claims of compatibility with every version
+allowed by dependency ranges. The optional training stack is not installed by the
+standard Linux CI job; optional tests may be skipped there and must be interpreted
+separately from the full Windows review.
 
-## Not executed
-
-- Android application build, USB-host installation, long-duration phone operation,
-  simultaneous OTG charging or phone sensor capture.
-- Desktop OrcaSlicer UI installation or an actual slicer-triggered adapter run.
-  The adapter was exercised as a CLI, including file preservation.
-- Live Moonraker, Mainsail, Klipper, camera or printer interactions.
-- A trained visual model, calibrated probabilities or comparative printed trials.
-- Any motion, heating, firmware change or unattended calibration.
-
-CI configuration covers offline tests on Python 3.10 and 3.13, with Node.js 22.
-The presence of a workflow file is not evidence that a remote run has passed;
-consult the actual GitHub Actions result for the commit being reviewed.
-
-## Reproduce
-
-From the repository root:
+## Commands
 
 ```sh
+python tools/run_offline_tests.py
 python -m unittest discover -s tools/exporter/tests -v
-python -m unittest discover -s tests -p 'test_*.py' -v
+node scripts/run-node-tests.cjs
 node --test tests/core.test.js
+python -m ruff check src tests --select E9,F
 python tools/check_repository.py
+python -m build
 ```
 
-Do not reuse historical test counts from conversation logs as results of this
-publication. Re-run the original application tests after a reviewed source import.
+Python source tests block outbound socket connections. The only exemption is the
+internal Windows asyncio wake-up socket pair. Exporter tests use an isolated local
+HTTP test server. Browser tests intercept requests and simulate camera frames,
+permissions, uploads, connection failures and illumination; they send no printer
+commands to real hardware.
+
+## Continuous integration and artifacts
+
+The GitHub workflow runs Python 3.11 and 3.13 with Node.js 22 on Linux, installs
+Playwright Chromium, and checks source, packaging, Python and browser tests. Check
+the commit-specific Actions result: a workflow file alone is not a passing run.
+Wheel and source distribution builds are part of release validation. The source
+distribution includes source, tests, documentation, licenses and approved images.
+
+## What the tests do not establish
+
+No native Android Klipper host, physical USB connection, new printer speed/quality
+measurement, trained universal defect detector, automatic cloud advisor or
+unattended safety guarantee was validated in this review. Historical workshop
+reports are attributed to the author, not relabelled as measurements of this
+release. Read [release review](RELEASE_REVIEW_0.5.1.md) and [status](STATUS.md).

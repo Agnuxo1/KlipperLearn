@@ -1,33 +1,40 @@
-# Model and algorithm card
+# Model and estimator card
 
-## Released algorithm
+## What ships
 
-Type: deterministic advisory heuristic, implemented in JavaScript.
-Training: none. Parameters: caller-supplied policy, not learned weights.
-Inputs: structured, reviewed observations under a declared fixed context.
-Outputs: non-executable bounded proposals or an explicit abstention/stop reason.
-Validation: synthetic unit and UI tests. No measured hardware accuracy or speed gain.
+The application includes a local engineered-feature ridge estimator and optional
+MobileNetV3-small training/inference code. It includes **no pretrained defect
+checkpoint** and no representative, publicly redistributable labelled dataset.
+The separate reference reviewer uses deterministic comparison rules, not a CNN.
 
-## Planned phone-local visual model
+## Intended use
 
-A small, quantized image/sensor model is a product goal, not a released capability.
-There are no trained weights or claimed CNN accuracy in this repository. Random
-weights and smoke tests must never be presented as a validated model.
+Support reviewed, comparable calibration trials and identify candidates for further
+measurement. Features describe images and available sensor signals; human scores
+are labels, not instrumented dimensional measurements. A successful model fit or
+held-out-session gate is not certification for a new printer, material or mounting.
 
-Before release, document architecture, weight hash, license, training data consent,
-label rubric, preprocessing, sensor alignment, phone resource use and provenance.
-Split validation by printer, session, material and camera/mount configuration to
-avoid adjacent-frame leakage. Publish confidence calibration, abstention behavior,
-false positives and missed defects. Evaluate sensor ablations and drift separately.
-A model that sees frame vibration alone must not claim exact step-loss reconstruction.
+## Validation and abstention
 
-## External model mode
+`multimodal_learning.py` separates sessions during evaluation, requires sufficient
+evidence, and abstains on out-of-distribution or malformed inputs. Prediction also
+checks model version, feature order, array shapes, finite values, positive scales
+and model digest. A digest identifies integrity, not authorship or accuracy.
 
-This release supplies a manual evidence exchange protocol, not a connected API
-client. The user chooses what to share and with whom. Model output is untrusted;
-unsupported evidence, stale references, unknown fields and out-of-range values
-are rejected. Passing that gate still does not authorize a print.
+The MobileNet loader requires a stable PyTorch version >= 2.10.0, bounded local
+checkpoint size, `weights_only=True`, expected metadata and state-dictionary shape.
+It never falls back to unrestricted loading and never downloads weights during
+inference. **Only use checkpoints from trusted sources.** Version and metadata
+checks do not make malicious files safe. See the upstream advisory:
+https://github.com/pytorch/pytorch/security/advisories/GHSA-63cw-57p8-fm3p
 
-ChatGPT subscriptions and API usage have separate billing; the manual workflow
-requires no API key and does not claim to bypass any product quota.
-Source: [OpenAI billing guidance](https://help.openai.com/en/articles/8156019-how-can-i-move-my-chatgpt-subscription-to-the-api).
+Inference reports `validated_on_printer: false` and `automatic_control: false`.
+Synthetic checkpoint tests verify software paths only. Probabilities must be finite
+and within [0, 1]; invalid outputs fail rather than producing a quality score.
+
+## Unestablished claims
+
+No universal defect accuracy, measured lost-step detector, exact position recovery,
+phone-browser CNN performance, unattended safety guarantee or global printer optimum
+is established by this release. Evaluate held-out printers, materials and sessions,
+report false positives/negatives, and keep human intervention available.

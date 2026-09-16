@@ -1,25 +1,27 @@
 # Privacy and data handling
 
-The reference reviewer reads only the selected session file and keeps it in the
-page's memory. It has no analytics, account login, remote requests or persistent
-browser database. Closing the page discards its state unless the user exported it.
-A downloaded advisor request is a local file; sharing it is a separate user action.
+The application stores experiment records, human reviews, photographs and sensor
+features on the configured local host. The phone uses browser storage for pairing,
+preferences and its durable sensor outbox. Raw audio is not saved by the aggregate
+collector; camera images can still reveal people, surroundings or identifying data.
 
-The workspace exporter is conservative but is not a secret-detection guarantee.
-It skips known private directories, credential names, binary files and suspicious
-text. It preserves included source bytes and reports exclusions. The output can
-still contain personal information in code, comments or filenames: review locally.
-Its `evidence-private` history must not be published wholesale. No original photos,
-audio, sensor waveforms, private keys or experimental data directories are collected.
+Authentication tokens belong in private files and headers, never in public logs,
+issues or source. Pairing links use a URL fragment removed after processing; the
+paired token can remain in local browser storage. Use a dedicated trusted device
+and clear site data when removing access. No token is a substitute for trusted
+HTTPS, a firewall and a limited network exposure policy.
 
-The Orca adapter exports only a file fingerprint and byte count, not an absolute
-path or model filename. No tool here uploads data or opens router ports.
+Private session/API responses use `Cache-Control: no-store`. The service worker
+must not cache authenticated API data. A stale camera cache is not served as live.
+A camera snapshot expiring does not delete previously authorized evidence images.
 
-Future camera/microphone collection requires explicit consent, visible status,
-bounded storage, export/delete controls and a documented retention policy. Prefer
-acoustic features to continuous raw audio where adequate. Disable geolocation by
-default; GPS does not provide useful nozzle-position feedback.
+Exported evidence archives may contain sensitive local records. Review them before
+sharing. The publication exporter is a review aid, not an automatic guarantee that
+every possible secret format has been removed. Runtime `data`, `work`, credentials,
+private certificates, old Git history and operational journals are excluded from
+the source publication. Public artwork is author-approved and metadata-stripped.
 
-Before external review, remove faces, household details, voices, credentials and
-unrelated files. Evidence-text instructions are untrusted data, not authority to
-change the printer. Keep authentication separate from shareable evidence packages.
+The external-advisor reference exports a local request for manual review. This
+release does not automatically upload data to ChatGPT or another cloud service.
+Sharing evidence with a third party remains an explicit user decision. No account
+credential, cloud API key, analytics tracker or external font is bundled in the UI.

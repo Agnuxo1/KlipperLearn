@@ -1,4 +1,5 @@
 """Synthetic sliced-file tests; never execute any G-code."""
+
 import contextlib
 import hashlib
 import importlib.util
@@ -8,8 +9,9 @@ from pathlib import Path
 import tempfile
 import unittest
 
-SPEC = importlib.util.spec_from_file_location("manifest", Path(__file__).parents[1] /
-    "integrations/orca/klipperlearn_manifest.py")
+SPEC = importlib.util.spec_from_file_location(
+    "manifest", Path(__file__).parents[1] / "integrations/orca/klipperlearn_manifest.py"
+)
 module = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(module)
 

@@ -1,17 +1,16 @@
-# Security policy
+# Security
 
-This research preview has no printer-control transport. Treat proposed settings,
-imported evidence and external model output as untrusted data.
+Do not put credentials, private network configuration, printer logs, personal
+photographs or model checkpoints into public issues. Report suspected vulnerabilities
+privately using the repository's private security-reporting facility when available.
+Otherwise ask the maintainer for a private channel without publishing exploit details.
 
-Do not expose Moonraker, SSH, ADB or a printer webcam directly to the public Internet.
-Do not disable TLS verification or authorization to make an integration appear to work.
-The exporter is a conservative filter, not a guarantee that arbitrary source files
-contain no secrets. Review each private package before sharing or importing it.
+This project is experimental. Keep it on a trusted local network behind trusted
+HTTPS and explicit authentication. Do not expose Moonraker or local one-touch pairing
+to the public Internet. Leave Klipper's independent thermal and motion protections on.
 
-For a suspected vulnerability, do not publish credentials, exploit details against
-a real device or private print records. Use GitHub private vulnerability reporting
-when available. Otherwise request a private reporting channel in a minimal issue
-without technical exploit details. No response time or supported production branch
-is promised for this experimental release.
-
-See `docs/SAFETY.md` for the independent physical-safety boundary.
+The reviewed source rejects ambiguous authentication headers, non-finite/duplicate
+JSON fields, oversized bodies and stale live frames. These controls do not constitute
+a complete security certification. Only load trusted optional model files using a
+patched PyTorch runtime; version 0.5.1 blocks known-vulnerable checkpoint loaders below
+2.10.0. See `docs/RELEASE_REVIEW_0.5.1.md` for the review scope and limitations.

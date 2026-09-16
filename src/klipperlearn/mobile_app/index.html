@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="theme-color" content="#141715">
+    <meta name="referrer" content="no-referrer">
+    <title>KlipperLearn · Console</title>
+    <style>
+      :root{color-scheme:dark;font:16px system-ui,sans-serif;color:#f0f4ef;background:#141715}
+      body{display:grid;place-items:center;min-height:100dvh;margin:0;padding:24px;text-align:center}
+      p{color:#aab9ae}a{color:#b6f886}
+    </style>
+  </head>
+  <body>
+    <main aria-labelledby="redirectTitle">
+      <h1 id="redirectTitle">Opening console…</h1>
+      <p id="redirectStatus" role="status" aria-live="polite">Preserving this console pairing.</p>
+      <a id="consoleLink" href="console.html">Continue to console</a>
+    </main>
+    <script>
+      (() => {
+        const target = 'console.html' + window.location.search + window.location.hash;
+        document.getElementById('consoleLink').href = target;
+        window.location.replace(target);
+      })();
+    </script>
+  </body>
+</html>
