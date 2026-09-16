@@ -25,3 +25,23 @@ The external-advisor reference exports a local request for manual review. This
 release does not automatically upload data to ChatGPT or another cloud service.
 Sharing evidence with a third party remains an explicit user decision. No account
 credential, cloud API key, analytics tracker or external font is bundled in the UI.
+
+## Printer Optimizer plugin and MCP
+
+The portable skill runs inside the selected assistant. Files the user attaches to
+that assistant are shared with that provider under its policies; file-first does
+not mean cloud-private when a cloud assistant is selected. The helper itself has
+no network code, trackers or inference call. Its input filter rejects common
+credential fields, but cannot guarantee detection of every secret format.
+
+The optional MCP server receives only explicit structured arguments. It cannot
+read arbitrary local paths or private printer stores. A caller can receive all
+returned preset data, including preserved custom G-code from supplied bases.
+The numerical advisor request deliberately omits those base scripts. Review
+original profiles locally before sharing them. No secrets are bundled or needed
+for the five default tools. Do not expose an unauthenticated MCP HTTP listener.
+
+Optional subnet discovery is performed by an approved local host, not OpenAI
+servers directly. Results include LAN addresses and API identification, which
+may be visible to the connected assistant. It requires explicit user consent
+and a server-side allowlist; no Wi-Fi passwords or private histories are read.

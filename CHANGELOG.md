@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.6.0 — File-first Printer Optimizer
+
+- Add a portable skills-only plugin, repository marketplace and optional read-only MCP tools.
+- Select three whole tested process/filament configurations with strict evidence gates.
+- Preserve layer settings, geometry, temperatures, G-code and original presets.
+- Validate one-variable AI proposals against exact session identities and declared limits.
+- Add private-LAN API discovery with explicit consent, allowlisting and bounded requests.
+- Add an original STL calibration coupon and a local file-review/export interface.
+- Do not automatically print, call a paid model, install presets or register a public plugin.
+
 ## 0.5.2 — Linux host independence
 
 - Document a persistent Linux backend, private-state migration and camera proxy removal.

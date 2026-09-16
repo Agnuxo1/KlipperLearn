@@ -37,7 +37,7 @@ def create_app(session_root, mobile_inbox=None, mobile_token=None):
             "The local receiver token must be 16-4096 non-whitespace ASCII characters."
         )
 
-    app = FastAPI(title="KlipperLearn", version="0.5.2")
+    app = FastAPI(title="KlipperLearn", version="0.6.0")
     app.state.klipperlearn_companion_installed = False
     install_request_safety(app)
 

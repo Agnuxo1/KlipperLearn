@@ -1,0 +1,12 @@
+{
+  "name": "klipperlearn-plugins",
+  "interface": {"displayName": "KlipperLearn — printer calibration tools"},
+  "plugins": [
+    {
+      "name": "klipperlearn-printer-optimizer",
+      "source": {"source": "local", "path": "./plugins/printer-optimizer"},
+      "policy": {"installation": "AVAILABLE", "authentication": "ON_INSTALL"},
+      "category": "Developer Tools"
+    }
+  ]
+}

@@ -18,3 +18,8 @@ prune data
 prune work
 prune node_modules
 global-exclude *.py[cod]
+
+recursive-include src *.stl
+recursive-include plugins *.json *.md *.py *.stl COPYING
+recursive-include examples *.json
+recursive-include .agents *.json

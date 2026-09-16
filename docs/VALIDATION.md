@@ -73,3 +73,13 @@ measurement, trained universal defect detector, automatic cloud advisor or
 unattended safety guarantee was validated in this review. Historical workshop
 reports are attributed to the author, not relabelled as measurements of this
 release. Read [release review](RELEASE_REVIEW_0.5.1.md) and [status](STATUS.md).
+
+## 0.6.0 additive validation
+
+The file-first optimizer release passes 345 Python tests and 185 subtests,
+including the official MCP SDK stdio round trip and strict structured outputs.
+All 11 JavaScript programs (five browser suites), the 25 exporter tests and
+47 reference tests passed. The plugin helper also runs in Python isolated mode
+without optional packages. Native-slicer import, account installation, live LAN
+discovery and physical printing were not performed. See
+[the 0.6.0 review](RELEASE_REVIEW_0.6.0.md) for detailed scope.

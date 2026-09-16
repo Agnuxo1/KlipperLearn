@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self'; img-src 'self' blob:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>KlipperLearn | Printer Optimizer</title>
+<link rel="stylesheet" href="optimizer.css">
+<script src="optimizer.js" defer></script>
+</head>
+<body>
+<main>
+<header><a href="console.html">← Printer console</a><span>FILE-FIRST · NO PRINTER COMMANDS</span></header>
+<h1>One printer.<br>Three evidence-based modes.</h1>
+<p class="intro">Quality, Standard and Speed — selected from repeatable tests, not guessed speed multipliers. A phone is optional. Use your existing slicer and original photographs.</p>
+<section>
+<h2>1 · Choose the workflow</h2>
+<div class="grid">
+<label>Brand<input id="brand" list="brands" placeholder="Select or enter a brand"><datalist id="brands"><option>Flashforge</option><option>Creality</option><option>Anycubic</option><option>Prusa</option><option>Bambu Lab</option><option>Other / custom</option></datalist></label>
+<label>Model<input id="model" placeholder="Exact model and any modifications"></label>
+<label>Reviewer<select id="reviewer"><option value="ChatGPT">ChatGPT — file review</option><option value="Other AI">Other AI — file review</option><option value="Human">Human review</option></select></label>
+<label>Model label (optional)<input id="modelLabel" maxlength="100" placeholder="The model chosen in your assistant"></label>
+</div>
+<p class="hint">This menu labels the exported request; it does not call an AI API or change your ChatGPT model. Use the optional MCP connection for assistant-driven tool calls. No API key belongs in this page.</p>
+<p>Give the assistant your exported process and filament profiles, original trial photographs and timing records. Ask it to assemble a <code>klipperlearn.slicer-session/v1</code> file using the bundled plugin. Native profile export currently targets OrcaSlicer; other slicers use a reviewed settings report.</p>
+</section>
+<section>
+<h2>2 · Keep the experiment comparable</h2>
+<p>Slice the same calibration object with your existing preset. Keep layer height, layer count, material, nozzle, infill and geometry fixed. Record printing and total time separately. Repeat each configuration at least twice.</p>
+<a class="button" href="adjustment-card.stl" download="klipperlearn-adjustment-card.stl">Download original calibration card</a>
+<p class="hint">40 × 30 × 12 mm. Original steps, walls, gaps and bridge coupon — not 3DBenchy and not a dimensional certification. Check bed fit and slicer preview. This page does not upload or start prints.</p>
+</section>
+<section>
+<h2>3 · Review your session</h2>
+<label>Session prepared from your actual records<input id="sessionFile" type="file" accept=".json,application/json"></label>
+<p id="identity" class="hint">No session loaded. A brand/model label alone is not evidence of compatibility.</p>
+<div class="actions"><button id="review" disabled>Review evidence</button><button id="request" disabled>Export AI review request</button><button id="profiles" disabled>Create three mode profiles</button></div>
+<p id="status" role="status" aria-live="polite">Connect using the printer console first. All calls remain on this server.</p>
+<pre id="result" tabindex="0" aria-label="Evidence review result"></pre>
+<div id="downloads" class="actions"></div>
+</section>
+<section>
+<h2>4 · Check a proposed improvement</h2>
+<label>AI proposal JSON<input id="proposalFile" type="file" accept=".json,application/json"></label>
+<button id="proposal" disabled>Validate one bounded change</button>
+<p class="hint">A valid proposal is an unprinted candidate, not an adopted improvement. Stale sessions, unknown parameters, changed geometry and steps outside declared limits are rejected.</p>
+</section>
+<details>
+<summary>Optional LAN / Wi-Fi printer discovery</summary>
+<p>Runs from the Linux host, not from the cloud or your phone's Wi-Fi radio. Only Moonraker and OctoPrint identification is currently supported; brand/model are not guessed. Serial and proprietary printers can still use file mode.</p>
+<label>Approved private subnet<input id="cidr" placeholder="For example: 192.168.1.0/24"></label>
+<label class="consent"><input id="consent" type="checkbox">I authorize read-only discovery on this subnet.</label>
+<button id="discover">Find reachable printer APIs</button>
+<pre id="discoveryResult" aria-label="Discovery results"></pre>
+</details>
+<footer>No cloud inference, telemetry upload, printer control or automatic preset installation from this page. Import the matching process and filament pair, reslice and inspect each model. Keep the original presets.</footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "klipperlearn-printer-optimizer",
+  "version": "0.6.0",
+  "description": "Review real 3D-print calibration evidence and create Quality, Standard and Speed slicer profiles without controlling a printer.",
+  "author": {
+    "name": "Francisco Angulo de Lafuente"
+  },
+  "repository": "https://github.com/Agnuxo1/KlipperLearn",
+  "homepage": "https://github.com/Agnuxo1/KlipperLearn",
+  "license": "GPL-3.0-or-later",
+  "keywords": [
+    "3d-printing",
+    "calibration",
+    "orcaslicer",
+    "klipper",
+    "printer-optimization"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "KlipperLearn Printer Optimizer",
+        "shortDescription": "Three slicer modes from real print evidence",
+        "longDescription": "Free, open-source assistance for reviewing original calibration photographs and logs, proposing bounded experiments, and generating Quality, Standard and Speed process/filament presets for OrcaSlicer. No publisher account, paid API, phone or mandatory printer service. Other slicers receive a settings report. The user reviews and supervises physical trials; no automatic printer actuation or guaranteed gains. ChatGPT availability and usage limits still apply.",
+        "developerName": "Francisco Angulo de Lafuente",
+        "category": "Developer Tools",
+        "capabilities": [
+          "Read",
+          "Write"
+        ],
+        "websiteURL": "https://github.com/Agnuxo1/KlipperLearn",
+        "privacyPolicyURL": "https://github.com/Agnuxo1/KlipperLearn/blob/main/docs/PLUGIN_PRIVACY.md",
+        "defaultPrompt": [
+          "Review my printer's real calibration photos and logs, keeping layer height and geometry unchanged.",
+          "Create Quality, Standard and Speed OrcaSlicer presets from my reviewed trial records."
+        ]
+      }
+    }
+  }
+}

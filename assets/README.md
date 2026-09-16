@@ -23,3 +23,12 @@ a fastest identifiable completed, non-partial entry at 22 min 17 s printing and
 25 min 35 s total, with 0.4 mm layers / 121 layers. Neither an exact 20-minute
 result nor an unchanged layer count across all trials is established by those
 records. See the current README; do not use the artwork as measurement evidence.
+
+## Corrected workflow attribution
+
+The owner clarified that the photographed Flashforge Creator Pro Benchy series
+was calibrated by consulting ChatGPT, not by KlipperLearn. It must not be used as
+evidence of results from the KlipperLearn local learner or this new plugin. The
+Anycubic 4Max Pro is the separate KlipperLearn installation with phone and webcam,
+printing calibration charts and the Anycubic cube. See
+[benchmark provenance](../docs/BENCHMARK_PROVENANCE.md).

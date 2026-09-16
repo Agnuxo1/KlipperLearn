@@ -1,0 +1,26 @@
+{
+  "submission_type": "Skills only",
+  "name": "KlipperLearn Printer Optimizer",
+  "short_description": "Free AI-assisted calibration and three evidence-based slicer modes.",
+  "long_description": "Free, open-source assistance for reviewing original calibration photographs and logs, proposing bounded experiments, and generating Quality, Standard and Speed process/filament presets for OrcaSlicer. No publisher account, paid API, phone or mandatory printer service. Other slicers receive a settings report. The user reviews and supervises physical trials; no automatic printer actuation or guaranteed gains. ChatGPT availability and usage limits still apply.",
+  "publisher_name": "Francisco Angulo de Lafuente",
+  "category": "Developer Tools",
+  "website_url": "https://github.com/Agnuxo1/KlipperLearn",
+  "support_url": "https://github.com/Agnuxo1/KlipperLearn/issues",
+  "privacy_policy_url": "https://github.com/Agnuxo1/KlipperLearn/blob/main/docs/PLUGIN_PRIVACY.md",
+  "terms_url": "https://github.com/Agnuxo1/KlipperLearn/blob/main/docs/PLUGIN_TERMS.md",
+  "plugin_fee": 0,
+  "requires_external_account": false,
+  "requires_model_api_key": false,
+  "mcp_in_public_submission": false,
+  "availability_requested": "All eligible locations supported by the publisher and OpenAI; final portal selection requires publisher review",
+  "platform_limits_apply": true,
+  "public_status": "not_submitted",
+  "verified_identity_status": "portal_requires_owner_verification",
+  "starter_prompts": [
+    "Review my printer's real calibration photos and logs, keeping layer height and geometry unchanged.",
+    "Create Quality, Standard and Speed OrcaSlicer presets from my reviewed trial records.",
+    "Help me improve my print quality using these original photos and my current slicer presets."
+  ],
+  "release_notes": "Initial skills-only submission. Includes an offline standard-library helper, original calibration STL, six paired Orca preset outputs, explicit unvalidated trial proposals and provenance safeguards. No printer control, remote API or user registration. Physical and ChatGPT-installed acceptance tests are not claimed."
+}

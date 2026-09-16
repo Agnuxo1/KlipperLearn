@@ -12,7 +12,7 @@ evidence, reproducible calibration charts, and bounded tuning proposals for
 compatible Klipper / Moonraker printers. Its purpose is to make existing machines
 more useful rather than require a new printer.
 
-**0.5.2 — Linux-host independence and connection diagnostics.** This repository now contains the original
+**0.6.0 — file-first Printer Optimizer and optional MCP tools.** This repository now contains the original
 Python application and its HTML/JavaScript phone companion, not only the earlier
 advisory demonstration. The original installation is not overwritten by this
 publication. Read the [capability matrix](docs/STATUS.md) before connecting hardware.
@@ -22,6 +22,38 @@ publication. Read the [capability matrix](docs/STATUS.md) before connecting hard
 > a phone browser as interface, camera and sensor source. An HTML page alone does
 > not supply a native Klipper process or reliable USB access. No trained defect
 > weights or universally validated automatic calibration profile are bundled.
+
+## Printer Optimizer: phone optional, slicer first
+
+**New in 0.6.0:** a portable [ChatGPT/Codex skill package](plugins/printer-optimizer/)
+with a standard-library helper, optional MCP tools, original calibration coupon,
+and an authenticated local workflow at `/mobile/optimizer.html`.
+
+Review actual original photos and logs in your selected assistant. Propose one
+bounded experiment, repeat it, and export **Quality / Standard / Speed** as three
+matching **process + filament** pairs. The implemented native exporter targets
+OrcaSlicer; other slicers receive a reviewed settings report, not a fake native
+conversion. A phone, printer firmware change and cloud API call are not required
+for the file workflow.
+
+Profiles are selected from whole comparable reviewed configurations, with a
+quality floor and at least two independent repetitions. Layer height/count,
+geometry, infill, supports, temperature and custom G-code are not changed. Missing
+evidence blocks output. Multiple modes can legitimately share the same settings.
+These are evidence-supported candidates, not universally optimal profiles.
+
+Optional discovery identifies Moonraker/OctoPrint APIs on an explicitly approved
+private subnet, with strict scope and time limits. It does not scan Wi-Fi passwords,
+guess a printer model, start a print, or expose a private printer to the Internet.
+The package is **not yet a registered/approved public ChatGPT plugin**, and native
+slicer import and real physical results require separate acceptance tests.
+
+**Free and open source:** no publisher subscription, external account or API key
+is required for the file-first plugin. ChatGPT eligibility and usage limits remain
+controlled by OpenAI. [Public submission kit and current blocker](submission/README.md).
+
+Read the [slicer workflow](docs/SLICER_OPTIMIZER.md) and
+[plugin/MCP connection instructions](docs/CHATGPT_PLUGIN.md).
 
 ## Two advisor modes
 
@@ -107,9 +139,15 @@ implement robotic bed clearing or a validated unattended safety supervisor.
 See the [calibration protocol](docs/CALIBRATION_PROTOCOL.md) and
 [local learning guide](docs/LOCAL_LEARNING.md).
 
-## Workshop progress
+## Workshop progress: external-advisor example
 
 <p align="center"><img src="assets/benchy-workshop-retouched.png" alt="Editorial presentation of the author's Benchy tuning progression" width="620"></p>
+
+**Attribution:** these Benchy trials were printed on the **Flashforge Creator Pro**
+with operator adjustments advised by **ChatGPT**, **not by KlipperLearn**. The
+**Anycubic 4Max Pro** is the separate KlipperLearn + phone + webcam installation,
+using our charts and the Anycubic calibration cube. These are distinct machines,
+benchmarks and workflows; see [benchmark provenance](docs/BENCHMARK_PROVENANCE.md).
 
 *The artwork shows the author-reported tuning progression and is not an independent
 quality measurement. A subsequent review of the available printer history found

@@ -983,6 +983,9 @@ def install_companion(
             logging.getLogger(__name__).warning(
                 "Learning unavailable; printer control remains available"
             )
+    from .optimizer_api import install_optimizer_api
+
+    install_optimizer_api(app, token, local_connect_networks)
     _keep_mobile_static_mount_last(app)
     app.state.klipperlearn_companion_installed = True
     return viewer

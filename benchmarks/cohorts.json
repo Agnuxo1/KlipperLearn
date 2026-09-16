@@ -1,0 +1,25 @@
+{
+  "source": "explicit owner clarification, 2026-09-16",
+  "machines": [
+    {
+      "id": "flashforge-creator-pro-chatgpt",
+      "brand": "Flashforge",
+      "model": "Creator Pro",
+      "firmware": "Klipper",
+      "workflow": "operator consulting ChatGPT",
+      "klipperlearn_used_for_reported_benchys": false,
+      "benchmark": "3DBenchy"
+    },
+    {
+      "id": "anycubic-4max-pro-klipperlearn",
+      "brand": "Anycubic",
+      "model": "4Max Pro",
+      "firmware": "Klipper",
+      "workflow": "KlipperLearn with phone and separate webcam",
+      "benchmarks": [
+        "KlipperLearn calibration charts",
+        "Anycubic calibration cube (official according to owner)"
+      ]
+    }
+  ]
+}

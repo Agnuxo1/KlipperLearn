@@ -1,5 +1,5 @@
 const CACHE_PREFIX = "klipperlearn-mobile-";
-const CACHE = "klipperlearn-mobile-console-v052";
+const CACHE = "klipperlearn-mobile-console-v060";
 const ASSETS = [
   "./", "index.html", "console.html", "console.css?ui=10", "console-shell.js?v=5",
   "trial-telemetry.js?v=3", "photo-pair.js?v=2", "telemetry-outbox.js?v=1",
