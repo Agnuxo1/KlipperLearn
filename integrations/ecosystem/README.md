@@ -21,7 +21,7 @@ in English and retain the project licenses and third-party attribution.
 | Fluidd | Equivalent Moonraker camera/evidence workflow | Read development guidance, keep the integration external until a focused patch is justified. |
 | OctoPrint | Separately maintained plugin or read-only export adapter | No AI-generated upstream PR, PR description or reviewer reply. |
 | PrusaSlicer | Read-only post-processing sidecar | [Working helper setup](../prusaslicer/README.md) and appended-file contract tests. |
-| Cura | Optional extension / post-processing evidence exporter | Implement against actual Script/Extension APIs, not invented preset compatibility. |
+| Cura | Read-only PostProcessingPlugin evidence collector | [Working mocked-contract adapter](../cura/README.md); native Cura GUI/output acceptance remains pending. |
 | KIAUH | Read-only prerequisites and coexistence checks | Do not reinstall Klipper or change services as an incidental integration step. |
 | Voron | Printer-specific, reproducible test protocol | No VoronUsers mod submission without actual Voron compatibility and physical tests. |
 

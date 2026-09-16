@@ -27,3 +27,39 @@ new PrusaSlicer contract cases. Ruff E9/F and repository consistency passed.
 Two pre-existing third-party deprecation warnings remain. The public-file scan
 found no configured private host addresses, workstation paths or matched secret
 formats in this change; this is a scoped scan, not a security certification.
+
+## Round 1 — Cura read-only evidence adapter
+
+- Re-read public `main` at `2004fd4`; no repository `AGENTS.md` exists.
+- Rechecked canonical `Ultimaker/Cura`: active, default branch `main`, LGPL-3.0.
+- Re-read current `CONTRIBUTING.md` and the current
+  `plugins/PostProcessingPlugin/Script.py` contract before implementation.
+- GitHub searches for the exact term `KlipperLearn` found 0 Cura issues and 0
+  Cura pull requests. No upstream contact, fork or Marketplace action was made.
+- Added `integrations/cura/KlipperLearnEvidence.py`, a Cura post-processing script
+  that hashes the exact UTF-8 in-memory G-code stream, writes a content-addressed
+  JSON manifest, and returns the original `data` list object unchanged.
+- The manifest omits G-code, model names, source/output paths, LAN addresses and
+  inferred settings. It explicitly does not claim identity with Cura's later
+  serialized output file, geometry verification, quality assessment or printing.
+- Added focused installation/semantics documentation and six contract tests.
+
+### Round 1 validation
+
+- `python -m pytest tests/test_cura_integration.py -q`: **6 passed**.
+- `py_compile` passed for the adapter and its tests.
+- A complete offline-suite attempt reached **353 passed, 1 skipped, 2 failed**.
+  Both failures were existing real-inference smoke tests blocked because this clean
+  runner has PyTorch `2.6.0+cu124`, while KlipperLearn intentionally requires a
+  stable PyTorch `>=2.10.0` before loading checkpoints.
+- Re-running the offline suite with only those two environment-gated smoke tests
+  deselected produced **353 passed, 1 skipped, 2 deselected**.
+- `tools/check_repository.py` passed after that regression run.
+- `ruff` was not available in this clean Python environment; no Ruff result is
+  claimed for this round. Python compilation and tests above are the recorded
+  syntax/static fallback.
+
+The adapter is **prepared and contract-tested in our repository only**. It is not
+claimed as natively installed in Cura, accepted by Ultimaker, listed in Marketplace,
+or verified against final saved-file bytes. No printer, slicer profile, Linux
+service, LAN host, credential or physical hardware was changed.

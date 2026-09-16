@@ -8,7 +8,6 @@
   "scheduled_rounds": 8,
   "active_round": null,
   "next_priority": [
-    "cura",
     "octoprint",
     "moonraker",
     "orca",
@@ -258,15 +257,16 @@
       "upstream_license_metadata": "LGPL-3.0",
       "archived": false,
       "delivery_goal": "Optional native Script/Extension evidence collector with no G-code changes.",
-      "next_action": "Read current upstream interfaces, implement an independently installable adapter and test no mutation or private data leakage.",
-      "stage": "research_ready",
+      "next_action": "Run the script inside a current Cura development or packaged build and verify the real GUI/output pipeline before considering Marketplace or upstream contact.",
+      "stage": "contract_tested",
       "upstream_status": "not_submitted",
       "auto_contact_allowed": false,
       "submission_gate_blockers": [
         "native_gui_acceptance_not_verified",
-        "marketplace_admission_not_requested"
+        "marketplace_admission_not_requested",
+        "final_saved_file_bytes_not_verified_by_script_api"
       ],
-      "policy_review": "selected_files_read_not_exhaustive",
+      "policy_review": "current_contributing_and_postprocessing_api_reviewed",
       "policy_sources": [
         {
           "path": "CONTRIBUTING.md",
@@ -274,11 +274,43 @@
           "sha256": "08a0f20b8a77b0f4e8a1fb3d9bfddbe24563986aa861f9dfdd77e27880761fba"
         }
       ],
-      "artifact_paths": [],
-      "tests": [],
+      "artifact_paths": [
+        "integrations/cura/README.md",
+        "integrations/cura/KlipperLearnEvidence.py",
+        "tests/test_cura_integration.py"
+      ],
+      "tests": [
+        {
+          "command": "python -m pytest tests/test_cura_integration.py -q",
+          "result": "passed",
+          "cases": 6,
+          "scope": "Mocked Cura Script/Logger contract; no native Cura GUI or writer exercised"
+        },
+        {
+          "command": "python tools/run_offline_tests.py -k 'not weights_none_checkpoint_loads_and_returns_probabilities and not nonfinite_model_output_is_rejected_before_probabilities'",
+          "result": "passed",
+          "cases": 353,
+          "skipped": 1,
+          "deselected": 2,
+          "scope": "Repository regression suite excluding two environment-gated real PyTorch smoke tests; installed torch was 2.6.0+cu124 while project requires >=2.10.0"
+        }
+      ],
       "fork_url": null,
       "submissions": [],
-      "acceptance_evidence": null
+      "acceptance_evidence": null,
+      "duplicate_search": {
+        "checked_at_utc": "2026-09-16T23:04:32.496088+00:00",
+        "term": "KlipperLearn",
+        "issues": 0,
+        "pull_requests": 0,
+        "scope": "Ultimaker/Cura GitHub issue and pull-request search"
+      },
+      "upstream_snapshot": {
+        "repository": "Ultimaker/Cura",
+        "default_branch": "main",
+        "active": true,
+        "checked_at_utc": "2026-09-16T23:04:32.496088+00:00"
+      }
     },
     {
       "id": "kiauh",
@@ -336,5 +368,7 @@
     "repository_links": "passed",
     "native_gui_tested": false,
     "hardware_actions": false
-  }
+  },
+  "last_completed_round": 1,
+  "last_completed_at_utc": "2026-09-16T23:04:59.715538+00:00"
 }
