@@ -108,6 +108,10 @@ python tools/check_repository.py
 The [upstream collaboration plan](docs/COMMUNITY.md) explicitly avoids promotional
 issues, duplicate messages and unvalidated printer-control patches.
 
+
+<img width="1086" height="1448" alt="Imagen de Codex 16 sept 2026, 19_08_40" src="https://github.com/user-attachments/assets/c2355c51-6cf1-4714-b0f1-a45a55a27c42" />
+
+
 ## License and attribution
 
 MIT for the newly published material in this repository. Existing workstation
