@@ -61,7 +61,7 @@ self.addEventListener("activate", (event) =>
             const channel = new MessageChannel();
             const finish = value => { clearTimeout(timer); channel.port1.close(); resolve(value); };
             const timer = setTimeout(() => finish(false), 1500);
-            channel.port1.onmessage = event => finish(event.data === '25');
+            channel.port1.onmessage = event => finish(event.data === '26');
             client.postMessage({type: 'klipperlearn:version'}, [channel.port2]);
           });
           if (current) return;

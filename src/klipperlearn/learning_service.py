@@ -522,6 +522,11 @@ class LearningService:
                 self.save_run(run)
         self.reconciled = True
         if mode not in ("printing", "paused") and time.monotonic() - self.last_learning > 30:
+            self.status = {
+                "phase": "analyzing",
+                "message": "Reviewing stored evidence on this host; printer controls remain available.",
+                "automatic_changes": False,
+            }
             self.status = await asyncio.to_thread(self.learn)
             self.last_learning = time.monotonic()
 

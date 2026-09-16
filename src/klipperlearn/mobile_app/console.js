@@ -901,7 +901,7 @@
         if (!cameraActive(ticket) || !jpeg) return;
         await queueCameraRequest(() => {
           if (!cameraActive(ticket)) return;
-          return api('live/frame', {method: 'PUT', headers: {'Content-Type': 'image/jpeg', 'X-KlipperLearn-Client-Version': 'console-25', 'X-KlipperLearn-Camera-Session': cameraSession}, body: jpeg});
+          return api('live/frame', {method: 'PUT', headers: {'Content-Type': 'image/jpeg', 'X-KlipperLearn-Client-Version': 'console-26', 'X-KlipperLearn-Camera-Session': cameraSession}, body: jpeg});
         });
         if (!cameraActive(ticket)) return;
         lastFrameAt = Date.now();
@@ -1150,7 +1150,7 @@
   window.addEventListener('online', () => { void retryTelemetryOutbox(); void reconnectOnboardingIfReady(); });
   if ('serviceWorker' in navigator && window.isSecureContext) {
     navigator.serviceWorker.addEventListener('message', event => {
-      if (event.data?.type === 'klipperlearn:version') event.ports[0]?.postMessage('25');
+      if (event.data?.type === 'klipperlearn:version') event.ports[0]?.postMessage('26');
     });
     navigator.serviceWorker.register('service-worker.js', {updateViaCache: 'none'})
       .then(registration => registration.update()).catch(() => {});
