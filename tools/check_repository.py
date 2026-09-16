@@ -21,7 +21,8 @@ def check(root: Path):
         if not (root / name).is_file():
             errors.append('Missing required file: ' + name)
     for path in sorted(root.rglob('*.md')):
-        if '.git' in path.parts:
+        if any(part in {'.git', 'node_modules', '.venv', 'venv', 'build', 'dist', '__pycache__'}
+               for part in path.relative_to(root).parts):
             continue
         text = path.read_text(encoding='utf-8')
         for link in re.findall(r'\[[^\]]*\]\(([^\s)]+)\)', text):
