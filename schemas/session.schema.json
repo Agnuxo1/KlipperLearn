@@ -1,0 +1,223 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "KlipperLearn session v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "session_id",
+    "synthetic",
+    "context",
+    "policy",
+    "trials"
+  ],
+  "properties": {
+    "schema": {
+      "const": "klipperlearn.session.v1"
+    },
+    "session_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,95}$"
+    },
+    "synthetic": {
+      "type": "boolean"
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "printer_id",
+        "material_id",
+        "geometry_id",
+        "mount_id",
+        "slicer_profile_id",
+        "nozzle_mm",
+        "layer_height_mm",
+        "line_width_mm"
+      ],
+      "properties": {
+        "printer_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,95}$"
+        },
+        "material_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,95}$"
+        },
+        "geometry_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,95}$"
+        },
+        "mount_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,95}$"
+        },
+        "slicer_profile_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,95}$"
+        },
+        "nozzle_mm": {
+          "type": "number",
+          "minimum": 0.001,
+          "maximum": 100
+        },
+        "layer_height_mm": {
+          "type": "number",
+          "minimum": 0.001,
+          "maximum": 100
+        },
+        "line_width_mm": {
+          "type": "number",
+          "minimum": 0.001,
+          "maximum": 100
+        }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "parameter",
+        "min",
+        "max",
+        "step",
+        "direction",
+        "minimum_quality",
+        "quality_tolerance",
+        "min_repeats",
+        "max_trials"
+      ],
+      "properties": {
+        "parameter": {
+          "enum": [
+            "speed_mm_s",
+            "accel_mm_s2",
+            "temperature_c",
+            "pressure_advance_s",
+            "flow_ratio",
+            "fan_percent"
+          ]
+        },
+        "min": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10000000
+        },
+        "max": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10000000
+        },
+        "step": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 10000000
+        },
+        "direction": {
+          "enum": [
+            "increase",
+            "decrease"
+          ]
+        },
+        "minimum_quality": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "quality_tolerance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.1
+        },
+        "min_repeats": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 20
+        },
+        "max_trials": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 1000
+        }
+      }
+    },
+    "trials": {
+      "type": "array",
+      "maxItems": 1000,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "value",
+          "status",
+          "duration_s",
+          "quality_score",
+          "quality_source",
+          "evidence_ids",
+          "safety_events",
+          "sensor_sync_valid"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,95}$"
+          },
+          "value": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10000000
+          },
+          "status": {
+            "enum": [
+              "completed",
+              "failed",
+              "cancelled",
+              "interrupted"
+            ]
+          },
+          "duration_s": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10000000
+          },
+          "quality_score": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0,
+            "maximum": 1
+          },
+          "quality_source": {
+            "enum": [
+              "human",
+              "unreviewed"
+            ]
+          },
+          "evidence_ids": {
+            "type": "array",
+            "maxItems": 64,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,95}$"
+            }
+          },
+          "safety_events": {
+            "type": "array",
+            "maxItems": 64,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,95}$"
+            }
+          },
+          "sensor_sync_valid": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}

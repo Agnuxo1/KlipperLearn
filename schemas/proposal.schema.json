@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "KlipperLearn proposal v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "session_id",
+    "baseline_trial_id",
+    "parameter",
+    "from",
+    "to",
+    "reason",
+    "evidence_ids"
+  ],
+  "properties": {
+    "schema": {
+      "const": "klipperlearn.proposal.v1"
+    },
+    "session_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,95}$"
+    },
+    "baseline_trial_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,95}$"
+    },
+    "parameter": {
+      "enum": [
+        "speed_mm_s",
+        "accel_mm_s2",
+        "temperature_c",
+        "pressure_advance_s",
+        "flow_ratio",
+        "fan_percent"
+      ]
+    },
+    "from": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10000000
+    },
+    "to": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10000000
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+    },
+    "evidence_ids": {
+      "type": "array",
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,95}$"
+      },
+      "minItems": 1
+    }
+  }
+}

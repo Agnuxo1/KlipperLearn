@@ -1,0 +1,32 @@
+:root { color-scheme: dark; font-family: system-ui, -apple-system, sans-serif; background: #111821; color: #e6edf3; line-height: 1.6; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+header, main, footer { max-width: 1180px; margin: auto; padding: 28px; }
+header { display: flex; justify-content: space-between; gap: 20px; align-items: center; border-bottom: 1px solid #30404b; }
+.brand { font-weight: 800; font-size: 1.3rem; letter-spacing: .08em; color: #fff; text-decoration: none; }
+.brand span { color: #65d7c1; }
+.badge, .eyebrow { font-size: .74rem; font-weight: 700; letter-spacing: .12em; color: #86cdbf; }
+.badge { border: 1px solid #396357; border-radius: 20px; padding: 5px 12px; }
+.intro { max-width: 850px; margin: 25px 0 34px; }
+h1 { font-size: clamp(2.3rem, 5vw, 4rem); line-height: 1.08; letter-spacing: -.04em; margin: 16px 0; }
+h2 { font-size: 1.32rem; line-height: 1.3; margin-top: 8px; }
+.lead { color: #c1cbd5; font-size: 1.08rem; max-width: 700px; }
+.notice { border-left: 3px solid #d8b46a; padding: 10px 16px; color: #e0cfae; background: #252527; font-size: .9rem; }
+.workspace { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.panel { border: 1px solid #344450; border-radius: 15px; background: #18232d; padding: 25px; min-width: 0; }
+button, input, textarea { font: inherit; }
+button, .file-label { display: block; padding: 11px 16px; border-radius: 8px; min-height: 48px; width: 100%; border: 1px solid #47776f; background: #21493f; color: #eafff9; font-weight: 650; cursor: pointer; margin: 12px 0; text-align: left; }
+button:disabled { opacity: .45; cursor: not-allowed; }
+button:hover:not(:disabled) { background: #2d6454; }
+:focus-visible { outline: 3px solid #efc573; outline-offset: 3px; }
+input[type=file] { display: block; width: 100%; font-size: .82rem; margin-top: 8px; }
+textarea { width: 100%; background: #111b24; color: #fff; border: 1px solid #617885; border-radius: 8px; padding: 12px; margin-top: 8px; resize: vertical; }
+.small, footer { color: #aebec9; font-size: .82rem; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: .86rem; }
+th, td { padding: 10px 8px; text-align: left; border-bottom: 1px solid #344450; }
+th { color: #9fcbc2; }
+.decision { margin-top: 22px; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .86rem; color: #bcdfd6; }
+footer { border-top: 1px solid #344450; margin-top: 28px; }
+@media (max-width: 760px) { .workspace { grid-template-columns: 1fr; } header { align-items: flex-start; flex-direction: column; } header, main, footer { padding: 20px; } .panel { padding: 18px; } }

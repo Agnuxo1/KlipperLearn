@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "Please cite the specific commit and describe its experimental status."
+title: "KlipperLearn: phone-first, evidence-based 3D printer calibration"
+type: software
+authors:
+  - family-names: "Angulo de Lafuente"
+    given-names: "Francisco"
+version: "0.1.0"
+date-released: 2026-09-16
+license: MIT
+repository-code: "https://github.com/Agnuxo1/KlipperLearn"
+abstract: "An advisory research toolkit and architecture for phone-first calibration with local and optional external analysis. No validated Android host or trained model is included."
