@@ -1,3 +1,6 @@
+<img width="2172" height="724" alt="Imagen de Codex 16 sept 2026, 18_58_06" src="https://github.com/user-attachments/assets/122cfb10-01cd-4fd9-9c8f-4e0828812500" />
+
+
 # KlipperLearn
 
 **A smarter future for an older 3D printer — powered by an older phone.**
@@ -11,6 +14,9 @@ This publication is not the complete historical workstation application. That
 source has not yet been imported. It does not ship a working Android Klipper host,
 a trained CNN, sensor capture, or an unattended printer controller. See
 [status and acceptance gates](docs/STATUS.md) before connecting any hardware.
+
+<img width="1672" height="941" alt="Imagen de Codex 16 sept 2026, 18_58_27" src="https://github.com/user-attachments/assets/d558722d-72fd-4b23-b44f-ed0d2bf19cfd" />
+
 
 ## Two advisor modes, one project
 
@@ -42,6 +48,9 @@ The browser page has no network API, G-code field, printer connection, tracking,
 external fonts or downloaded model weights. Its content security policy disables
 network connections. Browser serving and permissions must still be tested on each
 supported phone; the UI test environment is documented in [validation](docs/VALIDATION.md).
+
+<img width="1672" height="941" alt="Imagen de Codex 16 sept 2026, 18_58_36" src="https://github.com/user-attachments/assets/42c81d3e-e645-4c4e-b94a-3b75909cc326" />
+
 
 ## Working integration tools
 
@@ -79,6 +88,9 @@ Read the [architecture](docs/ARCHITECTURE.md), [calibration protocol](docs/CALIB
 [safety case](docs/SAFETY.md), [model card](docs/MODEL_CARD.md) and [privacy policy](docs/PRIVACY.md).
 A `completed` job, a valid JSON file or a passing unit test is not evidence of good
 print quality, mechanical safety or successful phone-only operation.
+
+<img width="1672" height="941" alt="Imagen de Codex 16 sept 2026, 18_58_43" src="https://github.com/user-attachments/assets/82527f6a-5a08-4163-8390-742567cbb2d2" />
+
 
 ## Develop and test
 
