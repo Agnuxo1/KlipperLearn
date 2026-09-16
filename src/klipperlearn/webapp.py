@@ -8,6 +8,7 @@ from pathlib import Path
 
 from .mobile import MAX_MOBILE_EXPORT_BYTES, MAX_MOBILE_FRAME_BYTES, MobileInbox
 from .storage import session_summary
+from . import __version__
 
 
 def create_app(session_root, mobile_inbox=None, mobile_token=None):
@@ -36,7 +37,7 @@ def create_app(session_root, mobile_inbox=None, mobile_token=None):
             "The local receiver token must be 16-4096 non-whitespace ASCII characters."
         )
 
-    app = FastAPI(title="KlipperLearn", version="0.5.1")
+    app = FastAPI(title="KlipperLearn", version="0.5.2")
     app.state.klipperlearn_companion_installed = False
     install_request_safety(app)
 
@@ -58,6 +59,8 @@ def create_app(session_root, mobile_inbox=None, mobile_token=None):
         enabled = bool(app.state.klipperlearn_companion_installed)
         return {
             "status": "ok",
+            "version": __version__,
+            "instance_name": getattr(app.state, "klipperlearn_instance_name", "Evidence dashboard"),
             "mode": "local_companion" if enabled else "local_evidence_only",
             "printer_control": enabled,
             "camera_live_enabled": enabled,

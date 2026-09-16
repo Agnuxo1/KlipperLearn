@@ -484,7 +484,9 @@ class LearningService:
         response.raise_for_status()
         state = response.json()["result"]["status"]
         mode = state["print_stats"]["state"]
-        await self.automatic.restore(printer, state)
+        # Observation-only deployments must never replay persisted actuation.
+        if self.automatic_configured:
+            await self.automatic.restore(printer, state)
         run = self.current_run()
         if mode in ("printing", "paused"):
             filename = state["print_stats"]["filename"]

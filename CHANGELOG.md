@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.5.2 — Linux host independence
+
+- Document a persistent Linux backend, private-state migration and camera proxy removal.
+- Expose a configured printer instance name and version in health/status.
+- Distinguish a reachable server from an unready Klipper MCU; retain disabled controls.
+- Permit dashboard access during an MCU error without repeating sensor onboarding.
+- Gate persisted restoration commands behind explicit automatic-controller enablement.
+- Add eight Python cases and an MCU-error browser scenario, all without hardware traffic.
+- Clarify the logged Benchy timing and different layer counts separately from artwork.
+
 ## 0.5.1 — reviewed source release
 
 - Import the original 0.5.0 application, browser companion and full test suites;

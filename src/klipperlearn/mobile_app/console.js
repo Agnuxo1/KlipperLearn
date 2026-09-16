@@ -116,7 +116,7 @@
   function renderOnboarding() {
     const card = $('onboardingCard'), button = $('activatePrinter');
     if (!card || !button) return;
-    const ready = Boolean(activationRequested && currentToken() && fresh());
+    const ready = Boolean(activationRequested && currentToken() && statusFresh());
     if (ready) activationCompleted = true;
     // A network interruption must not cover navigation or the emergency stop.
     card.hidden = photoPairBusy || activationCompleted;
@@ -487,9 +487,10 @@
     $('connectionBadge').className = 'badge ' + (ready ? 'ok' : 'warn');
     $('connection').textContent = message;
   }
-  function fresh() {
-    return connectionReady && navigator.onLine !== false && lastStatus > 0 && Date.now() - lastStatus < STALE_MS;
+  function statusFresh() {
+    return navigator.onLine !== false && lastStatus > 0 && Date.now() - lastStatus < STALE_MS;
   }
+  function fresh() { return connectionReady && statusFresh(); }
   function canTransport() { return fresh() && !pending && !modelsPending; }
   function canManualCommand() { return canTransport() && manualStates.has(printerState); }
   function canPrint() { return canManualCommand() && ['standby', 'complete', 'cancelled'].includes(printerState); }
@@ -540,6 +541,11 @@
       connectionReady = printer.webhooks.state === 'ready';
       printerState = typeof printer.print_stats.state === 'string' ? printer.print_stats.state.toLowerCase() : 'unknown';
       lastStatus = Date.now();
+      const instance = payload?.result?.instance_name;
+      if (typeof instance === "string" && instance.length <= 80 && $("instanceName")) {
+        $("instanceName").textContent = instance;
+        document.title = instance + " | KlipperLearn";
+      }
       $('file').textContent = publicText(printer.print_stats.filename, '') || "No print";
       $('printState').textContent = stateLabels[printerState] || "Unknown";
       [['hotend', 'hotendTarget', 'extruder', printer.extruder], ['bed', 'bedTarget', 'bed', printer.heater_bed]].forEach(([reading, input, key, sensor]) => {
@@ -551,7 +557,16 @@
       const progress = numberValue(printer.virtual_sdcard?.progress);
       $('progress').textContent = progress === null ? '—' : (Math.max(0, Math.min(1, progress)) * 100).toFixed(0) + '%';
       $('progressBar').value = progress === null ? 0 : Math.max(0, Math.min(100, progress * 100));
-      setConnection(connectionReady, connectionReady ? 'Conectada · ' + (stateLabels[printerState] || "Unknown state") : "Printer unavailable.");
+      const mcuOffline = /mcu/i.test(printer.webhooks.state_message || "") && /unable to connect/i.test(printer.webhooks.state_message || "");
+      const connectionMessage = connectionReady ? "Connected · " + (stateLabels[printerState] || "Unknown state")
+        : mcuOffline ? "Server and Moonraker connected. Printer MCU unavailable: check printer power and USB."
+        : "Server and Moonraker connected, but Klipper is not ready. Check the printer status in Mainsail.";
+      setConnection(connectionReady, connectionMessage);
+      if (!connectionReady) {
+        $("connectionBadge").textContent = "Printer not ready";
+        $("printState").textContent = "Klipper not ready";
+        setCommand(connectionMessage, true);
+      }
       renderControls();
       renderCalibration();
       if (connectionReady && !wasReady && !modelsLoaded && !modelsPending && !pending) void refreshModels();
@@ -999,7 +1014,7 @@
   async function verifyOnboardingPrinter() {
     await Promise.all([status(), loadCapabilities()]);
     // Polls may supersede one another; use the latest state, not a discarded return value.
-    if (!fresh()) throw localError($('connection').textContent || "The printer is not responding. Check that it is powered on.");
+    if (!statusFresh()) throw localError($('connection').textContent || "The printer is not responding. Check that it is powered on.");
   }
   async function rollbackOnboardingResources(snapshot) {
     if (!snapshot.camera) await stopCamera(false, "Camera stopped.");
@@ -1058,9 +1073,10 @@
       await verifyOnboardingPrinter();
       if (revision !== onboardingRevision) return false;
       rememberOnboardingPermissions({permissions: sensorPermissionReport}, Boolean(camera));
-      setOnboardingStep('printer', 'done');
-      setOnboardingStatus('Impresora conectada.');
-      setCommand('Impresora activa.');
+      setOnboardingStep("printer", fresh() ? "done" : "blocked");
+      const message = fresh() ? "Printer connected." : $("connection").textContent;
+      setOnboardingStatus(message, !fresh());
+      setCommand(message, !fresh());
       void pollActiveSensorTrial();
       return true;
     } catch (error) {

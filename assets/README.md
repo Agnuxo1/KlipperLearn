@@ -15,3 +15,11 @@ independent quality measurements are not bundled with this publication.
 Images are supplied by the project author for this repository. Device names,
 third-party product names and appearance do not imply endorsement. The manifest
 records published file hashes and dimensions, not private source paths.
+
+## Timing clarification after history review
+
+The retouched artwork reflects the earlier author report. Reviewed history records
+a fastest identifiable completed, non-partial entry at 22 min 17 s printing and
+25 min 35 s total, with 0.4 mm layers / 121 layers. Neither an exact 20-minute
+result nor an unchanged layer count across all trials is established by those
+records. See the current README; do not use the artwork as measurement evidence.

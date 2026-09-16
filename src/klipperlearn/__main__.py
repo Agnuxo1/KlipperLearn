@@ -116,6 +116,9 @@ def main(argv: list[str] | None = None) -> None:
     serve = subcommands.add_parser("serve", help="Run the optional local evidence dashboard")
     serve.add_argument("--session-root", default="data/sessions")
     serve.add_argument("--host", default="127.0.0.1")
+    serve.add_argument(
+        "--instance-name", default="Klipper", help="Display name for this printer backend"
+    )
     serve.add_argument("--port", type=int, default=8765)
     serve.add_argument("--mobile-inbox", default="data/mobile-inbox")
     serve.add_argument(
@@ -352,6 +355,7 @@ def main(argv: list[str] | None = None) -> None:
                 arguments.moonraker.rstrip("/"),
                 camera_cache_path=Path(arguments.session_root).parent / "camera-last.jpg",
                 experiments_root=arguments.experiments_root,
+                instance_name=arguments.instance_name,
                 enable_learning=arguments.learning or arguments.automatic_print,
                 enable_automatic_print=arguments.automatic_print,
                 local_connect_origin=arguments.local_connect_origin,

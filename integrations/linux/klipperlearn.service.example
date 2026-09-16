@@ -1,0 +1,29 @@
+# Example only: configure the actual listener, HTTPS origin and LAN before use.
+[Unit]
+Description=KlipperLearn local printer backend
+After=network-online.target moonraker.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=klipperlearn
+Group=klipperlearn
+WorkingDirectory=/var/lib/klipperlearn
+Environment=PYTHONUNBUFFERED=1
+Environment=OPENBLAS_NUM_THREADS=1
+Environment=OMP_NUM_THREADS=1
+Environment=MKL_NUM_THREADS=1
+ExecStart=/opt/klipperlearn/venv/bin/python -m klipperlearn serve --host 192.168.1.50 --port 8765 --instance-name "Workshop printer" --moonraker http://127.0.0.1:7125 --session-root /var/lib/klipperlearn/data/sessions --mobile-inbox /var/lib/klipperlearn/data/mobile-inbox --experiments-root /var/lib/klipperlearn/data/experiments --mobile-token-file /etc/klipperlearn/token.txt --tls-certfile /etc/klipperlearn/server.pem --tls-keyfile /etc/klipperlearn/server-key.pem --local-connect-origin https://192.168.1.50:8765 --local-connect-network 192.168.1.0/24 --learning
+Restart=on-failure
+RestartSec=5
+Nice=10
+MemoryMax=768M
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/klipperlearn
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

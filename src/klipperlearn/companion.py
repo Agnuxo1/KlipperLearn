@@ -491,7 +491,16 @@ def install_companion(
     local_connect_networks=(),
     enable_learning=False,
     enable_automatic_print=False,
+    instance_name="Klipper",
 ):
+    if (
+        not isinstance(instance_name, str)
+        or not instance_name.strip()
+        or len(instance_name) > 80
+        or any(ord(c) < 32 or ord(c) == 127 for c in instance_name)
+    ):
+        raise ValueError("Instance name must contain 1 to 80 printable characters")
+    app.state.klipperlearn_instance_name = instance_name.strip()
     install_request_safety(app)
     if not isinstance(token, str) or not token or not token.isascii():
         raise ValueError("A non-empty ASCII authentication token is required")
@@ -683,9 +692,12 @@ def install_companion(
     @app.get("/mobile/api/printer/status")
     async def status(x_klipperlearn_token: str | None = Header(default=None)):
         authorize(x_klipperlearn_token)
-        return await printer(
+        payload = await printer(
             "/printer/objects/query?webhooks&print_stats&extruder&heater_bed&virtual_sdcard"
         )
+        if isinstance(payload, dict) and isinstance(payload.get("result"), dict):
+            payload["result"]["instance_name"] = instance_name.strip()
+        return payload
 
     @app.get("/mobile/api/printer/print-context")
     async def print_context(
@@ -713,7 +725,7 @@ def install_companion(
             "result": {
                 "connected": connected,
                 "printer_state": print_state,
-                "machine": {"name": "Klipper"},
+                "machine": {"name": instance_name.strip()},
                 "limits": {
                     "extruder_max": limits["extruder_max"],
                     "bed_max": limits["bed_max"],

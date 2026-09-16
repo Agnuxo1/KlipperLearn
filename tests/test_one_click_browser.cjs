@@ -8,7 +8,7 @@ const status={result:{status:{webhooks:{state:'ready'},print_stats:{state:'stand
  const browser=await chromium.launch({headless:true,
   ...(process.env.KL_TEST_BROWSER_CHANNEL ? {channel:process.env.KL_TEST_BROWSER_CHANNEL} : {})});
  try {
-  for (const permissions of ['denied','pending','ownership-unavailable']) {
+  for (const permissions of ['denied','pending','ownership-unavailable','mcu-error']) {
    const context=await browser.newContext(), page=await context.newPage();
    const errors=[],writes=[]; let connects=0,offline=false;
    page.on('pageerror',e=>errors.push(e.message));
@@ -26,7 +26,7 @@ const status={result:{status:{webhooks:{state:'ready'},print_stats:{state:'stand
      if(req.headers()['x-klipperlearn-token']!==token) return route.fulfill({status:401,json:{detail:'invalid token'}});
      if(req.method()!=='GET') writes.push(url.pathname);
      if(offline) return route.fulfill({status:503,json:{detail:'offline'}});
-     if(url.pathname.endsWith('/printer/status')) return route.fulfill({json:status});
+     if(url.pathname.endsWith("/printer/status")) return route.fulfill({json:permissions==="mcu-error" ? {result:{instance_name:"Workshop printer",status:{...status.result.status,webhooks:{state:"error",state_message:"mcu: Unable to connect"}}}} : status});
      if(url.pathname.endsWith('/printer/capabilities')) return route.fulfill({json:{result:{connected:true,features:{},limits:{}}}});
      return route.fulfill({json:{result:null}});
     }
@@ -38,6 +38,14 @@ const status={result:{status:{webhooks:{state:'ready'},print_stats:{state:'stand
    });
    await page.goto('https://console.test/mobile/console.html');
    await page.locator('#enterWelcome').click();
+   if(permissions==="mcu-error") {
+     await page.waitForFunction(()=>document.getElementById("onboardingCard").hidden, {}, {timeout:5000});
+     assert.equal(await page.locator("#home").isDisabled(),true);
+     assert.equal(await page.locator("#connectionBadge").innerText(),"Printer not ready");
+     assert.match(await page.locator("#command").innerText(),/Server and Moonraker connected/);
+     assert.equal(await page.locator("#instanceName").innerText(),"Workshop printer");
+     assert.deepEqual(writes,[]);assert.deepEqual(errors,[]);await context.close();continue;
+   }
    await page.waitForFunction(()=>document.getElementById('onboardingCard').hidden && !document.getElementById('home').disabled,{},{timeout:5000});
    assert.equal(connects,1);
    assert.equal(await page.evaluate(()=>localStorage.getItem('klipperlearn-token')),token);

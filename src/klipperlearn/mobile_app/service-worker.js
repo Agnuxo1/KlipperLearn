@@ -1,9 +1,9 @@
 const CACHE_PREFIX = "klipperlearn-mobile-";
-const CACHE = "klipperlearn-mobile-console-v051";
+const CACHE = "klipperlearn-mobile-console-v052";
 const ASSETS = [
   "./", "index.html", "console.html", "console.css?ui=10", "console-shell.js?v=5",
   "trial-telemetry.js?v=3", "photo-pair.js?v=2", "telemetry-outbox.js?v=1",
-  "device-owner.js?v=1", "console.js?v=25", "calibration-workflow.js?v=7", "review.js?v=6", "manifest.webmanifest",
+  "device-owner.js?v=1", "console.js?v=26", "calibration-workflow.js?v=7", "review.js?v=6", "manifest.webmanifest",
   "icon.svg", "klipper-logo.svg", "printer-cameras.js?v=1", "learning-status.js?v=3"
 ];
 const SCOPE = new URL(self.registration.scope);

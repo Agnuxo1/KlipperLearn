@@ -12,7 +12,7 @@
   <script src="photo-pair.js?v=2" defer></script>
   <script src="telemetry-outbox.js?v=1" defer></script>
   <script src="device-owner.js?v=1" defer></script>
-  <script src="console.js?v=25" defer></script>
+  <script src="console.js?v=26" defer></script>
   <script src="calibration-workflow.js?v=7" defer></script>
   <script src="review.js?v=6" defer></script>
   <script src="printer-cameras.js?v=1" defer></script>
@@ -40,7 +40,7 @@
 
   <main class="console-shell">
     <header class="topbar">
-      <div class="brand"><h1>Klipper<span>Learn</span></h1></div>
+      <div class="brand"><h1>Klipper<span>Learn</span></h1><small id="instanceName" aria-live="polite"></small></div>
       <span id="pairingStatus" class="pairing-status" role="status" aria-live="polite">Not paired</span>
       <button type="button" id="connectionBadge" class="badge warn" aria-label="Printer connection: connect or retry" aria-live="polite">Connecting…</button>
       <button id="settingsOpen" class="icon-button" type="button" data-dialog="settingsDialog" aria-label="Open settings"><svg aria-hidden="true"><use href="#i-settings"/></svg></button>

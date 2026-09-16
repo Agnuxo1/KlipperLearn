@@ -12,7 +12,7 @@ evidence, reproducible calibration charts, and bounded tuning proposals for
 compatible Klipper / Moonraker printers. Its purpose is to make existing machines
 more useful rather than require a new printer.
 
-**0.5.1 — reviewed source release.** This repository now contains the original
+**0.5.2 — Linux-host independence and connection diagnostics.** This repository now contains the original
 Python application and its HTML/JavaScript phone companion, not only the earlier
 advisory demonstration. The original installation is not overwritten by this
 publication. Read the [capability matrix](docs/STATUS.md) before connecting hardware.
@@ -76,6 +76,12 @@ Open **http://127.0.0.1:8765/mobile/console.html**. This default invocation does
 connection over HTTPS, follow the complete [installation guide](docs/INSTALLATION.md).
 Do not expose Moonraker or this application directly to the public Internet.
 
+**No desktop-PC dependency:** install the Python backend and its private state on
+your Linux printer host, enable its system service, and open that host on the phone.
+Changing only the Moonraker address does not relocate a Windows backend. Follow
+the [Linux deployment and migration guide](docs/LINUX_HOST.md), including HTTPS,
+startup, camera-proxy and instance-identity checks.
+
 For the separate, dependency-free external-advisor reviewer:
 
 ```sh
@@ -105,14 +111,17 @@ See the [calibration protocol](docs/CALIBRATION_PROTOCOL.md) and
 
 <p align="center"><img src="assets/benchy-workshop-retouched.png" alt="Editorial presentation of the author's Benchy tuning progression" width="620"></p>
 
-*Author-reported workshop result: progressively tuned Benchy trials reached
-approximately 20 minutes with an acceptable visual result, without reducing the
-layer count, on a stock-mechanical Flashforge Creator Pro described by the author
-as more than 12 years old. The image above is AI-retouched editorial artwork.
-It is not an independently measured benchmark or evidence that this release runs
-Klipper directly on an Android phone. The [unaltered source-photo pixels](assets/benchy-workshop-original.png)
-and [image provenance notes](assets/README.md) are available separately. Reproducing
-the timing and quality requires the original slicer settings, G-code and print logs.*
+*The artwork shows the author-reported tuning progression and is not an independent
+quality measurement. A subsequent review of the available printer history found
+a fastest identifiable completed, non-partial Benchy entry of **22 min 17 s print
+duration** (**25 min 35 s total duration**), recorded with **0.4 mm layers and 121
+layers**. Other trials use different layer heights and counts. Printing a
+full-height model is not the same as preserving a fixed layer count or complying
+with a standardized benchmark protocol. The image is AI-retouched editorial artwork;
+its approximately 20-minute label must not be treated as the exact logged result.
+The [original source-photo pixels](assets/benchy-workshop-original.png) and
+[image provenance notes](assets/README.md) are available separately. Raw private
+histories are not published, and these times do not establish visual quality.*
 
 ## Architecture and integration
 
