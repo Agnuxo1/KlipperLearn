@@ -1,0 +1,340 @@
+{
+  "schema": "klipperlearn.ecosystem-workstream/v1",
+  "created_at_utc": "2026-09-16T22:06:22.360467+00:00",
+  "base_commit": "6bbc120f6778e81f4da0e7f7278f2cbc43f7183b",
+  "selection_basis": "Ten relevant roles in the printing ecosystem; not an absolute popularity ranking.",
+  "deadline_utc": "2026-09-17T06:00:00Z",
+  "schedule_timezone": "Europe/Madrid",
+  "scheduled_rounds": 8,
+  "active_round": null,
+  "next_priority": [
+    "cura",
+    "octoprint",
+    "moonraker",
+    "orca",
+    "mainsail",
+    "fluidd",
+    "kiauh",
+    "klipper",
+    "prusaslicer",
+    "voron"
+  ],
+  "private_or_hardware_actions_permitted": false,
+  "chatgpt_platform_submission_postponed": true,
+  "projects": [
+    {
+      "id": "klipper",
+      "selection_order": 1,
+      "upstream": "Klipper3d/klipper",
+      "default_branch": "master",
+      "upstream_license_metadata": "GPL-3.0",
+      "archived": false,
+      "delivery_goal": "External Moonraker-based calibration companion; do not patch firmware for visibility.",
+      "next_action": "Write a runnable read-only status contract example and map existing guarded calibration boundaries.",
+      "stage": "research_ready",
+      "upstream_status": "not_submitted",
+      "auto_contact_allowed": false,
+      "submission_gate_blockers": [
+        "experimental_work_excluded_from_core",
+        "dco_attestation_required"
+      ],
+      "policy_review": "selected_files_read_not_exhaustive",
+      "policy_sources": [
+        {
+          "path": "docs/CONTRIBUTING.md",
+          "url": "https://github.com/Klipper3d/klipper/blob/master/docs/CONTRIBUTING.md",
+          "sha256": "8ef42cb9309d0e670333437c73ea33f0a126a46d7d64d53f5e25353f4a031058"
+        }
+      ],
+      "artifact_paths": [],
+      "tests": [],
+      "fork_url": null,
+      "submissions": [],
+      "acceptance_evidence": null
+    },
+    {
+      "id": "moonraker",
+      "selection_order": 2,
+      "upstream": "Arksine/moonraker",
+      "default_branch": "master",
+      "upstream_license_metadata": "GPL-3.0",
+      "archived": false,
+      "delivery_goal": "Improve read-only job/camera evidence using existing APIs.",
+      "next_action": "Add tested normalization of history outcomes and record print versus total duration; keep model work outside Moonraker.",
+      "stage": "research_ready",
+      "upstream_status": "not_submitted",
+      "auto_contact_allowed": false,
+      "submission_gate_blockers": [
+        "dco_attestation_required",
+        "significant_impact_and_async_review_required"
+      ],
+      "policy_review": "selected_files_read_not_exhaustive",
+      "policy_sources": [
+        {
+          "path": "docs/contributing.md",
+          "url": "https://github.com/Arksine/moonraker/blob/master/docs/contributing.md",
+          "sha256": "5d840b1c7ac051f540ba1b0b28229cf5dbc8bb9e391f9a552a1e618c18176465"
+        }
+      ],
+      "artifact_paths": [],
+      "tests": [],
+      "fork_url": null,
+      "submissions": [],
+      "acceptance_evidence": null
+    },
+    {
+      "id": "orca",
+      "selection_order": 3,
+      "upstream": "OrcaSlicer/OrcaSlicer",
+      "default_branch": "main",
+      "upstream_license_metadata": "AGPL-3.0",
+      "archived": false,
+      "delivery_goal": "Maintain six paired mode presets and exact post-processing fingerprints.",
+      "next_action": "Validate import structure against official current presets; do not call a schema check a real GUI import.",
+      "stage": "research_ready",
+      "upstream_status": "not_submitted",
+      "auto_contact_allowed": false,
+      "submission_gate_blockers": [
+        "complete_policy_review_pending",
+        "native_import_not_verified"
+      ],
+      "policy_review": "selected_files_read_not_exhaustive",
+      "policy_sources": [],
+      "artifact_paths": [],
+      "tests": [],
+      "fork_url": null,
+      "submissions": [],
+      "acceptance_evidence": null
+    },
+    {
+      "id": "mainsail",
+      "selection_order": 4,
+      "upstream": "mainsail-crew/mainsail",
+      "default_branch": "develop",
+      "upstream_license_metadata": "GPL-3.0",
+      "archived": false,
+      "delivery_goal": "External optimizer and authenticated live-camera interoperability.",
+      "next_action": "Prepare restricted reverse-proxy examples with TLS/freshness tests and check current contributor vouch list.",
+      "stage": "research_ready",
+      "upstream_status": "not_submitted",
+      "auto_contact_allowed": false,
+      "submission_gate_blockers": [
+        "contributor_vouch_not_verified",
+        "dco_attestation_required"
+      ],
+      "policy_review": "selected_files_read_not_exhaustive",
+      "policy_sources": [
+        {
+          "path": "CONTRIBUTING.md",
+          "url": "https://github.com/mainsail-crew/mainsail/blob/develop/CONTRIBUTING.md",
+          "sha256": "7d79645b4f2afd38810634da9204a7b088bfc57ba2e3bd35d5c428392efc456a"
+        },
+        {
+          "path": ".github/CODE_OF_CONDUCT.md",
+          "url": "https://github.com/mainsail-crew/mainsail/blob/develop/.github/CODE_OF_CONDUCT.md",
+          "sha256": "c22fbf25074118ea1f46c0d2ee780524d081d5579d90bb7c3ba9b60dc2b36273"
+        }
+      ],
+      "artifact_paths": [],
+      "tests": [],
+      "fork_url": null,
+      "submissions": [],
+      "acceptance_evidence": null
+    },
+    {
+      "id": "fluidd",
+      "selection_order": 5,
+      "upstream": "fluidd-core/fluidd",
+      "default_branch": "develop",
+      "upstream_license_metadata": "GPL-3.0",
+      "archived": false,
+      "delivery_goal": "Reuse Moonraker camera/evidence APIs without replacing the UI.",
+      "next_action": "Prepare a Fluidd-specific setup and simulated API contract test; verify development policies before any source proposal.",
+      "stage": "research_ready",
+      "upstream_status": "not_submitted",
+      "auto_contact_allowed": false,
+      "submission_gate_blockers": [
+        "dco_attestation_required",
+        "native_frontend_acceptance_not_verified"
+      ],
+      "policy_review": "selected_files_read_not_exhaustive",
+      "policy_sources": [
+        {
+          "path": "CONTRIBUTING.md",
+          "url": "https://github.com/fluidd-core/fluidd/blob/develop/CONTRIBUTING.md",
+          "sha256": "8495b94924c06b1be5e42b0fe532cc7537a416e3beb8aa91db8c811c76f1589d"
+        },
+        {
+          "path": ".github/CODE_OF_CONDUCT.md",
+          "url": "https://github.com/fluidd-core/fluidd/blob/develop/.github/CODE_OF_CONDUCT.md",
+          "sha256": "82652832094a0ea95c3099798331b0399bdeb3961134d73289f806cb3a6bd1d9"
+        }
+      ],
+      "artifact_paths": [],
+      "tests": [],
+      "fork_url": null,
+      "submissions": [],
+      "acceptance_evidence": null
+    },
+    {
+      "id": "octoprint",
+      "selection_order": 6,
+      "upstream": "OctoPrint/OctoPrint",
+      "default_branch": "dev",
+      "upstream_license_metadata": "AGPL-3.0",
+      "archived": false,
+      "delivery_goal": "Separately maintained local evidence plugin; no generated upstream core PR.",
+      "next_action": "Implement and test an independent export-only plugin or adapter; do not contact core or plugin directory automatically.",
+      "stage": "research_ready",
+      "upstream_status": "not_submitted",
+      "auto_contact_allowed": false,
+      "submission_gate_blockers": [
+        "ai_generated_core_prs_and_descriptions_prohibited",
+        "directory_policy_separate"
+      ],
+      "policy_review": "selected_files_read_not_exhaustive",
+      "policy_sources": [
+        {
+          "path": "CODE_OF_CONDUCT.md",
+          "url": "https://github.com/OctoPrint/OctoPrint/blob/dev/CODE_OF_CONDUCT.md",
+          "sha256": "7a181cefaacc1939bfba8a38cc38532bad5cf3b932db3e6dfeb5bff44b5cc313"
+        },
+        {
+          "path": "CONTRIBUTING.md",
+          "url": "https://github.com/OctoPrint/OctoPrint/blob/dev/CONTRIBUTING.md",
+          "sha256": "b5eda5cbc37772858762c01023ee7b87daa363594db5ab9d6c6bf473eef86c38"
+        }
+      ],
+      "artifact_paths": [],
+      "tests": [],
+      "fork_url": null,
+      "submissions": [],
+      "acceptance_evidence": null
+    },
+    {
+      "id": "prusaslicer",
+      "selection_order": 7,
+      "upstream": "prusa3d/PrusaSlicer",
+      "default_branch": "master",
+      "upstream_license_metadata": "AGPL-3.0",
+      "archived": false,
+      "delivery_goal": "Use documented appended temporary-file post-processing with the existing byte fingerprint helper.",
+      "next_action": "Expand verified settings import/export separately; document native UI acceptance; do not disguise a feature request as a bug.",
+      "stage": "contract_tested",
+      "upstream_status": "not_submitted",
+      "auto_contact_allowed": false,
+      "submission_gate_blockers": [
+        "native_gui_acceptance_not_verified"
+      ],
+      "policy_review": "selected_files_read_not_exhaustive",
+      "policy_sources": [
+        {
+          "path": ".github/CONTRIBUTING.md",
+          "url": "https://github.com/prusa3d/PrusaSlicer/blob/master/.github/CONTRIBUTING.md",
+          "sha256": "6ef8df3e7faddcd0c05ba2956da5b0c503f6cdc44c6e7928812bd3b0372fa9f0"
+        }
+      ],
+      "artifact_paths": [
+        "integrations/prusaslicer/README.md",
+        "tests/test_prusaslicer_integration.py"
+      ],
+      "tests": [
+        {
+          "command": "python -m unittest discover -s tests -p test_prusaslicer_integration.py -v",
+          "result": "passed",
+          "cases": 5,
+          "scope": "Temporary-file contract only; native PrusaSlicer GUI not exercised"
+        }
+      ],
+      "fork_url": null,
+      "submissions": [],
+      "acceptance_evidence": null
+    },
+    {
+      "id": "cura",
+      "selection_order": 8,
+      "upstream": "Ultimaker/Cura",
+      "default_branch": "main",
+      "upstream_license_metadata": "LGPL-3.0",
+      "archived": false,
+      "delivery_goal": "Optional native Script/Extension evidence collector with no G-code changes.",
+      "next_action": "Read current upstream interfaces, implement an independently installable adapter and test no mutation or private data leakage.",
+      "stage": "research_ready",
+      "upstream_status": "not_submitted",
+      "auto_contact_allowed": false,
+      "submission_gate_blockers": [
+        "native_gui_acceptance_not_verified",
+        "marketplace_admission_not_requested"
+      ],
+      "policy_review": "selected_files_read_not_exhaustive",
+      "policy_sources": [
+        {
+          "path": "CONTRIBUTING.md",
+          "url": "https://github.com/Ultimaker/Cura/blob/main/CONTRIBUTING.md",
+          "sha256": "08a0f20b8a77b0f4e8a1fb3d9bfddbe24563986aa861f9dfdd77e27880761fba"
+        }
+      ],
+      "artifact_paths": [],
+      "tests": [],
+      "fork_url": null,
+      "submissions": [],
+      "acceptance_evidence": null
+    },
+    {
+      "id": "kiauh",
+      "selection_order": 9,
+      "upstream": "dw-0/kiauh",
+      "default_branch": "master",
+      "upstream_license_metadata": "GPL-3.0",
+      "archived": false,
+      "delivery_goal": "Read-only host prerequisites and coexistence checks for an external KlipperLearn service.",
+      "next_action": "Build a dry-run preflight helper; never reinstall Klipper or activate services while assessing compatibility.",
+      "stage": "research_ready",
+      "upstream_status": "not_submitted",
+      "auto_contact_allowed": false,
+      "submission_gate_blockers": [
+        "complete_policy_review_pending"
+      ],
+      "policy_review": "selected_files_read_not_exhaustive",
+      "policy_sources": [],
+      "artifact_paths": [],
+      "tests": [],
+      "fork_url": null,
+      "submissions": [],
+      "acceptance_evidence": null
+    },
+    {
+      "id": "voron",
+      "selection_order": 10,
+      "upstream": "VoronDesign/VoronUsers",
+      "default_branch": "main",
+      "upstream_license_metadata": "GPL-3.0",
+      "archived": false,
+      "delivery_goal": "External printer-specific calibration protocol, not an untested user mod.",
+      "next_action": "Prepare a Voron test checklist with source models and evidence requirements; no claimed physical compatibility.",
+      "stage": "research_ready",
+      "upstream_status": "not_submitted",
+      "auto_contact_allowed": false,
+      "submission_gate_blockers": [
+        "physical_voron_test_required",
+        "cad_and_mod_scope_requirements"
+      ],
+      "policy_review": "selected_files_read_not_exhaustive",
+      "policy_sources": [],
+      "artifact_paths": [],
+      "tests": [],
+      "fork_url": null,
+      "submissions": [],
+      "acceptance_evidence": null
+    }
+  ],
+  "initial_validation": {
+    "python_tests": 350,
+    "python_subtests": 185,
+    "new_contract_tests": 5,
+    "ruff": "passed",
+    "repository_links": "passed",
+    "native_gui_tested": false,
+    "hardware_actions": false
+  }
+}

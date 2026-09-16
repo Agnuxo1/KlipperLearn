@@ -205,3 +205,11 @@ Created by **Francisco Angulo de Lafuente** and KlipperLearn contributors.
 Independent project: no upstream affiliation, endorsement or hardware certification
 is implied. [Source-import provenance](docs/SOURCE_IMPORT.md) explains what was
 imported, revised, excluded and preserved privately.
+
+## Open-source ecosystem integrations
+
+The [ten-project integration workstream](integrations/ecosystem/README.md) tracks
+external adapters, contribution rules, tests and upstream acceptance separately.
+A [PrusaSlicer post-processing setup](integrations/prusaslicer/README.md) reuses
+the existing read-only fingerprint helper. This is interoperability maintained
+here, not a claim that external projects have bundled or endorsed KlipperLearn.
