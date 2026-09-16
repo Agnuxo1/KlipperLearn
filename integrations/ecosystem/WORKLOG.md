@@ -63,3 +63,11 @@ The adapter is **prepared and contract-tested in our repository only**. It is no
 claimed as natively installed in Cura, accepted by Ultimaker, listed in Marketplace,
 or verified against final saved-file bytes. No printer, slicer profile, Linux
 service, LAN host, credential or physical hardware was changed.
+
+### Round 1 publication
+
+- Published commit 754e091 to the project repository after its branch CI passed on Python 3.11 and 3.13.
+- CI run: https://github.com/Agnuxo1/KlipperLearn/actions/runs/35160751083
+- main was advanced by fast-forward only; no force push was used.
+- Cura upstream remains **not submitted / not accepted**; no fork or external message was created.
+

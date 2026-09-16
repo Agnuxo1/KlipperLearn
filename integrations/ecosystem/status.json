@@ -310,6 +310,24 @@
         "default_branch": "main",
         "active": true,
         "checked_at_utc": "2026-09-16T23:04:32.496088+00:00"
+      },
+      "delivery_state": {
+        "prepared": true,
+        "tested": true,
+        "published_in_own_repo": true,
+        "submitted": false,
+        "accepted": false,
+        "blocked": [
+          "native_gui_acceptance_not_verified",
+          "marketplace_admission_not_requested",
+          "final_saved_file_bytes_not_verified_by_script_api"
+        ]
+      },
+      "published_ref": {
+        "branch": "main",
+        "commit": "754e0910ed0bbd949e59fc5b52459a40bddfeb51",
+        "ci_run": 35160751083,
+        "ci_result": "success_on_python_3.11_and_3.13"
       }
     },
     {
