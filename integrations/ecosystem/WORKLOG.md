@@ -109,3 +109,10 @@ The integration is **prepared and contract-tested in our repository only**. It i
 not claimed as installed in a real OctoPrint instance, listed in the official
 Plugin Repository, accepted by OctoPrint maintainers or physically printer-tested.
 No printer, server, LAN host, firmware, credential or paid service was touched.
+
+### Round 2 publication
+
+- Published reviewed branch `integration/octoprint-evidence-20260917` at commit `2ba7ae9`.
+- GitHub Actions run: https://github.com/Agnuxo1/KlipperLearn/actions/runs/35165372760
+- Both Python 3.11 and 3.13 jobs passed the complete CI workflow, including source/package validation, outbound-blocked application tests, simulated exporter tests and browser/JavaScript tests.
+- OctoPrint upstream and the official Plugin Repository remain **not submitted / not accepted**. No fork, issue, PR, directory entry or maintainer message was created.

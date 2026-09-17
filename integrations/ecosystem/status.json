@@ -262,7 +262,7 @@
       "delivery_state": {
         "prepared": true,
         "tested": true,
-        "published_in_own_repo": false,
+        "published_in_own_repo": true,
         "submitted": false,
         "accepted": false,
         "blocked": [
@@ -271,6 +271,12 @@
           "plugin_directory_maintainer_commitment_not_verified",
           "stable_standalone_archive_not_published"
         ]
+      },
+      "published_ref": {
+        "branch": "integration/octoprint-evidence-20260917",
+        "commit": "2ba7ae9bee94d1e44dc81f10eafb47f12127b376",
+        "ci_run": 35165372760,
+        "ci_result": "success_on_python_3.11_and_3.13"
       }
     },
     {
