@@ -1,0 +1,84 @@
+{
+  "schema": "klipperlearn.browser-store-delivery/v1",
+  "recorded_date": "2026-09-17",
+  "source_commit": "bb49953c9b9c2104b31e3bfbe5476df275453795",
+  "chrome": {
+    "version": "0.1.0",
+    "item_id": "heaekjehabdpkdflpaofimkmjcnepbph",
+    "package_uploaded": true,
+    "state": "draft_not_submitted",
+    "saved_listing_fields": ["English description", "Tools category", "English language", "128px icon", "two screenshots", "440x280 promotional tile", "homepage", "support URL"],
+    "remaining": ["privacy declarations", "distribution and reviewer details", "submit for review", "store review"],
+    "native_temporary_installation_passed": true,
+    "existing_enigmagent_modified": false
+  },
+  "firefox": {
+    "version": "0.1.0",
+    "extension_id": "slicer-review@klipperlearn.agnuxo1.github.io",
+    "proposed_slug": "klipperlearn-slicer-review",
+    "package_uploaded": true,
+    "store_validator_errors": 0,
+    "store_validator_warnings": 0,
+    "state": "description_form_populated_not_submitted",
+    "prepared_fields": ["English summary", "English description", "support URL", "experimental flag", "category", "GPL-3.0-or-later custom license", "privacy notice", "reviewer notes"],
+    "metadata_persistence_after_final_submission_verified": false,
+    "native_temporary_installation_passed": true,
+    "native_test_version": "156.0",
+    "android_store_compatibility_checkbox_enabled": false,
+    "signed_xpi_received": false,
+    "public_listing_verified": false
+  },
+  "android": {
+    "delivery": "installable_web_app",
+    "source": "docs/slicer-review",
+    "url": "https://agnuxo1.github.io/KlipperLearn/slicer-review/index.html",
+    "google_play_registration_verified": false,
+    "google_play_submitted": false,
+    "apk_or_aab_created": false,
+    "physical_android_tested": false,
+    "note": "A browser-installed PWA is not a Google Play listing or a native Android package."
+  },
+  "microsoft_store": {
+    "individual_account_ready_observed": true,
+    "partner_center_access_observed": true,
+    "requested_product_type": "MSIX or PWA app",
+    "requested_name": "KlipperLearn Slicer Review",
+    "name_availability_check_requested": true,
+    "name_reservation_confirmed": false,
+    "assigned_product_identity_received": false,
+    "msix_created": false,
+    "package_uploaded": false,
+    "submitted": false,
+    "note": "The free individual onboarding page reported a created and verified account. No identity documents were accessed by this workflow."
+  },
+  "web_app": {
+    "github_pages_deployment_run": 35222052295,
+    "github_pages_deployment": "success",
+    "native_service_worker_test": "passed",
+    "offline_reload_and_preset_export": "passed",
+    "cached_static_files": 16,
+    "user_evidence_cached": false,
+    "independent_post_deployment_http_test_completed": false
+  },
+  "validation": {
+    "engine_tests": 70,
+    "python_differential_cases_included": 30,
+    "native_chromium_installation": "passed",
+    "native_firefox_installation": "passed",
+    "native_pwa_offline_test": "passed",
+    "review_branch_browser_ci_run": 35221720464,
+    "review_branch_browser_ci": "success",
+    "review_branch_regression_ci_run": 35221720341,
+    "review_branch_regression_ci": "success",
+    "main_browser_ci_run": 35222054793,
+    "main_browser_ci": "success"
+  },
+  "boundaries": {
+    "further_store_actions_paused_after_tool_security_gate": true,
+    "denied_actions_retried_through_other_paths": false,
+    "new_payments": false,
+    "printer_or_production_service_changes": false,
+    "browser_policy_changes": false,
+    "mass_outreach": false
+  }
+}
