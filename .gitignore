@@ -65,3 +65,9 @@ playwright-report/
 !integrations/packages/KlipperLearn-Ecosystem-Toolkit.zip
 !integrations/packages/KlipperLearn-Slicer-Evidence.zip
 !integrations/packages/OctoPrint-KlipperLearnEvidence-0.1.1.zip
+
+# Reviewed, reproducible public browser/PWA/model distributions only
+!distribution/packages/KlipperLearn-Calibration-Review-Firefox-1.0.0.zip
+!distribution/packages/KlipperLearn-Calibration-Review-Chromium-1.0.0.zip
+!distribution/packages/KlipperLearn-Calibration-Review-Web-1.0.0.zip
+!distribution/packages/KlipperLearn-Calibration-Card-Community-Kit.zip
