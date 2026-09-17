@@ -1,0 +1,21 @@
+{
+  "name": "KlipperLearn Slicer Review",
+  "packageId": "FranciscoAngulodeLafuente.KlipperLearnSlicerReview",
+  "url": "https://agnuxo1.github.io/KlipperLearn/slicer-review/index.html",
+  "version": "1.0.0",
+  "allowSigning": true,
+  "generateModernPackage": true,
+  "classicPackage": {
+    "generate": false
+  },
+  "publisher": {
+    "displayName": "Francisco Angulo de Lafuente",
+    "commonName": "CN=FA1C6812-D0B7-4863-8B0F-F84FAB587B82"
+  },
+  "manifestUrl": "https://agnuxo1.github.io/KlipperLearn/slicer-review/manifest.webmanifest",
+  "images": {
+    "baseImage": "https://agnuxo1.github.io/KlipperLearn/slicer-review/icons/icon-512.png",
+    "backgroundColor": "#0b1220",
+    "padding": 0
+  }
+}

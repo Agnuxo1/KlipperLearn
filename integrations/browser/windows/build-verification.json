@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0.0",
+  "application_version": "0.1.0",
+  "generated_by": "Official PWABuilder Microsoft Store packaging service",
+  "name": "FranciscoAngulodeLafuente.KlipperLearnSlicerReview",
+  "publisher": "CN=FA1C6812-D0B7-4863-8B0F-F84FAB587B82",
+  "store_product_id": "9P77SW6NX3NB",
+  "sha256": "901e3d628038ae3c3b70df01632faaf7219f4edf96f5f1b7f252b8e6585efe24",
+  "bytes": 1236151,
+  "manifest_identity_verified": true,
+  "local_msix_installation_performed": false,
+  "store_upload_performed": false,
+  "no_paid_certificate_purchased": true
+}
