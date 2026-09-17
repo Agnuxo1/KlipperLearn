@@ -337,14 +337,14 @@
       "upstream_license_metadata": "AGPL-3.0",
       "archived": false,
       "delivery_goal": "Separately maintained local evidence plugin; no generated upstream core PR.",
-      "next_action": "Perform applicable native application or physical acceptance and obtain human maintainer review before an upstream proposal.",
-      "stage": "contract_tested",
+      "next_action": "Obtain competent human maintainer acceptance and native web-UI acceptance before official directory registration.",
+      "stage": "native_framework_tested",
       "upstream_status": "not_submitted",
       "auto_contact_allowed": false,
       "submission_gate_blockers": [
         "octoprint_core_ai_generated_contributions_prohibited",
-        "native_octoprint_acceptance_not_verified",
-        "plugin_directory_maintainer_commitment_not_verified"
+        "plugin_directory_maintainer_commitment_not_verified",
+        "native_octoprint_webui_and_physical_acceptance_pending"
       ],
       "policy_review": "current_core_ai_policy_and_plugin_registration_policy_reviewed",
       "policy_sources": [
@@ -367,7 +367,8 @@
         "integrations/octoprint/plugin/octoprint_klipperlearn_evidence/core.py",
         "tests/test_octoprint_integration.py",
         "integrations/packages/OctoPrint-KlipperLearnEvidence-0.1.1.zip",
-        "tests/test_octoprint_hardening.py"
+        "tests/test_octoprint_hardening.py",
+        "tools/check_octoprint_native.py"
       ],
       "tests": [
         {
@@ -398,6 +399,12 @@
           "suite_cases": 503,
           "suite_subtests": 185,
           "scope": "Offline contracts; not upstream acceptance or hardware validation"
+        },
+        {
+          "command": "python tools/check_octoprint_native.py",
+          "result": "passed",
+          "scope": "Installed OctoPrint 1.11.8 plugin manager and event manager; synthetic events and temporary storage fixture. No HTTP UI or printer.",
+          "evidence": "integrations/ecosystem/validation/octoprint-native.json"
         }
       ],
       "fork_url": null,
@@ -431,8 +438,8 @@
         "accepted": false,
         "blocked": [
           "octoprint_core_ai_generated_contributions_prohibited",
-          "native_octoprint_acceptance_not_verified",
-          "plugin_directory_maintainer_commitment_not_verified"
+          "plugin_directory_maintainer_commitment_not_verified",
+          "native_octoprint_webui_and_physical_acceptance_pending"
         ]
       },
       "published_ref": {
@@ -753,5 +760,13 @@
     "upstream_submissions": 0,
     "upstream_acceptances": 0,
     "live_system_changes": false
+  },
+  "publication_work": {
+    "mode": "direct_interactive",
+    "community_preview_tag": "community-preview-20260917",
+    "website_source": "docs/index.html",
+    "official_upstream_acceptances": 0,
+    "curated_list_target": "ad-si/awesome-3d-printing",
+    "curated_list_state": "fork_prepared_not_submitted"
   }
 }

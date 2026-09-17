@@ -23,6 +23,15 @@ publication. Read the [capability matrix](docs/STATUS.md) before connecting hard
 > not supply a native Klipper process or reliable USB access. No trained defect
 > weights or universally validated automatic calibration profile are bundled.
 
+## Download and try the community preview
+
+[Project website](https://agnuxo1.github.io/KlipperLearn/) · [Start here](docs/START_HERE.md) · [Versioned downloads](https://github.com/Agnuxo1/KlipperLearn/releases/tag/community-preview-20260917) · [Browser-only reference demo](https://agnuxo1.github.io/KlipperLearn/demo/index.html)
+
+The site and packages are free. The browser demo is the original **0.1.0 offline
+reference reviewer**, not a hosted printer controller or the current three-mode
+Python optimizer. The ChatGPT directory listing and official upstream acceptance
+are still separate pending steps. [Community status](docs/COMMUNITY.md).
+
 ## Printer Optimizer: phone optional, slicer first
 
 **New in 0.6.0:** a portable [ChatGPT/Codex skill package](plugins/printer-optimizer/)

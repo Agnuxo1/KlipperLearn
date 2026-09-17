@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "octoprint_version": "1.11.8",
+  "plugin_version": "0.1.1",
+  "entry_point": "klipperlearn_evidence",
+  "native_plugin_manager": true,
+  "native_event_manager": true,
+  "manifests": 2,
+  "synthetic_events": true,
+  "storage_adapter": "temporary fixture",
+  "printer_connected": false,
+  "http_server_started": false,
+  "network_blocked": true
+}

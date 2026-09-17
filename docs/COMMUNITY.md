@@ -1,60 +1,74 @@
-# Upstream collaboration without spam
+# Community preview and responsible distribution
 
-Status: integration tools and this contribution plan are published here. No
-upstream acceptance, partnership or completed merge is claimed.
+KlipperLearn is free, independently maintained and experimental. We seek useful
+feedback and reproducible compatibility reports, not endorsements obtained by
+creating empty forks, repeated advertisements or artificial repository activity.
 
-## Klipper
+## Public entry points
 
-The [contribution guidelines](https://www.klipper3d.org/CONTRIBUTING.html) direct
-experimental work to independent repositories and discussion to Klipper Discourse.
-Do not open a pull request that simply advertises this project or adds an unvalidated
-controller. Do not ping maintainers individually. A future upstream fix must solve
-a reproducible Klipper problem, include tests and follow the required commit and
-sign-off rules. The author must personally approve any DCO certification.
+- Project website: https://agnuxo1.github.io/KlipperLearn/
+- Source and issues: https://github.com/Agnuxo1/KlipperLearn
+- Preview release: https://github.com/Agnuxo1/KlipperLearn/releases/tag/community-preview-20260917
+- Getting started: [START_HERE.md](START_HERE.md)
+- Integration status: [the evidence ledger](../integrations/ecosystem/status.json)
 
-A narrowly scoped discussion draft is included below. It has not been posted.
-It asks about a technical boundary instead of requesting promotional links.
+The site is static, has no publisher analytics or advertising, and provides an
+optional in-browser reference demonstration. That demo is the original 0.1.0
+reference evaluator, not the current host application or the three-mode Python
+optimizer. Files selected there stay in the browser; the demo does not connect
+to a printer. Hosting-provider request logs remain governed by GitHub's policies.
 
-## Moonraker and Mainsail
+## What was checked before this preview
 
-Prefer existing public APIs. Reproduce any integration bug locally before filing
-it upstream. If a change is needed, submit the smallest documented patch rather
-than a new general AI framework. Respect [Moonraker's contribution requirements](https://moonraker.readthedocs.io/en/latest/contributing/)
-and [Mainsail's contribution guide](https://github.com/mainsail-crew/mainsail/blob/develop/CONTRIBUTING.md).
+The OctoPrint 0.1.1 package was installed with OctoPrint 1.11.8 in a disposable
+Windows Python environment. The actual plugin manager discovered and initialized
+it; the native event manager dispatched synthetic file and completion events.
+The expected two manifests were written without changing G-code or leaking the
+fixture path. Both workers terminated. This is native framework testing, not
+web-UI acceptance, real serial communication or physical printing.
 
-## OrcaSlicer
+An OrcaSlicer CLI acceptance attempt using only disposable configuration and
+bundled public DEMO presets returned an error before producing sliced output.
+Native Orca import/slicing acceptance therefore remains unverified. No production
+profile was edited and no G-code was sent to a printer. Cura, PrusaSlicer and the
+frontends also retain their recorded native-UI or physical acceptance gates.
 
-Start with the post-processing adapter in this repository. A future native plugin
-must use the API of a tested Orca version; do not confuse a CLI with a registered
-plugin. Submit a documentation addition only after an actual installation test
-and only when the project's contribution guidance considers it appropriate.
+## Appropriate external outreach
 
-## Voron
+One narrowly scoped resource-list suggestion is prepared for
+`ad-si/awesome-3d-printing`. Its contribution rules invite useful individual
+suggestions and require checking for duplicates. The public ledger records the
+actual proposal URL and disposition once submitted. A fork or pending PR is not
+acceptance by that list or by the ten printing projects.
 
-Seek volunteers for named machine configurations after reproducible installation,
-thermal safety and artifact provenance are established. Do not request endorsement
-or add a generic link to unrelated repositories.
+OctoPrint core disallows AI-authored contributions, and its plugin directory
+requires a competent, active human maintainer. Klipper's experimental work belongs
+outside its core; DCO/CLA, contributor-vouch and physical Voron requirements are
+not signed or bypassed by an assistant. The previous, unposted collaboration
+plan is preserved in [UPSTREAM_COLLABORATION.md](UPSTREAM_COLLABORATION.md).
 
-## Single discussion draft
+The public ChatGPT plugin still requires the owner's developer verification,
+installation testing, submission and approval. No such process was completed in
+this community-preview work. No paid advertisements, artificial stars, mass
+messages, unrelated issue comments or unsolicited private emails are used.
 
-Title: Phone-assisted calibration evidence: host and measurement boundaries
+## Feedback that would genuinely help
 
-We are developing KlipperLearn as an independent, experimental phone-first project.
-The long-term goal is an older phone hosting compatible Klipper hardware over USB,
-with either local analysis or an optional external advisor. The current public
-release contains an advisory-only reviewer, read-only Moonraker history export and
-a slice-fingerprint adapter; it does not ship a validated Android host or learned
-printer controller.
+Report exact versions, minimal sanitized inputs, expected/observed behavior and
+what was actually tested. Do not claim a native or physical result based on a
+mock test. Keep the two workshop printers and their calibration methods separate.
 
-We are keeping experimentation out of Klipper's core and leaving firmware thermal
-protections unchanged. The proposed evidence record separates completed jobs from
-reviewed quality, fixes geometry and mounting context, and preserves failed trials.
-Before proposing any upstream change, we would value technical feedback on two
-boundaries: timestamp/correlation requirements for phone-mounted sensors, and the
-validation evidence expected of an alternative phone-host runtime. A frame sensor
-is not being treated as absolute nozzle-position feedback.
+## Preview validation
 
-Implementation and reproducible synthetic tests: https://github.com/Agnuxo1/KlipperLearn
+The current local suite passed 508 Python tests and 185 subtests, the existing
+25 exporter tests, and 47 reference-core tests. Website tests check desktop and
+mobile layouts, keyboard access, local images, ten source links and the working
+synthetic reference demonstration. All browser requests are intercepted during
+these tests; no printer or live LAN is contacted. The published commit's Actions
+runs are authoritative for remote validation.
 
-No action should post this draft automatically. Check for an existing discussion,
-update its evidence status and use one relevant channel only.
+GitHub topics and project descriptions use the actual scope of the software.
+Release files carry checksums and licenses. The publication ledger must distinguish
+prepared artifacts, public downloads, sent suggestions and accepted listings.
+Neither a release nor a resource-list entry proves physical safety, a speed gain,
+a public ChatGPT listing, or inclusion in Klipper, Orca, Mainsail or Voron.

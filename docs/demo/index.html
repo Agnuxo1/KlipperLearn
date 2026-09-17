@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>KlipperLearn · Calibration review</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="core.js" defer></script>
+  <script src="demo.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header><a class="brand" href="index.html">KLIPPER<span>LEARN</span></a><span class="badge">RESEARCH PREVIEW · 0.1.0</span></header>
+  <main>
+    <section class="intro"><p class="eyebrow">PHONE-FIRST · OPEN SOURCE · EVIDENCE BEFORE ADJUSTMENTS</p>
+      <h1>A smarter future<br>for an older printer.</h1>
+      <p class="lead">Compare calibration trials locally, or prepare evidence for an external advisor. Every recommendation stays a proposal.</p>
+      <p class="notice">This reference reviewer does not host Klipper, capture sensors, train a CNN or control a printer. It does not replace the existing application.</p>
+    </section>
+    <section class="workspace" aria-label="Calibration workspace">
+      <div class="panel">
+        <p class="eyebrow">01 / EVIDENCE</p><h2>Your calibration session</h2>
+        <label class="file-label" for="session-file">Open session JSON<input id="session-file" type="file" accept="application/json,.json"></label>
+        <button id="demo" type="button">Load synthetic example</button>
+        <p id="session-summary" aria-live="polite">No session loaded.</p>
+        <p class="small">Only the file you select is read. Nothing is uploaded. Imported records are declarations, not independently verified measurements.</p>
+        <div class="table-wrap"><table><thead><tr><th scope="col">Trial</th><th scope="col">Value</th><th scope="col">Time (s)</th><th scope="col">Quality</th></tr></thead><tbody id="trials"></tbody></table></div>
+      </div>
+      <div class="panel">
+        <p class="eyebrow">02 / ADVISOR</p><h2>Two paths. One evidence gate.</h2>
+        <button id="analyze" type="button" disabled>Option 1 · Analyze locally</button>
+        <p class="small">Deterministic comparison. No cloud, trained weights or API credits.</p>
+        <button id="export" type="button" disabled>Option 2 · Export advisor request</button>
+        <p class="small">Manually review and share with ChatGPT or another advisor. Attach relevant photographs separately. No automatic API call.</p>
+        <label for="proposal">External proposal JSON</label><textarea id="proposal" rows="5" spellcheck="false" aria-describedby="proposal-help"></textarea>
+        <p id="proposal-help" class="small">Paste a proposal using the documented schema. Unknown fields, stale baselines and out-of-bounds values are rejected.</p>
+        <button id="validate" type="button" disabled>Validate external proposal</button>
+      </div>
+    </section>
+    <section class="panel decision"><p class="eyebrow">03 / REVIEW</p><h2>Decision record</h2><p id="message" role="status">Load the example to explore the workflow.</p><pre id="output" aria-label="Decision JSON"></pre></section>
+  </main>
+  <footer>No printer connection · No automatic execution · No analytics · Your files stay on this device</footer>
+</body>
+</html>
