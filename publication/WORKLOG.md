@@ -36,3 +36,10 @@ AI assistance is disclosed. No DCO/CLA or human-review attestation was made.
 Additional validation: all 12 JavaScript test programs passed using headless Edge
 and synthetic endpoints; 47 reference-core tests and 25 exporter tests passed.
 Repository consistency and whitespace checks passed.
+
+Final code review found checkout-dependent line endings in the model archive.
+Normalized distributed text to UTF-8/LF and added a regression that recreates a
+CRLF checkout and requires byte-identical ZIP output. Final rerun: 516 cases,
+194 subtests passed; 4 optional cases skipped; 2 dependency warnings. All 12
+new packaging tests passed. Text file hashes use canonical UTF-8/LF so they
+match Git blobs on Windows and Linux. Original coupon bytes are unchanged.

@@ -80,6 +80,29 @@ class ModelPlatformKitTests(unittest.TestCase):
             self.assertIn("COPYING.txt", archive.namelist())
             self.assertNotIn(".git", archive.namelist())
 
+    def test_package_is_independent_of_checkout_line_endings(self):
+        expected = kit.archive_bytes(kit.package_files(ROOT))
+        with tempfile.TemporaryDirectory() as tmp:
+            copy = Path(tmp)
+            for name in (
+                kit.COUPON,
+                kit.SOURCE,
+                "LICENSE",
+                "COPYING",
+                "publication/listing.en.txt",
+                "publication/calibration-card-render.png",
+            ):
+                target = copy / name
+                target.parent.mkdir(parents=True, exist_ok=True)
+                original = ROOT / name
+                if original.suffix in {".stl", ".png"}:
+                    target.write_bytes(original.read_bytes())
+                else:
+                    target.write_bytes(
+                        original.read_text(encoding="utf-8").replace("\n", "\r\n").encode("utf-8")
+                    )
+            self.assertEqual(expected, kit.archive_bytes(kit.package_files(copy)))
+
     def test_unsafe_archive_paths_are_rejected(self):
         for name in ("../secret", "/secret", "dir/file", "dir\\file", ".."):
             with self.subTest(name=name), self.assertRaises(ValueError):

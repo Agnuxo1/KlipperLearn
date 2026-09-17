@@ -121,9 +121,11 @@ def package_files(root: Path) -> dict[str, bytes]:
         raise ValueError("Published STL no longer matches its original source")
     files = {
         STL_NAME: data,
-        "README.txt": (root / "publication/listing.en.txt").read_bytes(),
-        "LICENSE.txt": (root / "LICENSE").read_bytes(),
-        "COPYING.txt": (root / "COPYING").read_bytes(),
+        "README.txt": (root / "publication/listing.en.txt")
+        .read_text(encoding="utf-8")
+        .encode("utf-8"),
+        "LICENSE.txt": (root / "LICENSE").read_text(encoding="utf-8").encode("utf-8"),
+        "COPYING.txt": (root / "COPYING").read_text(encoding="utf-8").encode("utf-8"),
         "export_calibration_card.py": source_exporter(root),
         "geometry-report.txt": (json.dumps(report, indent=2) + "\n").encode(),
     }
