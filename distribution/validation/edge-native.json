@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "browser": "msedge",
+  "version": "153.0.4234.32",
+  "temporary_extension": true,
+  "local_synthetic_analysis": true,
+  "extension_permissions": [],
+  "host_permissions": [],
+  "app_external_requests": 0,
+  "printer_connected": false
+}

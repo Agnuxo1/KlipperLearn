@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111821">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<title>KlipperLearn Calibration Review</title>
+<link rel="icon" href="icons/icon128.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="style.css">
+<script src="core.js" defer></script>
+<script src="demo.js" defer></script>
+<script src="strict-json.js" defer></script>
+<script src="review.js" defer></script>
+<script src="offline.js" defer></script>
+</head>
+<body>
+<header><a class="brand" href="index.html">KLIPPER<span>LEARN</span></a><span class="badge">CALIBRATION REVIEW · 1.0.0</span></header>
+<main>
+<section class="intro">
+<p class="eyebrow">FREE · LOCAL FILES · NO PRINTER CONNECTION</p>
+<h1>Review your trials.<br>Keep your evidence.</h1>
+<p class="lead">Compare repeat trials, export an advisor request and check a proposed adjustment. No account, cloud model or API key is required for local analysis.</p>
+<p class="notice">This standalone reviewer uses the original 0.1.0 reference algorithm and session format. It is not the 0.6.0 three-profile optimizer, does not score photographs, and cannot control your printer. Measurements and image references are supplied declarations, not verified evidence.</p>
+<div id="offline-section" hidden><button id="offline-enable" type="button">Enable offline use on this device</button><p id="offline-status" role="status">Optional: cache only this application's public files, never your loaded session.</p><button id="offline-disable" type="button" hidden>Remove this application's offline copy</button></div>
+</section>
+<section class="workspace" aria-label="Calibration workspace">
+<div class="panel">
+<p class="eyebrow">01 / EVIDENCE</p><h2>Your calibration session</h2>
+<label class="file-label">Open session JSON (maximum 2 MiB)<input id="session-file" type="file" accept=".json,application/json"></label>
+<button id="demo" type="button">Load synthetic example</button>
+<button id="save-session" type="button" disabled>Save session JSON</button>
+<button id="clear" type="button">Clear loaded session</button>
+<p id="session-summary" aria-live="polite">No session loaded.</p>
+<p class="small">Only a file you select is read. Nothing is uploaded. Loading an invalid file clears the previous session to prevent stale proposals. Closing this page discards unsaved data.</p>
+<div class="table-wrap"><table><thead><tr><th scope="col">Trial</th><th scope="col">Value</th><th scope="col">Time (s)</th><th scope="col">Quality</th></tr></thead><tbody id="trials"></tbody></table></div>
+</div>
+<div class="panel">
+<p class="eyebrow">02 / REVIEW</p><h2>One parameter at a time</h2>
+<button id="analyze" type="button" disabled>Analyze locally</button>
+<p class="small">Deterministic, bounded comparison. No trained model or automated physical validation.</p>
+<button id="export" type="button" disabled>Save request for an external advisor</button>
+<p class="small">Review the saved JSON before manually sharing it. A separate assistant has its own privacy policies and usage limits. This app sends nothing to that assistant.</p>
+<label for="proposal">External proposal JSON</label><textarea id="proposal" rows="6" maxlength="20000" spellcheck="false" aria-describedby="proposal-help"></textarea>
+<p id="proposal-help" class="small">Untrusted input: unknown fields, duplicate keys, stale baselines, non-finite numbers and out-of-range changes are rejected.</p>
+<button id="validate" type="button" disabled>Validate proposal</button>
+<button id="save-decision" type="button" disabled>Save current decision</button>
+</div>
+</section>
+<section class="panel decision"><p class="eyebrow">03 / AUDIT</p><h2>Decision record</h2><p id="message" role="status">Load the example to explore the workflow.</p><pre id="output" aria-label="Decision JSON"></pre></section>
+</main>
+<footer>No printer, camera or microphone access · No analytics · No account · <a href="privacy.html">Privacy and scope</a></footer>
+</body>
+</html>

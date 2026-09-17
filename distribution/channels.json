@@ -1,0 +1,302 @@
+{
+  "schema": "klipperlearn.distribution-channels/v1",
+  "checked_on": "2026-09-17",
+  "paid_actions_authorized": false,
+  "spam_or_duplicate_uploads_authorized": false,
+  "no_exclusivity": true,
+  "channels": [
+    {
+      "id": "web-app",
+      "name": "Direct browser / installable web app",
+      "kind": "pwa",
+      "registration_payment_required": false,
+      "policy_sources": [
+        "https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Making_PWAs_installable"
+      ],
+      "prepared": true,
+      "submitted": false,
+      "accepted": false,
+      "public_url": null,
+      "gate": [
+        "Publish and verify offline app independently of store listing; browser installation support varies."
+      ]
+    },
+    {
+      "id": "firefox",
+      "name": "Firefox Add-ons (AMO)",
+      "kind": "browser-extension",
+      "registration_payment_required": false,
+      "policy_sources": [
+        "https://extensionworkshop.com/documentation/publish/submitting-an-add-on/",
+        "https://extensionworkshop.com/documentation/publish/add-on-policies/",
+        "https://extensionworkshop.com/documentation/develop/firefox-builtin-data-consent/"
+      ],
+      "prepared": true,
+      "submitted": false,
+      "accepted": false,
+      "public_url": null,
+      "gate": [
+        "Mozilla account access, native extension validation and signing, store review."
+      ],
+      "observed_account_gate": "Official submission route opened Mozilla sign-in; no authenticated developer session was established."
+    },
+    {
+      "id": "edge-addons",
+      "name": "Microsoft Edge Add-ons",
+      "kind": "browser-extension",
+      "registration_payment_required": false,
+      "policy_sources": [
+        "https://learn.microsoft.com/en-us/microsoft-edge/extensions/publish/create-dev-account"
+      ],
+      "prepared": true,
+      "submitted": false,
+      "accepted": false,
+      "public_url": null,
+      "gate": [
+        "Free developer enrollment, account verification, native extension testing and store review."
+      ]
+    },
+    {
+      "id": "microsoft-store",
+      "name": "Microsoft Store",
+      "kind": "desktop-app",
+      "registration_payment_required": false,
+      "policy_sources": [
+        "https://learn.microsoft.com/en-us/windows/apps/publish/whats-new-individual-developer"
+      ],
+      "prepared": false,
+      "submitted": false,
+      "accepted": false,
+      "public_url": null,
+      "gate": [
+        "Use new free signup; owner identity verification, real app identity, PWA packaging and certification. No MSIX built."
+      ]
+    },
+    {
+      "id": "google-play",
+      "name": "Google Play",
+      "kind": "android-app",
+      "registration_payment_required": true,
+      "policy_sources": [
+        "https://support.google.com/googleplay/android-developer/answer/6112435?hl=en"
+      ],
+      "prepared": false,
+      "submitted": false,
+      "accepted": false,
+      "public_url": null,
+      "gate": [
+        "New account registration costs USD 25; blocked by zero-budget instruction. No payment or APK/AAB created."
+      ]
+    },
+    {
+      "id": "chrome-web-store",
+      "name": "Chrome Web Store",
+      "kind": "browser-extension",
+      "registration_payment_required": true,
+      "policy_sources": [
+        "https://developer.chrome.com/docs/webstore/register"
+      ],
+      "prepared": true,
+      "submitted": false,
+      "accepted": false,
+      "public_url": null,
+      "gate": [
+        "New developer account requires a registration fee; no paid signup. Unpacked candidate is not a store listing."
+      ]
+    },
+    {
+      "id": "printables",
+      "name": "Printables",
+      "kind": "printable-model",
+      "registration_payment_required": null,
+      "policy_sources": [
+        "https://www.prusa3d.com/page/terms-of-service-of-printables-com_231249/"
+      ],
+      "prepared": true,
+      "submitted": false,
+      "accepted": false,
+      "public_url": null,
+      "gate": [
+        "Free-model route only; authenticated upload, supported GPL license, matching photo and exact-asset validation."
+      ],
+      "observed_account_gate": "Official site opened with a Login control; no model draft was created."
+    },
+    {
+      "id": "makerworld",
+      "name": "MakerWorld",
+      "kind": "printable-model",
+      "registration_payment_required": null,
+      "policy_sources": [
+        "https://makerworld.com/en/community-guidelines"
+      ],
+      "prepared": true,
+      "submitted": false,
+      "accepted": false,
+      "public_url": null,
+      "gate": [
+        "Official policy retrieval blocked; recheck photo, AI, license and link rules before upload. No exclusivity. Exact-asset photograph absent."
+      ],
+      "policy_fetch_result": "403 on official community-guidelines route; not treated as a publication fee, and not bypassed."
+    },
+    {
+      "id": "thingiverse",
+      "name": "Thingiverse",
+      "kind": "printable-model",
+      "registration_payment_required": null,
+      "policy_sources": [
+        "https://www.thingiverse.com/"
+      ],
+      "prepared": false,
+      "submitted": false,
+      "accepted": false,
+      "public_url": null,
+      "gate": [
+        "Candidate only: current zero-cost publishing path, rules, account, licensing and physical evidence require verification."
+      ]
+    },
+    {
+      "id": "thangs",
+      "name": "Thangs",
+      "kind": "printable-model",
+      "registration_payment_required": null,
+      "policy_sources": [
+        "https://thangs.com/"
+      ],
+      "prepared": false,
+      "submitted": false,
+      "accepted": false,
+      "public_url": null,
+      "gate": [
+        "Candidate only: current zero-cost publishing path, rules, account, licensing and physical evidence require verification."
+      ]
+    },
+    {
+      "id": "cults3d",
+      "name": "Cults3D",
+      "kind": "printable-model",
+      "registration_payment_required": null,
+      "policy_sources": [
+        "https://cults3d.com/"
+      ],
+      "prepared": false,
+      "submitted": false,
+      "accepted": false,
+      "public_url": null,
+      "gate": [
+        "Candidate only: current zero-cost publishing path, rules, account, licensing and physical evidence require verification."
+      ]
+    },
+    {
+      "id": "youmagine",
+      "name": "YouMagine",
+      "kind": "printable-model",
+      "registration_payment_required": null,
+      "policy_sources": [
+        "https://www.youmagine.com/"
+      ],
+      "prepared": false,
+      "submitted": false,
+      "accepted": false,
+      "public_url": null,
+      "gate": [
+        "Candidate only: current zero-cost publishing path, rules, account, licensing and physical evidence require verification."
+      ]
+    },
+    {
+      "id": "pinshape",
+      "name": "Pinshape",
+      "kind": "printable-model",
+      "registration_payment_required": null,
+      "policy_sources": [
+        "https://pinshape.com/"
+      ],
+      "prepared": false,
+      "submitted": false,
+      "accepted": false,
+      "public_url": null,
+      "gate": [
+        "Candidate only: current zero-cost publishing path, rules, account, licensing and physical evidence require verification."
+      ]
+    },
+    {
+      "id": "myminifactory",
+      "name": "MyMiniFactory",
+      "kind": "printable-model",
+      "registration_payment_required": null,
+      "policy_sources": [
+        "https://www.myminifactory.com/"
+      ],
+      "prepared": false,
+      "submitted": false,
+      "accepted": false,
+      "public_url": null,
+      "gate": [
+        "Candidate only: current zero-cost publishing path, rules, account, licensing and physical evidence require verification."
+      ]
+    },
+    {
+      "id": "creality-cloud",
+      "name": "Creality Cloud",
+      "kind": "printable-model",
+      "registration_payment_required": null,
+      "policy_sources": [
+        "https://www.crealitycloud.com/"
+      ],
+      "prepared": false,
+      "submitted": false,
+      "accepted": false,
+      "public_url": null,
+      "gate": [
+        "Candidate only: current zero-cost publishing path, rules, account, licensing and physical evidence require verification."
+      ]
+    },
+    {
+      "id": "instructables",
+      "name": "Instructables",
+      "kind": "tutorial",
+      "registration_payment_required": null,
+      "policy_sources": [
+        "https://www.instructables.com/"
+      ],
+      "prepared": false,
+      "submitted": false,
+      "accepted": false,
+      "public_url": null,
+      "gate": [
+        "Candidate only: current zero-cost publishing path, rules, account, licensing and physical evidence require verification."
+      ]
+    },
+    {
+      "id": "hackaday-io",
+      "name": "Hackaday.io",
+      "kind": "project",
+      "registration_payment_required": null,
+      "policy_sources": [
+        "https://hackaday.io/"
+      ],
+      "prepared": false,
+      "submitted": false,
+      "accepted": false,
+      "public_url": null,
+      "gate": [
+        "Candidate only: current zero-cost publishing path, rules, account, licensing and physical evidence require verification."
+      ]
+    },
+    {
+      "id": "prusa-articles",
+      "name": "Prusa community articles",
+      "kind": "article",
+      "registration_payment_required": null,
+      "policy_sources": [
+        "https://www.printables.com/article"
+      ],
+      "prepared": false,
+      "submitted": false,
+      "accepted": false,
+      "public_url": null,
+      "gate": [
+        "Candidate only: current zero-cost publishing path, rules, account, licensing and physical evidence require verification."
+      ]
+    }
+  ]
+}

@@ -4,6 +4,8 @@
 
 **Keep the printer. Reuse the phone. Learn from real prints.**
 
+**New free distribution:** [open the local Calibration Review web app](https://agnuxo1.github.io/KlipperLearn/review/) or inspect the [Firefox/Chromium candidates and original model kit](distribution/README.md). These use the original advisory reference engine; they are not public store listings or the full Python preset optimizer.
+
 [![Validation](https://github.com/Agnuxo1/KlipperLearn/actions/workflows/ci.yml/badge.svg)](https://github.com/Agnuxo1/KlipperLearn/actions/workflows/ci.yml)
 [![License: GPL-3.0-or-later](https://img.shields.io/badge/core-GPL--3.0--or--later-blue)](LICENSE)
 

@@ -1,0 +1,28 @@
+{
+  "schema": "klipperlearn.distribution-bundles/v1",
+  "version": "1.0.0",
+  "store_signed": false,
+  "store_published": false,
+  "packages": [
+    {
+      "file": "KlipperLearn-Calibration-Card-Community-Kit.zip",
+      "bytes": 429663,
+      "sha256": "76d319fa7aaee583855729cf75c723e06e53b1726608aa5592f1097786396940"
+    },
+    {
+      "file": "KlipperLearn-Calibration-Review-Chromium-1.0.0.zip",
+      "bytes": 93416,
+      "sha256": "437edf621f9eaa000e8257a50ec8fc83ae5be238d0ffcd3e3f16d667221745fd"
+    },
+    {
+      "file": "KlipperLearn-Calibration-Review-Firefox-1.0.0.zip",
+      "bytes": 93746,
+      "sha256": "ade775070c12994d72074542822473eb6cdb2882b365339b11a477a9aaecb4da"
+    },
+    {
+      "file": "KlipperLearn-Calibration-Review-Web-1.0.0.zip",
+      "bytes": 994766,
+      "sha256": "9e035461a82e778582bbf0ac59ac95f4149d2ea7c60a7374090e21a9b528c4d1"
+    }
+  ]
+}

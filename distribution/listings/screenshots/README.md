@@ -1,0 +1,1 @@
+The screenshot shows the actual unpacked reviewer in a temporary Edge profile, using the bundled synthetic session. It is not a physical printer result, a store listing or evidence of model training. The file chooser follows the browser locale. No personal records are shown.

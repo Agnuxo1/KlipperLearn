@@ -1,0 +1,32 @@
+{
+  "tool": "web-ext",
+  "version": "10.6.0",
+  "result": {
+    "count": 0,
+    "summary": {
+      "errors": 0,
+      "notices": 0,
+      "warnings": 0
+    },
+    "metadata": {
+      "id": "calibration-review@klipperlearn.agnuxo1.github.io",
+      "manifestVersion": 3,
+      "name": "KlipperLearn Calibration Review",
+      "type": 1,
+      "version": "1.0.0",
+      "firefoxMinVersion": "140.0",
+      "firefoxStrictMinVersion": 140,
+      "experimentApiPaths": {},
+      "totalScannedFileSize": 28048,
+      "emptyFiles": [],
+      "jsLibs": {},
+      "unknownMinifiedFiles": []
+    },
+    "errors": [],
+    "notices": [],
+    "warnings": []
+  },
+  "signed": false,
+  "submitted_to_amo": false,
+  "temporary_native_installation_verified": true
+}

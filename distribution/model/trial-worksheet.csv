@@ -1,0 +1,1 @@
+trial_id,physical_printer_id,calibration_workflow,model_sha256,gcode_sha256,slicer_and_version,preset_id,nozzle_mm,material_id,layer_height_mm,layer_count,line_width_mm,supports,infill,temperature_c,bed_temperature_c,parameter_changed,parameter_value,print_seconds,total_seconds,status,full_model,original_photo_names,human_quality_review,defects,notes
