@@ -1,0 +1,78 @@
+{
+  "status": "passed",
+  "scope": "static manifest, module syntax, local resources, source sizes, known secret patterns and original Python oracle identity",
+  "files": [
+    {
+      "path": "COPYING",
+      "bytes": 35149,
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    {
+      "path": "app.mjs",
+      "bytes": 16199,
+      "sha256": "0b0b4f7ebd838edc118f901a4aab439842d0240f8f193ce95fa60670076c44c2"
+    },
+    {
+      "path": "assets/adjustment-card.stl",
+      "bytes": 387884,
+      "sha256": "aca62abefe6636652ebcb7f7821b8893b39e98c0e337bca5bdc004c3f7325630"
+    },
+    {
+      "path": "background.js",
+      "bytes": 245,
+      "sha256": "0e5657d996ef7c34b6187e3cd36fa1cfe39db1fa5367207e0c0d3c0a4589019d"
+    },
+    {
+      "path": "engine.mjs",
+      "bytes": 27684,
+      "sha256": "c0d2f2bcdfc98c68b6d6bfcbcfd5eaafd22979b5d8689b796d242bf862bcc24f"
+    },
+    {
+      "path": "help.html",
+      "bytes": 6721,
+      "sha256": "1b0a2c4853bf9da59b0a1b9481b97692686a133cfb9f5ac3e24eb783ee66a256"
+    },
+    {
+      "path": "icons/icon-128.png",
+      "bytes": 3389,
+      "sha256": "5f176d743224ed41e745d22f1e74ef0ecfb9ba01dfb67581b925a3ced240bf32"
+    },
+    {
+      "path": "icons/icon-16.png",
+      "bytes": 445,
+      "sha256": "5064c55e8dae1b5c79a4153f408d7f10623f92d01124ad201997f056dbdbed1b"
+    },
+    {
+      "path": "icons/icon-32.png",
+      "bytes": 917,
+      "sha256": "db1789cc3d589d693a33064dd3ee3147121d78f30f8f473ce455d4bc3ce913c3"
+    },
+    {
+      "path": "icons/icon-48.png",
+      "bytes": 1381,
+      "sha256": "d69e2089609ba881e54e5a11ee6d5f6b93d39f48ee854a80b8e8812b1077e02e"
+    },
+    {
+      "path": "index.html",
+      "bytes": 10070,
+      "sha256": "4e86d0209bf33fa13a5dceee81c7ef17a8c0d199ffd09286b4c3d14306be32ea"
+    },
+    {
+      "path": "manifest.json",
+      "bytes": 770,
+      "sha256": "14a29cf4e6c1c411cf9f401a61ad24e6251b2b0bf72eb168182c1fb50427f285"
+    },
+    {
+      "path": "sample.mjs",
+      "bytes": 6719,
+      "sha256": "82a91cf8a04b8613993a9acd2b3675297205af1f1446be2c4a80353afaa1c8d1"
+    },
+    {
+      "path": "style.css",
+      "bytes": 6958,
+      "sha256": "ccb58861916f80d4c6a0e6b1eb3f4ab95b07c4bdebf9c44954332688ae4bf299"
+    }
+  ],
+  "native_installation": false,
+  "store_submission": false
+}

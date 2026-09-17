@@ -1,0 +1,56 @@
+KlipperLearn Slicer Review 0.1.0 — native acceptance and store reviewer guide
+
+SINGLE PURPOSE
+Review local 3D-printer calibration evidence and export paired OrcaSlicer mode presets.
+
+NO ACCOUNT / FEE / PERMISSIONS
+No login, publisher subscription, AI API key, privileged extension or host permission.
+No remote code, page/history access, telemetry or printer connection. The toolbar
+opens only its packaged page. Users explicitly choose every file and download.
+
+POSITIVE TESTS IN ACTUAL INSTALLED CHROME
+1. Click the toolbar icon. The packaged Slicer Review page opens in its own tab.
+2. Select Try synthetic example. Results must be marked SYNTHETIC / DEMO. Quality
+   selects detail, Standard baseline and Speed fast.
+3. Export 3 modes. One ZIP contains six DEMO JSON presets, review.json and README.txt.
+   A correct ZIP does not itself establish native Orca import or physical suitability.
+4. Save the session and open the downloaded JSON again. Selections and identities
+   must remain unchanged.
+5. Export advisor request. It contains current IDs, numeric bounds and a response
+   contract, without photo bytes or base custom G-code. No AI service is opened.
+6. Construct a proposal from the CURRENT request hash, schema
+   klipperlearn.slicer-proposal/v1, anchor baseline, parameter process.outer_wall_speed,
+   value 42, evidence_trial_ids ["baseline-0"], and an explanation of the test.
+   Validation generates two UNVALIDATED TRIAL presets plus trial-review.json.
+   Add as unprinted experiment: a fourth candidate appears without fabricated trials.
+7. Choose an original JPEG/PNG. Its preview and SHA-256 appear locally, labelled
+   Not referenced when its hash is absent from the session.
+8. Use the guided new-session form with compatible current presets and explicit
+   verified bounds. The initial session contains only an empty baseline. At least
+   two unique complete, acceptable human-reviewed trials with independent photos
+   are needed to enable mode exports.
+
+NEGATIVE / PRIVACY TESTS
+- Reject duplicated JSON keys, unsafe object keys, malformed Unicode, >2 MiB,
+  excessive nesting, non-finite numbers and common credential fields.
+- A failed baseline, partial model, different layers, reused photos or missing
+  review must not qualify as accepted evidence.
+- Reject stale suggestions, temperature/G-code changes, unsupported parameters
+  and steps that exceed the declared bounds.
+- A rejected file does not erase the previously loaded session.
+- Clear removes session/previews. Nothing is synced or autosaved.
+- No printer, live server, original profile or web page is changed.
+
+PUBLISHER CHECKLIST
+Use the existing paid Chrome Web Store registration, not Google Play.
+Create one new KlipperLearn item; do not modify EnigmAgent.
+Complete native installation tests above and retain actual results. The current
+successful automated UI checks use a documented in-memory DOM harness only.
+Publish and verify the extension-specific PRIVACY.html before submission.
+Upload the extension ZIP with manifest.json at the root. Enter listing.json text,
+English, free distribution and an appropriate current category. Use the images
+and icon, re-capturing in installed Chrome if necessary. Describe all local
+processing accurately; no remote code or unused permissions should be declared.
+Stop rather than accept any new payment, identity-document or unsupported
+certification requirement. Submit once and retain the actual item ID and response.
+Submission is not approval. No Web Store upload or submission has occurred yet.

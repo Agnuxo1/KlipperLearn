@@ -1,0 +1,32 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import * as e from '../extension/engine.mjs';
+const sample=fs.readFileSync(new URL('../reference/synthetic-session.json',import.meta.url),'utf8');
+const fresh=()=>e.loads(sample),plain=value=>JSON.parse(e.stringify(value));
+const oracle=JSON.parse(fs.readFileSync(new URL('oracle.json',import.meta.url),'utf8'));
+for(const[index,c]of oracle.entries())test('Python parity: synthetic scenario '+index,async()=>{
+ const s=e.loads(c.text);assert.equal(await e.digest(s),c.review.session_sha256);
+ for(const candidate of s.candidates)assert.equal(await e.configurationHash(s,candidate),c.hashes[candidate.id]);
+ const review=await e.reviewSession(s);assert.deepEqual(review.selected,c.review.selected);assert.deepEqual(review.excluded,c.review.excluded);
+ for(let i=0;i<review.candidates.length;i++){const a=review.candidates[i],b=c.review.candidates[i];assert.equal(a.eligible,b.eligible);assert.equal(a.repeats,b.repeats);assert.ok(Math.abs(a.quality-b.quality)<1e-10);assert.ok(Math.abs(a.time_cv-b.time_cv)<1e-10);}
+ assert.deepEqual(plain((await e.buildProfiles(s)).files),c.profiles.files);
+ const p=await e.validateProposal(s,e.loads(JSON.stringify(c.proposal)));assert.deepEqual(plain(p.candidate),c.proposal_result.candidate);assert.equal(p.configuration_sha256,c.proposal_result.configuration_sha256);assert.deepEqual(plain(p.files),c.proposal_result.files);assert.equal(p.applied,false);
+});
+for(const [name,input]of Object.entries({duplicates:'{"a":1,"a":2}',prototype:'{"__proto__":{}}',constructor:'{"constructor":1}',array:'[]',trailing:'{} garbage',nan:'{"a":NaN}',infinity:'{"a":1e400}',unicode:'{"a":"\\ud800"}',secret:'{"api_key":"not-for-publishing"}',nested:'{"x":'.repeat(26)+'0'+'}'.repeat(26),oversized:' '.repeat(e.MAX_BYTES+1)}))test('Reject '+name,()=>assert.throws(()=>e.loads(input)));
+test('Malformed JSON rejected and BOM supported',()=>{assert.equal(e.stringify(e.loads('\ufeff{"n":40.0}')),'{"n":40.0}');assert.throws(()=>e.loads('{"x":01}'));assert.throws(()=>e.loads('{"x":1,}'));assert.throws(()=>e.loads('{"x":"\\x20"}'));});
+for(const[name,mutate]of Object.entries({failed:s=>s.trials[0].completed=false,partial:s=>s.trials[0].full_model=false,geometry:s=>s.trials[0].layer_count=1,unreviewed:s=>s.trials[0].human_reviewed=false,photoMissing:s=>s.trials[0].photo_sha256=[],stale:s=>s.trials[0].configuration_sha256='b'.repeat(64),reused:s=>s.trials[1].photo_sha256=s.trials[0].photo_sha256}))test('Evidence exclusion: '+name,async()=>{const s=fresh();mutate(s);const r=await e.reviewSession(s);assert.ok(r.excluded.length);assert.deepEqual(r.selected,{});await assert.rejects(()=>e.buildProfiles(s));});
+for(const[name,mutate]of Object.entries({thermal:s=>s.candidates[1].filament.nozzle_temperature=260,layer:s=>s.candidates[1].process.layer_height=.3,baseLimits:s=>s.base_process.outer_wall_speed='500',bool:s=>s.trials[0].print_seconds=true,unknown:s=>s.not_allowed=1,percent:s=>s.base_process.outer_wall_speed='50%',wrongCompatibility:s=>s.base_process.compatible_printers=['other'],invalidTotal:s=>s.trials[0].total_seconds=.1,pressureAdvance:s=>{s.limits['filament.pressure_advance']={min:0,max:.1,max_step:.01};s.printer.firmware='Marlin';s.candidates[1].filament.pressure_advance=.05;}}))test('Unsafe configuration: '+name,()=>{const s=fresh();mutate(s);assert.throws(()=>e.validateSession(s));});
+test('Exports preserve original scripts and inputs and remove old setting IDs',async()=>{const s=fresh(),before=e.stringify(s),b=await e.buildProfiles(s);assert.equal(e.stringify(s),before);assert.equal(Object.keys(b.files).length,6);assert.equal(b.printer_commands,false);for(const p of Object.values(b.files)){assert.match(p.name,/DEMO/);assert.equal(p.setting_id,undefined);}assert.equal(b.files['klipperlearn_quality_process.json'].machine_start_gcode,s.base_process.machine_start_gcode);});
+test('Advisor export excludes base scripts and never claims attached images',async()=>{const r=await e.advisorRequest(fresh());assert.equal(r.images_attached,false);assert.ok(!e.stringify(r).includes('machine_start_gcode'));});
+for(const[name,mutate]of Object.entries({stale:p=>p.session_sha256='b'.repeat(64),thermal:p=>p.parameter='filament.nozzle_temperature',evidence:p=>p.evidence_trial_ids=['not-real'],extra:p=>p.gcode='G28',noChange:p=>p.value=40,largeStep:p=>p.value=55}))test('Reject proposal: '+name,async()=>{const c=oracle[0],p=structuredClone(c.proposal);mutate(p);await assert.rejects(()=>e.validateProposal(e.loads(c.text),p));});
+test('ZIP bounded names and readable bytes',async()=>{const b=await e.buildProfiles(fresh()),bytes=new Uint8Array(await e.zipFiles({...b.files,'review.json':b.review}).arrayBuffer());assert.equal(bytes[0],80);fs.writeFileSync(new URL('test-output.zip',import.meta.url),bytes);assert.throws(()=>e.zipFiles({'../escape.json':{}}));});
+test('Original numeric identities survive cloning and saving',async()=>{const s=e.loads(oracle[2].text);assert.equal(await e.digest(e.loads(e.stringify(e.clone(s),true))),await e.digest(s));});
+test('Manifest has no privileged permissions and code has no network or persistence',()=>{
+ const root=new URL('../extension/',import.meta.url),m=JSON.parse(fs.readFileSync(new URL('manifest.json',root),'utf8'));
+ for(const k of ['permissions','host_permissions','optional_permissions','optional_host_permissions','content_scripts','web_accessible_resources','externally_connectable'])assert.ok(!m[k]);
+ assert.equal(m.manifest_version,3);assert.match(m.content_security_policy.extension_pages,/connect-src 'none'/);
+ for(const name of ['engine.mjs','app.mjs','background.js'])assert.doesNotMatch(fs.readFileSync(new URL(name,root),'utf8'),/\bfetch\s*\(|XMLHttpRequest|new WebSocket|sendBeacon|eval\s*\(|new Function|localStorage\.|indexedDB\./);
+});
+test('Toolbar action only creates its own packaged page',async()=>{const vm=await import('node:vm'),created=[];let listener;vm.runInNewContext(fs.readFileSync(new URL('../extension/background.js',import.meta.url),'utf8'),{chrome:{action:{onClicked:{addListener:f=>listener=f}},runtime:{getURL:p=>'chrome-extension://fixture/'+p},tabs:{create:p=>created.push(p)}}});assert.equal(created.length,0);listener();assert.equal(created.length,1);assert.equal(created[0].url,'chrome-extension://fixture/index.html');});

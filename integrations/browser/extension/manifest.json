@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "KlipperLearn Slicer Review",
+  "version": "0.1.0",
+  "description": "Review 3D print calibration evidence locally and export Quality, Standard and Speed presets for OrcaSlicer.",
+  "minimum_chrome_version": "109",
+  "action": {
+    "default_title": "Open KlipperLearn Slicer Review"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "content_security_policy": {
+    "extension_pages": "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' blob:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
+  }
+}

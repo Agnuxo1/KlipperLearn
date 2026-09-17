@@ -1,0 +1,20 @@
+Review your 3D-printer calibration evidence locally and generate Quality, Standard and Speed slicer modes.
+
+KlipperLearn Slicer Review provides a self-contained workspace inside Chrome. Import an existing session or create one using your current OrcaSlicer presets, printer/material context and original calibration model. Record actual timings, human-reviewed ratings and original photo identities, including failures.
+
+FEATURES
+• Compare whole configurations using repeated trials and unchanged geometry/layers.
+• Select three modes using an explicit quality/time policy and evidence requirements.
+• Export three process and three filament JSON presets for OrcaSlicer, with an audit.
+• Preview original photos locally and compare their SHA-256 identities to records.
+• Export a numerical request for your chosen AI advisor and validate its reply.
+• Create clearly labelled UNVALIDATED TRIAL presets for a supervised next experiment.
+• Download an original calibration STL and try a clearly labelled synthetic example.
+
+LOCAL AND FREE
+No publisher account, subscription, advertising, API key, analytics or network request. No access to browsing history, page content, camera or microphone. All executable code is packaged. Files are processed locally in memory. Save your session before closing; no automatic persistence or synchronization occurs.
+
+IMPORTANT LIMITS
+This extension does not connect to a printer, invoke ChatGPT or other model APIs, automatically score photos, or guarantee improved quality/speed. External AI exchange is manual and subject to the chosen provider's terms. Current temperature and custom G-code settings are preserved in exported copies, not certified. Inspect effective settings and inheritance in OrcaSlicer, reslice the actual model and supervise printing. Other slicers have no native exporter here. DEMO profiles are not measured settings for your machine.
+
+Independent GPL-3.0-or-later software. No affiliation with or endorsement by Google, OpenAI, OrcaSlicer or printer vendors.

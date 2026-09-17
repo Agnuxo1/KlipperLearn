@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KlipperLearn · Slicer Review</title>
+  <link rel="icon" href="icons/icon-32.png"><link rel="stylesheet" href="style.css">
+  <script type="module" src="app.mjs"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><img src="icons/icon-48.png" width="36" height="36" alt=""><div><strong>Klipper<span>Learn</span></strong><small>SLICER REVIEW · 0.1.0</small></div></div>
+  <nav aria-label="Main"><a href="#workspace">Workspace</a><a href="#new-session">New session</a><a href="#advisor">AI review</a><a href="help.html">Guide &amp; privacy</a></nav>
+  <span class="local-badge">LOCAL · NO ACCOUNT</span>
+</header>
+<main>
+  <section class="hero"><div><p class="eyebrow">EVIDENCE BEFORE ADJUSTMENTS</p><h1>One printer. Three considered modes.</h1><p class="lead">Compare repeatable calibration trials. Keep the geometry. Export reviewed slicer presets.</p></div><div class="privacy-mini">Files stay in this tab.<br>No ads. No API key. No printer commands.</div></section>
+  <section id="workspace" class="panel">
+    <div class="section-head"><div><p class="eyebrow">01 / YOUR SESSION</p><h2>Start with evidence, not a guess.</h2></div><div class="actions"><label class="button primary" for="session-file">Open session JSON<input id="session-file" type="file" accept=".json,application/json" hidden></label><button id="demo">Try synthetic example</button><button id="clear" class="quiet">Clear workspace</button></div></div>
+    <p id="session-summary">No session loaded.</p>
+    <div class="context-line"><span id="context-printer">Printer: —</span><span id="context-layers">Layers: —</span><span id="context-trials">Trials: —</span></div>
+    <p id="status" role="status" aria-live="polite">Everything runs inside this extension. Import only files you have reviewed.</p>
+  </section>
+  <section class="modes" aria-label="Three slicer modes">
+    <article class="mode"><span class="mode-number">01</span><h2>Quality</h2><p>Best reviewed surface and geometry.</p><strong id="quality-result">Evidence needed</strong><small id="quality-detail">No settings are invented.</small></article>
+    <article class="mode"><span class="mode-number">02</span><h2>Standard</h2><p>A documented quality / time balance.</p><strong id="standard-result">Evidence needed</strong><small id="standard-detail">65% quality · 35% time.</small></article>
+    <article class="mode"><span class="mode-number">03</span><h2>Speed</h2><p>Less time, above your quality floor.</p><strong id="speed-result">Evidence needed</strong><small id="speed-detail">The same model and layers.</small></article>
+  </section>
+  <section class="panel">
+    <div class="section-head"><h2>Compare complete configurations</h2><div class="actions"><button id="export-profiles" class="primary" disabled>Export 3 modes · ZIP</button><button id="save-session" disabled>Save session</button><button id="export-review" disabled>Save review</button></div></div>
+    <div class="table-wrap"><table><thead><tr><th>Configuration</th><th>Reviewed repeats</th><th>Quality / 5</th><th>Print time</th><th>Eligibility</th></tr></thead><tbody id="results"></tbody></table></div>
+    <p class="small">Each mode pairs an OrcaSlicer process preset with a filament preset. Review effective settings and inheritance, then reslice. Native slicer import and physical performance are not certified.</p>
+    <details><summary>Excluded evidence and selection policy</summary><div id="excluded"></div><p>At least two independent complete, human-reviewed trials and an eligible baseline are required. Failures remain visible. Standard uses 65% quality and 35% time. Several modes may select the same configuration. Photo hashes are identities, not proof of quality.</p></details>
+  </section>
+  <section class="panel" id="new-session">
+    <div class="section-head"><div><p class="eyebrow">02 / BUILD A REAL SESSION</p><h2>Your own machine, files and observations.</h2></div><a class="button" href="assets/adjustment-card.stl" download="KlipperLearn-Calibration-Card.stl">Download calibration card · STL</a></div>
+    <details><summary>Create a session from your existing Orca presets</summary><form id="setup-form">
+      <div class="form-grid">
+        <label>Brand<input name="brand" required maxlength="160" placeholder="For example: Anycubic"></label>
+        <label>Exact model<input name="model" required maxlength="160" placeholder="For example: 4Max Pro"></label>
+        <label>Exact Orca printer preset<input name="preset" required maxlength="160" placeholder="Must match compatible_printers"></label>
+        <label>Firmware<input name="firmware" required maxlength="160" placeholder="Klipper / Marlin / other"></label>
+        <label>Nozzle diameter · mm<input name="nozzle" type="number" min="0.1" max="2" step="0.01" value="0.4" required></label>
+        <label>Material and relevant context<input name="material" required maxlength="160" placeholder="Material, spool, stable test setup"></label>
+        <label>Layer height · mm<input name="layer" type="number" min="0.02" max="2" step="0.01" value="0.2" required></label>
+        <label>Sliced layer count<input name="layers" type="number" min="1" max="100000" required></label>
+        <label>Existing process preset · JSON<input name="process" type="file" accept=".json" required></label>
+        <label>Existing filament preset · JSON<input name="filament" type="file" accept=".json" required></label>
+        <label>Unchanged benchmark model · STL<input name="model-file" type="file" accept=".stl" required></label>
+        <label>One parameter to investigate<select name="parameter" id="setup-parameter"></select></label>
+        <label>Verified lower limit<input name="minimum" type="number" step="any" required></label>
+        <label>Verified upper limit<input name="maximum" type="number" step="any" required></label>
+        <label>Maximum single experiment step<input name="step" type="number" min="0.000001" step="any" required></label>
+      </div>
+      <label class="check"><input name="confirmed" type="checkbox" required>I verified these bounds for this machine and material, exported my current presets, and will supervise trials.</label>
+      <p class="small">No model database can establish the safe limits of your actual machine. No trial, score or speed improvement is prefilled. Remove credentials and connection settings from your preset copies first.</p>
+      <button class="primary" type="submit">Create empty baseline session</button>
+    </form></details>
+    <details><summary>Record a completed or failed physical trial</summary><form id="trial-form">
+      <div class="form-grid">
+        <label>Configuration<select id="trial-candidate" name="candidate" required></select></label>
+        <label>Unique print / job identifier<input name="run" required pattern="[A-Za-z0-9][A-Za-z0-9_-]{0,79}" maxlength="80" placeholder="One identity per physical print"></label>
+        <label>Print duration · seconds<input name="print-time" type="number" min="0.001" max="8640000" step="any" required></label>
+        <label>Total duration · seconds<input name="total-time" type="number" min="0.001" max="8640000" step="any" required></label>
+        <label>Surface score · 0 to 5<input name="surface" type="number" min="0" max="5" step="0.1"></label>
+        <label>Geometry score · 0 to 5<input name="geometry" type="number" min="0" max="5" step="0.1"></label>
+        <label>Original photos · JPEG / PNG<input name="photos" type="file" accept="image/jpeg,image/png" multiple></label>
+      </div>
+      <div class="checks"><label class="check"><input name="completed" type="checkbox">Print completed</label><label class="check"><input name="full" type="checkbox">Entire unchanged model and layer settings</label><label class="check"><input name="reviewed" type="checkbox">I personally reviewed the original print and scores</label></div>
+      <button type="submit" id="add-trial" disabled>Record trial</button>
+      <p class="small">Keep failed trials. Do not reuse another print's photographs. This is your declaration, not independent verification. The extension does not automatically score images.</p>
+    </form></details>
+  </section>
+  <section class="two-column">
+    <section class="panel" id="advisor"><p class="eyebrow">03 / OPTIONAL AI ASSISTANCE</p><h2>Review elsewhere. Validate here.</h2><p>Export a numerical request for ChatGPT or another advisor. Attach original photos separately, then paste its one-setting proposal.</p>
+      <button id="request" disabled>Export advisor request · JSON</button>
+      <label for="proposal">Advisor proposal JSON</label><textarea id="proposal" rows="7" spellcheck="false" placeholder="Use the response contract included in the request."></textarea>
+      <div class="actions"><button id="validate" disabled>Validate proposal</button><button id="adopt" disabled>Add as unprinted experiment</button></div>
+      <div id="proposal-result" role="status">No API calls or automatic printer actions.</div>
+    </section>
+    <section class="panel"><p class="eyebrow">04 / ORIGINAL PHOTOGRAPHS</p><h2>Keep the evidence in view.</h2><p>View selected photos and compare their SHA-256 identities to the current session. No images are sent anywhere or permanently stored.</p>
+      <label class="button" for="photo-files">Choose photos<input type="file" id="photo-files" accept="image/jpeg,image/png" multiple hidden></label>
+      <div id="photo-gallery" class="gallery"></div><p class="small">Up to 8 originals, 8 MiB and 20 megapixels each. No AI retouching or inferred quality score.</p>
+    </section>
+  </section>
+  <footer><p>Free &amp; open source · GPL-3.0-or-later · <a href="help.html">Help, safety and privacy</a></p><p>No printer connection. No paid API. Save before closing; tab data is not persisted.</p><p>Different printers, models and calibration methods require separate sessions.</p></footer>
+</main></body></html>

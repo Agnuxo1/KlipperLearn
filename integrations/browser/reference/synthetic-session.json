@@ -1,0 +1,210 @@
+{
+  "schema": "klipperlearn.slicer-session/v1",
+  "synthetic": true,
+  "printer": {
+    "brand": "Example",
+    "model": "Synthetic fixture",
+    "preset": "Synthetic printer 0.4 nozzle",
+    "nozzle_mm": 0.4,
+    "firmware": "Klipper"
+  },
+  "material": "Synthetic PLA test fixture",
+  "benchmark": {
+    "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "layer_height_mm": 0.2,
+    "layer_count": 240
+  },
+  "base_process": {
+    "name": "Existing test process",
+    "version": "2.3.0.0",
+    "inherits": "Test parent",
+    "type": "process",
+    "compatible_printers": [
+      "Synthetic printer 0.4 nozzle"
+    ],
+    "layer_height": "0.2",
+    "outer_wall_speed": "40",
+    "default_acceleration": "1000",
+    "sparse_infill_density": "15%",
+    "machine_start_gcode": "G28 ; unchanged fixture"
+  },
+  "base_filament": {
+    "name": "Existing test filament",
+    "version": "2.3.0.0",
+    "inherits": "Test PLA",
+    "type": "filament",
+    "compatible_printers": [
+      "Synthetic printer 0.4 nozzle"
+    ],
+    "filament_flow_ratio": [
+      "0.98"
+    ],
+    "filament_max_volumetric_speed": [
+      "10"
+    ],
+    "enable_pressure_advance": [
+      "1"
+    ],
+    "pressure_advance": [
+      "0.04"
+    ],
+    "nozzle_temperature": [
+      "210"
+    ],
+    "setting_id": "old-private-id"
+  },
+  "limits": {
+    "process.outer_wall_speed": {
+      "min": 20,
+      "max": 60,
+      "max_step": 5
+    },
+    "filament.filament_max_volumetric_speed": {
+      "min": 5,
+      "max": 12,
+      "max_step": 0.5
+    }
+  },
+  "policy": {
+    "minimum_repeats": 2,
+    "quality_floor": 3.5,
+    "maximum_time_cv": 0.1
+  },
+  "candidates": [
+    {
+      "id": "baseline",
+      "process": {},
+      "filament": {}
+    },
+    {
+      "id": "detail",
+      "process": {
+        "outer_wall_speed": 35
+      },
+      "filament": {}
+    },
+    {
+      "id": "fast",
+      "process": {
+        "outer_wall_speed": 45
+      },
+      "filament": {}
+    }
+  ],
+  "trials": [
+    {
+      "id": "baseline-0",
+      "session_id": "run-baseline-0",
+      "candidate_id": "baseline",
+      "configuration_sha256": "1b01c92f7f242c1357cd304c646be7d0efd11066d28df515c6ec04c98d7bc6e4",
+      "benchmark_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "layer_height_mm": 0.2,
+      "layer_count": 240,
+      "completed": true,
+      "full_model": true,
+      "print_seconds": 1800,
+      "total_seconds": 1920,
+      "surface_score": 4.4,
+      "geometry_score": 4.4,
+      "human_reviewed": true,
+      "photo_sha256": [
+        "0c1303f9a257a92118a25c27cc7b2525ae8c84e1122c6da1eff47dd274d3f9f8"
+      ]
+    },
+    {
+      "id": "baseline-1",
+      "session_id": "run-baseline-1",
+      "candidate_id": "baseline",
+      "configuration_sha256": "1b01c92f7f242c1357cd304c646be7d0efd11066d28df515c6ec04c98d7bc6e4",
+      "benchmark_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "layer_height_mm": 0.2,
+      "layer_count": 240,
+      "completed": true,
+      "full_model": true,
+      "print_seconds": 1801,
+      "total_seconds": 1921,
+      "surface_score": 4.4,
+      "geometry_score": 4.4,
+      "human_reviewed": true,
+      "photo_sha256": [
+        "b3a2cccc22305bfc7daef4267567fe546d7d50b155d280e9a761d53b44c8dfab"
+      ]
+    },
+    {
+      "id": "detail-0",
+      "session_id": "run-detail-0",
+      "candidate_id": "detail",
+      "configuration_sha256": "0daba753963450b6d792dc28dac617b13e0294fafe4ab84ea4866ebee7e51a7f",
+      "benchmark_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "layer_height_mm": 0.2,
+      "layer_count": 240,
+      "completed": true,
+      "full_model": true,
+      "print_seconds": 2400,
+      "total_seconds": 2520,
+      "surface_score": 4.9,
+      "geometry_score": 4.9,
+      "human_reviewed": true,
+      "photo_sha256": [
+        "2c66e63b2b466373dae151934897f2d78f3b84d1877e65ccdaaf202853858d0a"
+      ]
+    },
+    {
+      "id": "detail-1",
+      "session_id": "run-detail-1",
+      "candidate_id": "detail",
+      "configuration_sha256": "0daba753963450b6d792dc28dac617b13e0294fafe4ab84ea4866ebee7e51a7f",
+      "benchmark_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "layer_height_mm": 0.2,
+      "layer_count": 240,
+      "completed": true,
+      "full_model": true,
+      "print_seconds": 2401,
+      "total_seconds": 2521,
+      "surface_score": 4.9,
+      "geometry_score": 4.9,
+      "human_reviewed": true,
+      "photo_sha256": [
+        "e29c544bb1db07be686354345e10767a941801b359d1236b56b78ec50dd63446"
+      ]
+    },
+    {
+      "id": "fast-0",
+      "session_id": "run-fast-0",
+      "candidate_id": "fast",
+      "configuration_sha256": "54b6912fb1a63c8b16f7ba78588cc8122ba7061d1c6604ca4f8ded92115c01b0",
+      "benchmark_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "layer_height_mm": 0.2,
+      "layer_count": 240,
+      "completed": true,
+      "full_model": true,
+      "print_seconds": 1500,
+      "total_seconds": 1620,
+      "surface_score": 3.8,
+      "geometry_score": 3.8,
+      "human_reviewed": true,
+      "photo_sha256": [
+        "f1daac37e655bb1aa1feab1fdca9b3a829f3ee379c6ebbf8b9a94001450f60bc"
+      ]
+    },
+    {
+      "id": "fast-1",
+      "session_id": "run-fast-1",
+      "candidate_id": "fast",
+      "configuration_sha256": "54b6912fb1a63c8b16f7ba78588cc8122ba7061d1c6604ca4f8ded92115c01b0",
+      "benchmark_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "layer_height_mm": 0.2,
+      "layer_count": 240,
+      "completed": true,
+      "full_model": true,
+      "print_seconds": 1501,
+      "total_seconds": 1621,
+      "surface_score": 3.8,
+      "geometry_score": 3.8,
+      "human_reviewed": true,
+      "photo_sha256": [
+        "5844b21738df6c928b375c95258bd3bfcb7b2af536604a992d2ec8c3cdeade7d"
+      ]
+    }
+  ]
+}

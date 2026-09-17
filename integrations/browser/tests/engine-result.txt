@@ -1,0 +1,430 @@
+TAP version 13
+# Subtest: Python parity: synthetic scenario 0
+ok 1 - Python parity: synthetic scenario 0
+  ---
+  duration_ms: 57.053794
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 1
+ok 2 - Python parity: synthetic scenario 1
+  ---
+  duration_ms: 18.42447
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 2
+ok 3 - Python parity: synthetic scenario 2
+  ---
+  duration_ms: 19.981782
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 3
+ok 4 - Python parity: synthetic scenario 3
+  ---
+  duration_ms: 24.32551
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 4
+ok 5 - Python parity: synthetic scenario 4
+  ---
+  duration_ms: 14.257332
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 5
+ok 6 - Python parity: synthetic scenario 5
+  ---
+  duration_ms: 11.803522
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 6
+ok 7 - Python parity: synthetic scenario 6
+  ---
+  duration_ms: 13.041435
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 7
+ok 8 - Python parity: synthetic scenario 7
+  ---
+  duration_ms: 17.287629
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 8
+ok 9 - Python parity: synthetic scenario 8
+  ---
+  duration_ms: 17.567972
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 9
+ok 10 - Python parity: synthetic scenario 9
+  ---
+  duration_ms: 16.272424
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 10
+ok 11 - Python parity: synthetic scenario 10
+  ---
+  duration_ms: 16.36537
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 11
+ok 12 - Python parity: synthetic scenario 11
+  ---
+  duration_ms: 16.160163
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 12
+ok 13 - Python parity: synthetic scenario 12
+  ---
+  duration_ms: 12.594574
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 13
+ok 14 - Python parity: synthetic scenario 13
+  ---
+  duration_ms: 11.427307
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 14
+ok 15 - Python parity: synthetic scenario 14
+  ---
+  duration_ms: 11.404326
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 15
+ok 16 - Python parity: synthetic scenario 15
+  ---
+  duration_ms: 11.337327
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 16
+ok 17 - Python parity: synthetic scenario 16
+  ---
+  duration_ms: 26.655903
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 17
+ok 18 - Python parity: synthetic scenario 17
+  ---
+  duration_ms: 24.806449
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 18
+ok 19 - Python parity: synthetic scenario 18
+  ---
+  duration_ms: 14.639698
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 19
+ok 20 - Python parity: synthetic scenario 19
+  ---
+  duration_ms: 12.374831
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 20
+ok 21 - Python parity: synthetic scenario 20
+  ---
+  duration_ms: 17.932395
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 21
+ok 22 - Python parity: synthetic scenario 21
+  ---
+  duration_ms: 11.608285
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 22
+ok 23 - Python parity: synthetic scenario 22
+  ---
+  duration_ms: 13.394377
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 23
+ok 24 - Python parity: synthetic scenario 23
+  ---
+  duration_ms: 13.709333
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 24
+ok 25 - Python parity: synthetic scenario 24
+  ---
+  duration_ms: 11.364419
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 25
+ok 26 - Python parity: synthetic scenario 25
+  ---
+  duration_ms: 18.0822
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 26
+ok 27 - Python parity: synthetic scenario 26
+  ---
+  duration_ms: 12.773944
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 27
+ok 28 - Python parity: synthetic scenario 27
+  ---
+  duration_ms: 11.449272
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 28
+ok 29 - Python parity: synthetic scenario 28
+  ---
+  duration_ms: 11.18207
+  type: 'test'
+  ...
+# Subtest: Python parity: synthetic scenario 29
+ok 30 - Python parity: synthetic scenario 29
+  ---
+  duration_ms: 12.446071
+  type: 'test'
+  ...
+# Subtest: Reject duplicates
+ok 31 - Reject duplicates
+  ---
+  duration_ms: 0.613827
+  type: 'test'
+  ...
+# Subtest: Reject prototype
+ok 32 - Reject prototype
+  ---
+  duration_ms: 0.078712
+  type: 'test'
+  ...
+# Subtest: Reject constructor
+ok 33 - Reject constructor
+  ---
+  duration_ms: 0.04249
+  type: 'test'
+  ...
+# Subtest: Reject array
+ok 34 - Reject array
+  ---
+  duration_ms: 0.038147
+  type: 'test'
+  ...
+# Subtest: Reject trailing
+ok 35 - Reject trailing
+  ---
+  duration_ms: 0.032549
+  type: 'test'
+  ...
+# Subtest: Reject nan
+ok 36 - Reject nan
+  ---
+  duration_ms: 0.043824
+  type: 'test'
+  ...
+# Subtest: Reject infinity
+ok 37 - Reject infinity
+  ---
+  duration_ms: 0.110468
+  type: 'test'
+  ...
+# Subtest: Reject unicode
+ok 38 - Reject unicode
+  ---
+  duration_ms: 0.074029
+  type: 'test'
+  ...
+# Subtest: Reject secret
+ok 39 - Reject secret
+  ---
+  duration_ms: 0.120669
+  type: 'test'
+  ...
+# Subtest: Reject nested
+ok 40 - Reject nested
+  ---
+  duration_ms: 0.0802
+  type: 'test'
+  ...
+# Subtest: Reject oversized
+ok 41 - Reject oversized
+  ---
+  duration_ms: 2.715368
+  type: 'test'
+  ...
+# Subtest: Malformed JSON rejected and BOM supported
+ok 42 - Malformed JSON rejected and BOM supported
+  ---
+  duration_ms: 0.290059
+  type: 'test'
+  ...
+# Subtest: Evidence exclusion: failed
+ok 43 - Evidence exclusion: failed
+  ---
+  duration_ms: 16.053797
+  type: 'test'
+  ...
+# Subtest: Evidence exclusion: partial
+ok 44 - Evidence exclusion: partial
+  ---
+  duration_ms: 6.166615
+  type: 'test'
+  ...
+# Subtest: Evidence exclusion: geometry
+ok 45 - Evidence exclusion: geometry
+  ---
+  duration_ms: 8.325758
+  type: 'test'
+  ...
+# Subtest: Evidence exclusion: unreviewed
+ok 46 - Evidence exclusion: unreviewed
+  ---
+  duration_ms: 5.239093
+  type: 'test'
+  ...
+# Subtest: Evidence exclusion: photoMissing
+ok 47 - Evidence exclusion: photoMissing
+  ---
+  duration_ms: 5.742131
+  type: 'test'
+  ...
+# Subtest: Evidence exclusion: stale
+ok 48 - Evidence exclusion: stale
+  ---
+  duration_ms: 6.038857
+  type: 'test'
+  ...
+# Subtest: Evidence exclusion: reused
+ok 49 - Evidence exclusion: reused
+  ---
+  duration_ms: 6.743936
+  type: 'test'
+  ...
+# Subtest: Unsafe configuration: thermal
+ok 50 - Unsafe configuration: thermal
+  ---
+  duration_ms: 1.353381
+  type: 'test'
+  ...
+# Subtest: Unsafe configuration: layer
+ok 51 - Unsafe configuration: layer
+  ---
+  duration_ms: 1.3787
+  type: 'test'
+  ...
+# Subtest: Unsafe configuration: baseLimits
+ok 52 - Unsafe configuration: baseLimits
+  ---
+  duration_ms: 1.094401
+  type: 'test'
+  ...
+# Subtest: Unsafe configuration: bool
+ok 53 - Unsafe configuration: bool
+  ---
+  duration_ms: 2.46945
+  type: 'test'
+  ...
+# Subtest: Unsafe configuration: unknown
+ok 54 - Unsafe configuration: unknown
+  ---
+  duration_ms: 2.11312
+  type: 'test'
+  ...
+# Subtest: Unsafe configuration: percent
+ok 55 - Unsafe configuration: percent
+  ---
+  duration_ms: 2.121833
+  type: 'test'
+  ...
+# Subtest: Unsafe configuration: wrongCompatibility
+ok 56 - Unsafe configuration: wrongCompatibility
+  ---
+  duration_ms: 1.979626
+  type: 'test'
+  ...
+# Subtest: Unsafe configuration: invalidTotal
+ok 57 - Unsafe configuration: invalidTotal
+  ---
+  duration_ms: 2.813715
+  type: 'test'
+  ...
+# Subtest: Unsafe configuration: pressureAdvance
+ok 58 - Unsafe configuration: pressureAdvance
+  ---
+  duration_ms: 2.014633
+  type: 'test'
+  ...
+# Subtest: Exports preserve original scripts and inputs and remove old setting IDs
+ok 59 - Exports preserve original scripts and inputs and remove old setting IDs
+  ---
+  duration_ms: 10.841974
+  type: 'test'
+  ...
+# Subtest: Advisor export excludes base scripts and never claims attached images
+ok 60 - Advisor export excludes base scripts and never claims attached images
+  ---
+  duration_ms: 7.577246
+  type: 'test'
+  ...
+# Subtest: Reject proposal: stale
+ok 61 - Reject proposal: stale
+  ---
+  duration_ms: 5.706167
+  type: 'test'
+  ...
+# Subtest: Reject proposal: thermal
+ok 62 - Reject proposal: thermal
+  ---
+  duration_ms: 5.629092
+  type: 'test'
+  ...
+# Subtest: Reject proposal: evidence
+ok 63 - Reject proposal: evidence
+  ---
+  duration_ms: 3.436652
+  type: 'test'
+  ...
+# Subtest: Reject proposal: extra
+ok 64 - Reject proposal: extra
+  ---
+  duration_ms: 4.4635
+  type: 'test'
+  ...
+# Subtest: Reject proposal: noChange
+ok 65 - Reject proposal: noChange
+  ---
+  duration_ms: 3.262808
+  type: 'test'
+  ...
+# Subtest: Reject proposal: largeStep
+ok 66 - Reject proposal: largeStep
+  ---
+  duration_ms: 8.782676
+  type: 'test'
+  ...
+# Subtest: ZIP bounded names and readable bytes
+ok 67 - ZIP bounded names and readable bytes
+  ---
+  duration_ms: 7.255397
+  type: 'test'
+  ...
+# Subtest: Original numeric identities survive cloning and saving
+ok 68 - Original numeric identities survive cloning and saving
+  ---
+  duration_ms: 4.662885
+  type: 'test'
+  ...
+# Subtest: Manifest has no privileged permissions and code has no network or persistence
+ok 69 - Manifest has no privileged permissions and code has no network or persistence
+  ---
+  duration_ms: 0.892873
+  type: 'test'
+  ...
+# Subtest: Toolbar action only creates its own packaged page
+ok 70 - Toolbar action only creates its own packaged page
+  ---
+  duration_ms: 1.620149
+  type: 'test'
+  ...
+1..70
+# tests 70
+# suites 0
+# pass 70
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 729.738733

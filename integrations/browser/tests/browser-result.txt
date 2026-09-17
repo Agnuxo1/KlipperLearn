@@ -1,0 +1,17 @@
+PASS Original application logic runs in the documented in-memory Chromium harness
+PASS Synthetic example selects the expected Quality and Speed configurations
+PASS Captured output ZIP: six DEMO profiles, audit and instructions; CRC correct
+PASS Saved session preserves its synthetic flag and parseable JSON
+PASS Manual advisor proposal generates explicitly unvalidated trial presets
+PASS Adding a candidate does not invent a trial or apply machine settings
+PASS Stale or out-of-step suggestions cannot be adopted
+PASS Invalid imports preserve the currently loaded session
+PASS Original photograph hashes and unmatched status displayed locally
+PASS Clear discards the session and image previews
+PASS Guided preset and model entry creates an empty unchanged baseline
+PASS Two independent declared trials enable modes without invented alternatives
+PASS Browser-created session structure is accepted by the original Python optimizer
+PASS Narrow layout has no horizontal overflow
+PASS Bundled guide, privacy and licensing load without a website
+PASS Zero external requests and zero renderer errors in this harness
+16 DOM-harness checks passed.

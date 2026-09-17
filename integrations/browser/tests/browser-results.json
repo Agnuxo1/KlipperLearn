@@ -1,0 +1,33 @@
+{
+  "status": "passed",
+  "checks": [
+    "Original application logic runs in the documented in-memory Chromium harness",
+    "Synthetic example selects the expected Quality and Speed configurations",
+    "Captured output ZIP: six DEMO profiles, audit and instructions; CRC correct",
+    "Saved session preserves its synthetic flag and parseable JSON",
+    "Manual advisor proposal generates explicitly unvalidated trial presets",
+    "Adding a candidate does not invent a trial or apply machine settings",
+    "Stale or out-of-step suggestions cannot be adopted",
+    "Invalid imports preserve the currently loaded session",
+    "Original photograph hashes and unmatched status displayed locally",
+    "Clear discards the session and image previews",
+    "Guided preset and model entry creates an empty unchanged baseline",
+    "Two independent declared trials enable modes without invented alternatives",
+    "Browser-created session structure is accepted by the original Python optimizer",
+    "Narrow layout has no horizontal overflow",
+    "Bundled guide, privacy and licensing load without a website",
+    "Zero external requests and zero renderer errors in this harness"
+  ],
+  "count": 16,
+  "browser": "Chromium 144.0.7559.96",
+  "dom_harness": true,
+  "native_extension_installation": false,
+  "secure_origin_hash_api": "explicit hashlib-backed test double",
+  "native_download_navigation": false,
+  "download_test": "captured output blobs validated with Python zipfile",
+  "external_requests": [],
+  "renderer_errors": [],
+  "store_submission": false,
+  "printer_connected": false,
+  "native_slicer_import": false
+}
