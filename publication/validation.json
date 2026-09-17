@@ -1,0 +1,81 @@
+{
+  "schema": "klipperlearn.model-platform-validation/v1",
+  "verified_at_utc": "2026-09-17T10:15:00.421419+00:00",
+  "base_commit": "9e92d1e6173a87406dbeb2cfbe4e26d0ada2430f",
+  "command": "python tools/run_offline_tests.py",
+  "isolated_environment": "Fresh Python venv with learning/dev extras, no optional training extra",
+  "result": {
+    "passed": 516,
+    "skipped": 4,
+    "subtests_passed": 194,
+    "warnings": 2,
+    "seconds": 11.3,
+    "exit_code": 0
+  },
+  "new_packaging_tests": 12,
+  "lint": {
+    "command": "python -m ruff check --select E9,F tools/build_publication_kit.py tests/test_model_platform_kit.py",
+    "result": "passed"
+  },
+  "initial_global_environment": {
+    "passed": 505,
+    "skipped": 1,
+    "failed": 2,
+    "cause": "Installed global PyTorch is below the application-supported 2.10.0 minimum; the existing security guard correctly rejected checkpoint loads. Global environment and protection were not altered."
+  },
+  "optional_training_tested": false,
+  "hardware_tested": false,
+  "self_intersection_tested": false,
+  "native_slicer_import_tested": false,
+  "file_hashes": {
+    "tools/build_publication_kit.py": "a7187c0c220de30625636c422187660d2ba3c961c07bcf57a65f896ddfe6bbb9",
+    "tests/test_model_platform_kit.py": "f19cf6a9221fc025e01cd9b0e76b8e4a9513073f5230e37d813a5e20685cb0f3",
+    "publication/listing.en.txt": "ca2c5516ab6c93774e32336024f25a3bde2bb84c72a70ff0f2d78269a6025ce5",
+    "publication/calibration-card-render.png": "01253941570064f5bdd34449b3bc29a5e9228cf1a1d43ff5cf99d48e33cb22ff"
+  },
+  "javascript": {
+    "command": "KL_TEST_BROWSER_CHANNEL=msedge node scripts/run-node-tests.cjs",
+    "programs_passed": 12,
+    "programs_total": 12,
+    "scope": "Isolated headless browser, synthetic endpoints; no printer traffic"
+  },
+  "reference_core": {
+    "command": "node --test tests/core.test.js",
+    "passed": 47,
+    "failed": 0
+  },
+  "exporter": {
+    "command": "python -m unittest discover -s tools/exporter/tests -v",
+    "passed": 25,
+    "failed": 0
+  },
+  "repository_consistency": {
+    "command": "python tools/check_repository.py",
+    "result": "passed",
+    "scope": "Consistency only, not an exhaustive security audit"
+  },
+  "hash_normalization": "UTF-8 text with LF line endings; binary files unchanged",
+  "model_kit": {
+    "file": "KlipperLearn-0.6.0-Model-Platform-Kit.zip",
+    "bytes": 128949,
+    "sha256": "5e58ab8d788364ac72fc69b9e16f8910ddfc2bea4df1009bf4aa9924e458ec07",
+    "text_line_endings": "LF",
+    "cross_platform_line_ending_regression": "passed"
+  },
+  "github_ci": {
+    "source_commit": "dd96c64f6d3e435e8aa0ff4513efc40abeb17014",
+    "workflow_run_url": "https://github.com/Agnuxo1/KlipperLearn/actions/runs/35209866069",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "public_source_download": {
+    "url": "https://github.com/Agnuxo1/KlipperLearn/archive/dd96c64f6d3e435e8aa0ff4513efc40abeb17014.zip",
+    "source_commit": "dd96c64f6d3e435e8aa0ff4513efc40abeb17014",
+    "bytes": 12646343,
+    "sha256": "0be307d1db050258a698a90f026fa9c6a61c737c1fd4cd6cec71fc909fbbee81",
+    "http_status": 200,
+    "tracked_files": 316,
+    "authenticated": false,
+    "all_recorded_source_hashes_match": true
+  }
+}

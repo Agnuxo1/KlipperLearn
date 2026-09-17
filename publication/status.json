@@ -1,0 +1,181 @@
+{
+  "schema": "klipperlearn.model-platform-publication/v1",
+  "checked_at_utc": "2026-09-17T10:15:00.421419+00:00",
+  "execution": "new_direct_owner_request_not_overnight_automation",
+  "source_base_commit": "9e92d1e6173a87406dbeb2cfbe4e26d0ada2430f",
+  "core_version": "0.6.0",
+  "repository": "https://github.com/Agnuxo1/KlipperLearn",
+  "complete_project_release": "https://github.com/Agnuxo1/KlipperLearn/releases/tag/community-preview-20260917",
+  "scope": "Six model platforms, one original coupon listing per platform with complete software source links. Not a popularity ranking.",
+  "platforms": [
+    {
+      "id": "printables",
+      "name": "Printables",
+      "platform_url": "https://www.printables.com/",
+      "policy_sources": [
+        "https://www.prusa3d.com/page/terms-of-service-of-printables-com_231249/"
+      ],
+      "checked_at_utc": "2026-09-17T10:15:00.421419+00:00",
+      "state": "draft_saved_upload_blocked",
+      "prepared": true,
+      "tested": true,
+      "test_scope": "Offline original-mesh and packaging tests only; not platform acceptance or physical testing.",
+      "published_in_own_repo": true,
+      "submitted": false,
+      "publicly_published": false,
+      "accepted": false,
+      "blocked": [
+        "file_upload_interaction_denied_by_tool"
+      ],
+      "evidence": "Authenticated native browser. Model 1845028 saved as a draft. Title, full source links, description, Test Models category, original-model declaration, AI assistance and GPL v3 selected. No model files uploaded; not published.",
+      "public_listing_url": null,
+      "draft_saved": true,
+      "draft_id": 1845028,
+      "draft_edit_url": "https://www.printables.com/model/1845028/edit"
+    },
+    {
+      "id": "makerworld",
+      "name": "MakerWorld",
+      "platform_url": "https://makerworld.com/",
+      "policy_sources": [
+        "https://wiki.bambulab.com/en/makerworld/tutorials/model-upload-guidelines"
+      ],
+      "checked_at_utc": "2026-09-17T10:15:00.421419+00:00",
+      "state": "physical_evidence_required",
+      "prepared": true,
+      "tested": true,
+      "test_scope": "Offline original-mesh and packaging tests only; not platform acceptance or physical testing.",
+      "published_in_own_repo": true,
+      "submitted": false,
+      "publicly_published": false,
+      "accepted": false,
+      "blocked": [
+        "actual_print_photo_of_exact_coupon_missing"
+      ],
+      "evidence": "Official model-upload guidelines read in the native browser require an actual printed-object photograph. No exact-coupon photograph has been verified. Digital render and unrelated Benchy evidence do not satisfy that requirement. No submission or native Bambu profile created.",
+      "public_listing_url": null,
+      "draft_saved": false
+    },
+    {
+      "id": "thingiverse",
+      "name": "Thingiverse",
+      "platform_url": "https://www.thingiverse.com/",
+      "policy_sources": [
+        "https://www.thingiverse.com/legal/terms"
+      ],
+      "checked_at_utc": "2026-09-17T10:15:00.421419+00:00",
+      "state": "authentication_required",
+      "prepared": true,
+      "tested": true,
+      "test_scope": "Offline original-mesh and packaging tests only; not platform acceptance or physical testing.",
+      "published_in_own_repo": true,
+      "submitted": false,
+      "publicly_published": false,
+      "accepted": false,
+      "blocked": [
+        "authenticated_session_missing",
+        "current_ai_upload_rules_not_fully_verified"
+      ],
+      "evidence": "Native browser displayed Log In. Terms read. No claim that all AI-assisted designs are prohibited has been inferred from the human-first banner. No account creation, upload, license replacement or submission.",
+      "public_listing_url": null,
+      "draft_saved": false
+    },
+    {
+      "id": "cults3d",
+      "name": "Cults3D",
+      "platform_url": "https://cults3d.com/",
+      "policy_sources": [
+        "https://cults3d.com/en/pages/filtering-ai-generated-designs"
+      ],
+      "checked_at_utc": "2026-09-17T10:15:00.421419+00:00",
+      "state": "security_challenge",
+      "prepared": true,
+      "tested": true,
+      "test_scope": "Offline original-mesh and packaging tests only; not platform acceptance or physical testing.",
+      "published_in_own_repo": true,
+      "submitted": false,
+      "publicly_published": false,
+      "accepted": false,
+      "blocked": [
+        "browser_security_challenge",
+        "gpl_compatible_upload_license_not_verified"
+      ],
+      "evidence": "Native browser displayed a Cloudflare security challenge. No challenge bypass attempted. Official AI policy requires disclosure for AI use in design or illustration. No listing created.",
+      "public_listing_url": null,
+      "draft_saved": false
+    },
+    {
+      "id": "myminifactory",
+      "name": "MyMiniFactory",
+      "platform_url": "https://www.myminifactory.com/",
+      "policy_sources": [
+        "https://creator.myminifactory.com/ai-policy"
+      ],
+      "checked_at_utc": "2026-09-17T10:15:00.421419+00:00",
+      "state": "authentication_and_policy_review_required",
+      "prepared": true,
+      "tested": true,
+      "test_scope": "Offline original-mesh and packaging tests only; not platform acceptance or physical testing.",
+      "published_in_own_repo": true,
+      "submitted": false,
+      "publicly_published": false,
+      "accepted": false,
+      "blocked": [
+        "authenticated_session_missing",
+        "ai_assisted_free_model_policy_clarification"
+      ],
+      "evidence": "Native browser displayed Login button. Official AI policy restricts sales of products solely relying on AI-generated content; its application to this free, AI-assisted engineering coupon is not conclusively resolved. No blanket AI prohibition inferred, no sale or paid creator plan activated.",
+      "public_listing_url": null,
+      "draft_saved": false
+    },
+    {
+      "id": "thangs",
+      "name": "Thangs",
+      "platform_url": "https://thangs.com/",
+      "policy_sources": [
+        "https://thangs.com/resources/help-center"
+      ],
+      "checked_at_utc": "2026-09-17T10:15:00.421419+00:00",
+      "state": "authentication_required",
+      "prepared": true,
+      "tested": true,
+      "test_scope": "Offline original-mesh and packaging tests only; not platform acceptance or physical testing.",
+      "published_in_own_repo": true,
+      "submitted": false,
+      "publicly_published": false,
+      "accepted": false,
+      "blocked": [
+        "authenticated_session_missing",
+        "gpl_compatible_upload_license_not_verified"
+      ],
+      "evidence": "Native browser displayed Log in. Official help disallows ZIP model uploads; use the STL with matching render and canonical GitHub source links. Ordinary uploads are private by default. Contest rules are not treated as general upload rules. No listing created.",
+      "public_listing_url": null,
+      "draft_saved": false
+    }
+  ],
+  "hardware_contacted": false,
+  "paid_services_created": false,
+  "credentials_exported": false,
+  "new_accounts_created": false,
+  "background_tasks_created": false,
+  "own_repository_distribution": {
+    "source_changes_published": true,
+    "source_commit": "dd96c64f6d3e435e8aa0ff4513efc40abeb17014",
+    "pull_request": "https://github.com/Agnuxo1/KlipperLearn/pull/2",
+    "public_complete_source_archive": {
+      "url": "https://github.com/Agnuxo1/KlipperLearn/archive/dd96c64f6d3e435e8aa0ff4513efc40abeb17014.zip",
+      "source_commit": "dd96c64f6d3e435e8aa0ff4513efc40abeb17014",
+      "bytes": 12646343,
+      "sha256": "0be307d1db050258a698a90f026fa9c6a61c737c1fd4cd6cec71fc909fbbee81",
+      "http_status": 200,
+      "tracked_files": 316,
+      "authenticated": false,
+      "all_recorded_source_hashes_match": true
+    },
+    "new_release_created": false,
+    "release_asset_upload_state": "blocked_by_tool_security_control",
+    "release_attempt_executed": false,
+    "release_upload_bypass_attempted": false,
+    "existing_release_unchanged": true
+  }
+}

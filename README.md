@@ -234,3 +234,15 @@ Start with the [downloadable packages](integrations/packages/README.md) or the
 [project-by-project status and validation](integrations/ecosystem/README.md).
 The tools preserve printer/workflow provenance, avoid modifying G-code and make
 native-GUI, hardware and maintainer acceptance explicit rather than assumed.
+
+## Original calibration coupon: model-platform distribution
+
+The [model-platform kit](publication/README.md) contains the original STL, an
+editable exact-output generator, a labelled geometry render, a reproducible
+validation report and platform-specific publication checklists. The complete
+application and versioned downloads remain available through the links above.
+
+[Current six-platform status](publication/status.json) distinguishes prepared
+materials, a saved Printables draft, actual public publication and acceptance.
+A draft or upload attempt is not public adoption. Physical validation of this
+exact coupon is not asserted.
