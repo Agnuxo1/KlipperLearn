@@ -1,0 +1,15 @@
+{
+  "schema": "klipperlearn.voron-evidence/v1",
+  "printer_id": "replace-with-private-machine-id",
+  "voron_model": "Trident",
+  "configuration_sha256": "",
+  "benchmark_sha256": "",
+  "declarations": {
+    "physical_printer_tested": false,
+    "operator_reviewed": false,
+    "license_reviewed": false,
+    "mount_clearance_checked": false,
+    "thermal_limits_checked": false
+  },
+  "trials": []
+}

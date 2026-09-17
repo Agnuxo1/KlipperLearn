@@ -59,3 +59,9 @@ dist/
 *.onnx
 test-results/
 playwright-report/
+
+# Reviewed, reproducible public integration source distributions only
+!integrations/packages/KlipperLearn-Cura-Evidence.zip
+!integrations/packages/KlipperLearn-Ecosystem-Toolkit.zip
+!integrations/packages/KlipperLearn-Slicer-Evidence.zip
+!integrations/packages/OctoPrint-KlipperLearnEvidence-0.1.1.zip

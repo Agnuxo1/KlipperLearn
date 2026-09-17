@@ -28,8 +28,8 @@
       "upstream_license_metadata": "GPL-3.0",
       "archived": false,
       "delivery_goal": "External Moonraker-based calibration companion; do not patch firmware for visibility.",
-      "next_action": "Write a runnable read-only status contract example and map existing guarded calibration boundaries.",
-      "stage": "research_ready",
+      "next_action": "Perform applicable native application or physical acceptance and obtain human maintainer review before an upstream proposal.",
+      "stage": "contract_tested",
       "upstream_status": "not_submitted",
       "auto_contact_allowed": false,
       "submission_gate_blockers": [
@@ -44,11 +44,42 @@
           "sha256": "8ef42cb9309d0e670333437c73ea33f0a126a46d7d64d53f5e25353f4a031058"
         }
       ],
-      "artifact_paths": [],
-      "tests": [],
+      "artifact_paths": [
+        "integrations/klipper/README.md",
+        "src/klipperlearn/ecosystem_evidence.py",
+        "examples/ecosystem-status.json"
+      ],
+      "tests": [
+        {
+          "execution": "direct_interactive",
+          "command": "python tools/run_offline_tests.py",
+          "result": "passed",
+          "suite_cases": 503,
+          "suite_subtests": 185,
+          "scope": "Offline contracts; not upstream acceptance or hardware validation"
+        }
+      ],
       "fork_url": null,
       "submissions": [],
-      "acceptance_evidence": null
+      "acceptance_evidence": null,
+      "delivery_status": "published_in_own_repo",
+      "artifact_sha256": {
+        "integrations/klipper/README.md": "eed9b8876378d711d3861b8aec4ecc1a8b92b3d3875e11e2b65a2be39df4790d",
+        "src/klipperlearn/ecosystem_evidence.py": "d1f3ac5cac38bfbd2d19009b16a1f1dc90a2d0e8a42151da81481bd58d2dbac7",
+        "examples/ecosystem-status.json": "e99b7896e555a983499e24892fc7a2d5bbcd07bf74a04c8ebf09c4b8b2a81349"
+      },
+      "delivery_state": {
+        "prepared": true,
+        "tested": true,
+        "published_in_own_repo": true,
+        "submitted": false,
+        "accepted": false,
+        "blocked": [
+          "experimental_work_excluded_from_core",
+          "dco_attestation_required"
+        ]
+      },
+      "direct_review": "integrations/ecosystem/DIRECT_REVIEW_2026-09-17.md"
     },
     {
       "id": "moonraker",
@@ -58,8 +89,8 @@
       "upstream_license_metadata": "GPL-3.0",
       "archived": false,
       "delivery_goal": "Improve read-only job/camera evidence using existing APIs.",
-      "next_action": "Add tested normalization of history outcomes and record print versus total duration; keep model work outside Moonraker.",
-      "stage": "research_ready",
+      "next_action": "Perform applicable native application or physical acceptance and obtain human maintainer review before an upstream proposal.",
+      "stage": "contract_tested",
       "upstream_status": "not_submitted",
       "auto_contact_allowed": false,
       "submission_gate_blockers": [
@@ -74,11 +105,42 @@
           "sha256": "5d840b1c7ac051f540ba1b0b28229cf5dbc8bb9e391f9a552a1e618c18176465"
         }
       ],
-      "artifact_paths": [],
-      "tests": [],
+      "artifact_paths": [
+        "integrations/moonraker/HISTORY_REVIEW.md",
+        "src/klipperlearn/ecosystem_evidence.py",
+        "examples/ecosystem-history.json"
+      ],
+      "tests": [
+        {
+          "execution": "direct_interactive",
+          "command": "python tools/run_offline_tests.py",
+          "result": "passed",
+          "suite_cases": 503,
+          "suite_subtests": 185,
+          "scope": "Offline contracts; not upstream acceptance or hardware validation"
+        }
+      ],
       "fork_url": null,
       "submissions": [],
-      "acceptance_evidence": null
+      "acceptance_evidence": null,
+      "delivery_status": "published_in_own_repo",
+      "artifact_sha256": {
+        "integrations/moonraker/HISTORY_REVIEW.md": "902510645abf2afd507015028efc4285bc7b3cd71655937a57f333d1d512dd18",
+        "src/klipperlearn/ecosystem_evidence.py": "d1f3ac5cac38bfbd2d19009b16a1f1dc90a2d0e8a42151da81481bd58d2dbac7",
+        "examples/ecosystem-history.json": "2a07d3122d7d71280755aef8ca74edb5d6f126b95f839a5dbc07b65da9b24e00"
+      },
+      "delivery_state": {
+        "prepared": true,
+        "tested": true,
+        "published_in_own_repo": true,
+        "submitted": false,
+        "accepted": false,
+        "blocked": [
+          "dco_attestation_required",
+          "significant_impact_and_async_review_required"
+        ]
+      },
+      "direct_review": "integrations/ecosystem/DIRECT_REVIEW_2026-09-17.md"
     },
     {
       "id": "orca",
@@ -88,8 +150,8 @@
       "upstream_license_metadata": "AGPL-3.0",
       "archived": false,
       "delivery_goal": "Maintain six paired mode presets and exact post-processing fingerprints.",
-      "next_action": "Validate import structure against official current presets; do not call a schema check a real GUI import.",
-      "stage": "research_ready",
+      "next_action": "Perform applicable native application or physical acceptance and obtain human maintainer review before an upstream proposal.",
+      "stage": "contract_tested",
       "upstream_status": "not_submitted",
       "auto_contact_allowed": false,
       "submission_gate_blockers": [
@@ -98,11 +160,42 @@
       ],
       "policy_review": "selected_files_read_not_exhaustive",
       "policy_sources": [],
-      "artifact_paths": [],
-      "tests": [],
+      "artifact_paths": [
+        "integrations/orca/BUNDLE_AUDIT.md",
+        "src/klipperlearn/orca_bundle_audit.py",
+        "integrations/packages/KlipperLearn-Slicer-Evidence.zip"
+      ],
+      "tests": [
+        {
+          "execution": "direct_interactive",
+          "command": "python tools/run_offline_tests.py",
+          "result": "passed",
+          "suite_cases": 503,
+          "suite_subtests": 185,
+          "scope": "Offline contracts; not upstream acceptance or hardware validation"
+        }
+      ],
       "fork_url": null,
       "submissions": [],
-      "acceptance_evidence": null
+      "acceptance_evidence": null,
+      "delivery_status": "published_in_own_repo",
+      "artifact_sha256": {
+        "integrations/orca/BUNDLE_AUDIT.md": "cd7b113ebdf0e421becf477813e161cfbf389a973e1b4a3a68a25490efcc26ed",
+        "src/klipperlearn/orca_bundle_audit.py": "ffb1c189ab242a14dc51e39e4c35994e8029405d6a2340a9288322cb67d7ba5e",
+        "integrations/packages/KlipperLearn-Slicer-Evidence.zip": "16ad72bb5427f4dd7da5b75f337938adebd7342bd139abbc96d6a6fa1451fbed"
+      },
+      "delivery_state": {
+        "prepared": true,
+        "tested": true,
+        "published_in_own_repo": true,
+        "submitted": false,
+        "accepted": false,
+        "blocked": [
+          "complete_policy_review_pending",
+          "native_import_not_verified"
+        ]
+      },
+      "direct_review": "integrations/ecosystem/DIRECT_REVIEW_2026-09-17.md"
     },
     {
       "id": "mainsail",
@@ -112,8 +205,8 @@
       "upstream_license_metadata": "GPL-3.0",
       "archived": false,
       "delivery_goal": "External optimizer and authenticated live-camera interoperability.",
-      "next_action": "Prepare restricted reverse-proxy examples with TLS/freshness tests and check current contributor vouch list.",
-      "stage": "research_ready",
+      "next_action": "Perform applicable native application or physical acceptance and obtain human maintainer review before an upstream proposal.",
+      "stage": "contract_tested",
       "upstream_status": "not_submitted",
       "auto_contact_allowed": false,
       "submission_gate_blockers": [
@@ -133,11 +226,42 @@
           "sha256": "c22fbf25074118ea1f46c0d2ee780524d081d5579d90bb7c3ba9b60dc2b36273"
         }
       ],
-      "artifact_paths": [],
-      "tests": [],
+      "artifact_paths": [
+        "integrations/mainsail/README.md",
+        "src/klipperlearn/camera_proxy.py",
+        "integrations/ecosystem/validation/nginx-runtime.json"
+      ],
+      "tests": [
+        {
+          "execution": "direct_interactive",
+          "command": "python tools/run_offline_tests.py",
+          "result": "passed",
+          "suite_cases": 503,
+          "suite_subtests": 185,
+          "scope": "Offline contracts; not upstream acceptance or hardware validation"
+        }
+      ],
       "fork_url": null,
       "submissions": [],
-      "acceptance_evidence": null
+      "acceptance_evidence": null,
+      "delivery_status": "published_in_own_repo",
+      "artifact_sha256": {
+        "integrations/mainsail/README.md": "f9c4112b713e81aa1cb4f100c4be711a0cd7fda99789fb8a09db8817373ccc27",
+        "src/klipperlearn/camera_proxy.py": "b0a76f0181afc9806c7a89baa05cb0019f6acf06778c4232557af083c0c2d8f1",
+        "integrations/ecosystem/validation/nginx-runtime.json": "84166ad697127a413d10107e8ab35af678b64440e329015d6a3920e556b990e9"
+      },
+      "delivery_state": {
+        "prepared": true,
+        "tested": true,
+        "published_in_own_repo": true,
+        "submitted": false,
+        "accepted": false,
+        "blocked": [
+          "contributor_vouch_not_verified",
+          "dco_attestation_required"
+        ]
+      },
+      "direct_review": "integrations/ecosystem/DIRECT_REVIEW_2026-09-17.md"
     },
     {
       "id": "fluidd",
@@ -147,8 +271,8 @@
       "upstream_license_metadata": "GPL-3.0",
       "archived": false,
       "delivery_goal": "Reuse Moonraker camera/evidence APIs without replacing the UI.",
-      "next_action": "Prepare a Fluidd-specific setup and simulated API contract test; verify development policies before any source proposal.",
-      "stage": "research_ready",
+      "next_action": "Perform applicable native application or physical acceptance and obtain human maintainer review before an upstream proposal.",
+      "stage": "contract_tested",
       "upstream_status": "not_submitted",
       "auto_contact_allowed": false,
       "submission_gate_blockers": [
@@ -168,11 +292,42 @@
           "sha256": "82652832094a0ea95c3099798331b0399bdeb3961134d73289f806cb3a6bd1d9"
         }
       ],
-      "artifact_paths": [],
-      "tests": [],
+      "artifact_paths": [
+        "integrations/fluidd/README.md",
+        "src/klipperlearn/camera_proxy.py",
+        "integrations/ecosystem/validation/nginx-runtime.json"
+      ],
+      "tests": [
+        {
+          "execution": "direct_interactive",
+          "command": "python tools/run_offline_tests.py",
+          "result": "passed",
+          "suite_cases": 503,
+          "suite_subtests": 185,
+          "scope": "Offline contracts; not upstream acceptance or hardware validation"
+        }
+      ],
       "fork_url": null,
       "submissions": [],
-      "acceptance_evidence": null
+      "acceptance_evidence": null,
+      "delivery_status": "published_in_own_repo",
+      "artifact_sha256": {
+        "integrations/fluidd/README.md": "fbf15f15ec41ff14f47b3e64bfda2b16def949e57015351ace32fccf308c47f1",
+        "src/klipperlearn/camera_proxy.py": "b0a76f0181afc9806c7a89baa05cb0019f6acf06778c4232557af083c0c2d8f1",
+        "integrations/ecosystem/validation/nginx-runtime.json": "84166ad697127a413d10107e8ab35af678b64440e329015d6a3920e556b990e9"
+      },
+      "delivery_state": {
+        "prepared": true,
+        "tested": true,
+        "published_in_own_repo": true,
+        "submitted": false,
+        "accepted": false,
+        "blocked": [
+          "dco_attestation_required",
+          "native_frontend_acceptance_not_verified"
+        ]
+      },
+      "direct_review": "integrations/ecosystem/DIRECT_REVIEW_2026-09-17.md"
     },
     {
       "id": "octoprint",
@@ -182,15 +337,14 @@
       "upstream_license_metadata": "AGPL-3.0",
       "archived": false,
       "delivery_goal": "Separately maintained local evidence plugin; no generated upstream core PR.",
-      "next_action": "Install the standalone wheel in a disposable current OctoPrint instance, verify real event/plugin-manager behavior, then decide whether the maintainer commitment and standalone archive requirements for directory registration are satisfied.",
+      "next_action": "Perform applicable native application or physical acceptance and obtain human maintainer review before an upstream proposal.",
       "stage": "contract_tested",
       "upstream_status": "not_submitted",
       "auto_contact_allowed": false,
       "submission_gate_blockers": [
         "octoprint_core_ai_generated_contributions_prohibited",
         "native_octoprint_acceptance_not_verified",
-        "plugin_directory_maintainer_commitment_not_verified",
-        "stable_standalone_archive_not_published"
+        "plugin_directory_maintainer_commitment_not_verified"
       ],
       "policy_review": "current_core_ai_policy_and_plugin_registration_policy_reviewed",
       "policy_sources": [
@@ -211,7 +365,9 @@
         "integrations/octoprint/plugin/pyproject.toml",
         "integrations/octoprint/plugin/octoprint_klipperlearn_evidence/__init__.py",
         "integrations/octoprint/plugin/octoprint_klipperlearn_evidence/core.py",
-        "tests/test_octoprint_integration.py"
+        "tests/test_octoprint_integration.py",
+        "integrations/packages/OctoPrint-KlipperLearnEvidence-0.1.1.zip",
+        "tests/test_octoprint_hardening.py"
       ],
       "tests": [
         {
@@ -234,6 +390,14 @@
           "artifact": "octoprint_klipperlearnevidence-0.1.0-py3-none-any.whl",
           "sha256": "3ffe943eb84ff3056a85a127f06035d9f7292251652a3996c8ed1653a9928a52",
           "scope": "Local build artifact only; not committed or registered."
+        },
+        {
+          "execution": "direct_interactive",
+          "command": "python tools/run_offline_tests.py",
+          "result": "passed",
+          "suite_cases": 503,
+          "suite_subtests": 185,
+          "scope": "Offline contracts; not upstream acceptance or hardware validation"
         }
       ],
       "fork_url": null,
@@ -268,8 +432,7 @@
         "blocked": [
           "octoprint_core_ai_generated_contributions_prohibited",
           "native_octoprint_acceptance_not_verified",
-          "plugin_directory_maintainer_commitment_not_verified",
-          "stable_standalone_archive_not_published"
+          "plugin_directory_maintainer_commitment_not_verified"
         ]
       },
       "published_ref": {
@@ -277,7 +440,19 @@
         "commit": "2ba7ae9bee94d1e44dc81f10eafb47f12127b376",
         "ci_run": 35165372760,
         "ci_result": "success_on_python_3.11_and_3.13"
-      }
+      },
+      "delivery_status": "published_in_own_repo",
+      "artifact_sha256": {
+        "integrations/octoprint/README.md": "3e202349d9347c3ee94bb6d6435956ebc79edeaf892dbd1948e7765d710166fb",
+        "integrations/octoprint/REGISTRATION_CHECKLIST.md": "24ccbac6d01631b5b9014af66143f2f481f323c9323dfaabb0274710bb158807",
+        "integrations/octoprint/plugin/pyproject.toml": "52e37a57679b4149a1e61bfd52d15f5869ad23cab6384ca6fd2aa7226bc75d64",
+        "integrations/octoprint/plugin/octoprint_klipperlearn_evidence/__init__.py": "9791fdcdb2118027a39cb370a3dba72cefa95db371187edd58ae0e911099e0aa",
+        "integrations/octoprint/plugin/octoprint_klipperlearn_evidence/core.py": "49b4d84bfccb4bf309fcbbb1df51037877620b6bdc385023caca3bf211bfc81d",
+        "tests/test_octoprint_integration.py": "1ffffed05b079212d60ef4e4dfe1a62cf48a7703b01bba01cc0260ff4423b59a",
+        "integrations/packages/OctoPrint-KlipperLearnEvidence-0.1.1.zip": "0f2f710d489effd579546c08615d578baa30e1fef46c0ffdcdbf55f65430699d",
+        "tests/test_octoprint_hardening.py": "88e62ae8feb2e4909ffb3243d7965df92f263bca6e49529922c9795891905c36"
+      },
+      "direct_review": "integrations/ecosystem/DIRECT_REVIEW_2026-09-17.md"
     },
     {
       "id": "prusaslicer",
@@ -287,7 +462,7 @@
       "upstream_license_metadata": "AGPL-3.0",
       "archived": false,
       "delivery_goal": "Use documented appended temporary-file post-processing with the existing byte fingerprint helper.",
-      "next_action": "Expand verified settings import/export separately; document native UI acceptance; do not disguise a feature request as a bug.",
+      "next_action": "Perform applicable native application or physical acceptance and obtain human maintainer review before an upstream proposal.",
       "stage": "contract_tested",
       "upstream_status": "not_submitted",
       "auto_contact_allowed": false,
@@ -304,7 +479,8 @@
       ],
       "artifact_paths": [
         "integrations/prusaslicer/README.md",
-        "tests/test_prusaslicer_integration.py"
+        "tests/test_prusaslicer_integration.py",
+        "integrations/packages/KlipperLearn-Slicer-Evidence.zip"
       ],
       "tests": [
         {
@@ -312,11 +488,36 @@
           "result": "passed",
           "cases": 5,
           "scope": "Temporary-file contract only; native PrusaSlicer GUI not exercised"
+        },
+        {
+          "execution": "direct_interactive",
+          "command": "python tools/run_offline_tests.py",
+          "result": "passed",
+          "suite_cases": 503,
+          "suite_subtests": 185,
+          "scope": "Offline contracts; not upstream acceptance or hardware validation"
         }
       ],
       "fork_url": null,
       "submissions": [],
-      "acceptance_evidence": null
+      "acceptance_evidence": null,
+      "delivery_status": "published_in_own_repo",
+      "artifact_sha256": {
+        "integrations/prusaslicer/README.md": "e826e2c646bcf136769b387fe0a263e849abf938a23c58f95d6403f4cc2c0443",
+        "tests/test_prusaslicer_integration.py": "f0ea76f0c4e392bf107fa506f976b40930ed4dafd038fda2c59d0a6166030496",
+        "integrations/packages/KlipperLearn-Slicer-Evidence.zip": "16ad72bb5427f4dd7da5b75f337938adebd7342bd139abbc96d6a6fa1451fbed"
+      },
+      "delivery_state": {
+        "prepared": true,
+        "tested": true,
+        "published_in_own_repo": true,
+        "submitted": false,
+        "accepted": false,
+        "blocked": [
+          "native_gui_acceptance_not_verified"
+        ]
+      },
+      "direct_review": "integrations/ecosystem/DIRECT_REVIEW_2026-09-17.md"
     },
     {
       "id": "cura",
@@ -326,7 +527,7 @@
       "upstream_license_metadata": "LGPL-3.0",
       "archived": false,
       "delivery_goal": "Optional native Script/Extension evidence collector with no G-code changes.",
-      "next_action": "Run the script inside a current Cura development or packaged build and verify the real GUI/output pipeline before considering Marketplace or upstream contact.",
+      "next_action": "Perform applicable native application or physical acceptance and obtain human maintainer review before an upstream proposal.",
       "stage": "contract_tested",
       "upstream_status": "not_submitted",
       "auto_contact_allowed": false,
@@ -346,7 +547,8 @@
       "artifact_paths": [
         "integrations/cura/README.md",
         "integrations/cura/KlipperLearnEvidence.py",
-        "tests/test_cura_integration.py"
+        "tests/test_cura_integration.py",
+        "integrations/packages/KlipperLearn-Cura-Evidence.zip"
       ],
       "tests": [
         {
@@ -362,6 +564,14 @@
           "skipped": 1,
           "deselected": 2,
           "scope": "Repository regression suite excluding two environment-gated real PyTorch smoke tests; installed torch was 2.6.0+cu124 while project requires >=2.10.0"
+        },
+        {
+          "execution": "direct_interactive",
+          "command": "python tools/run_offline_tests.py",
+          "result": "passed",
+          "suite_cases": 503,
+          "suite_subtests": 185,
+          "scope": "Offline contracts; not upstream acceptance or hardware validation"
         }
       ],
       "fork_url": null,
@@ -397,7 +607,15 @@
         "commit": "754e0910ed0bbd949e59fc5b52459a40bddfeb51",
         "ci_run": 35160751083,
         "ci_result": "success_on_python_3.11_and_3.13"
-      }
+      },
+      "delivery_status": "published_in_own_repo",
+      "artifact_sha256": {
+        "integrations/cura/README.md": "dbd54db5f28f4dd3450b52f9069f5e548cff610bca47e93d8f32e128e7ced48e",
+        "integrations/cura/KlipperLearnEvidence.py": "10ccbe0d3e2b453947f4cd186dfd6397cf510f32617d73ea597e17e4e15c3f00",
+        "tests/test_cura_integration.py": "ec69966bbffb829edb6d94176c69bdeca6bd9e76b60fc099c1db8e2301e64f62",
+        "integrations/packages/KlipperLearn-Cura-Evidence.zip": "c5a7f99acbe78bdd459d865ca16e2bbd028a13795bb568f882c571add83150fb"
+      },
+      "direct_review": "integrations/ecosystem/DIRECT_REVIEW_2026-09-17.md"
     },
     {
       "id": "kiauh",
@@ -407,8 +625,8 @@
       "upstream_license_metadata": "GPL-3.0",
       "archived": false,
       "delivery_goal": "Read-only host prerequisites and coexistence checks for an external KlipperLearn service.",
-      "next_action": "Build a dry-run preflight helper; never reinstall Klipper or activate services while assessing compatibility.",
-      "stage": "research_ready",
+      "next_action": "Perform applicable native application or physical acceptance and obtain human maintainer review before an upstream proposal.",
+      "stage": "contract_tested",
       "upstream_status": "not_submitted",
       "auto_contact_allowed": false,
       "submission_gate_blockers": [
@@ -416,11 +634,41 @@
       ],
       "policy_review": "selected_files_read_not_exhaustive",
       "policy_sources": [],
-      "artifact_paths": [],
-      "tests": [],
+      "artifact_paths": [
+        "integrations/kiauh/README.md",
+        "src/klipperlearn/host_preflight.py",
+        "examples/host-preflight.json"
+      ],
+      "tests": [
+        {
+          "execution": "direct_interactive",
+          "command": "python tools/run_offline_tests.py",
+          "result": "passed",
+          "suite_cases": 503,
+          "suite_subtests": 185,
+          "scope": "Offline contracts; not upstream acceptance or hardware validation"
+        }
+      ],
       "fork_url": null,
       "submissions": [],
-      "acceptance_evidence": null
+      "acceptance_evidence": null,
+      "delivery_status": "published_in_own_repo",
+      "artifact_sha256": {
+        "integrations/kiauh/README.md": "f02c3962723617deea9c27ecf4ca33def27ca5e43feab0f8ef8dc834c9d78ffe",
+        "src/klipperlearn/host_preflight.py": "44ff40c0b7de6a7e9b9d1ba9e1376fbf47263ec558c785cd93e0926264520788",
+        "examples/host-preflight.json": "56c1258d3c7ce8a6dbd31e727a636d47c60662f054b16f2776ba438b1c288f02"
+      },
+      "delivery_state": {
+        "prepared": true,
+        "tested": true,
+        "published_in_own_repo": true,
+        "submitted": false,
+        "accepted": false,
+        "blocked": [
+          "complete_policy_review_pending"
+        ]
+      },
+      "direct_review": "integrations/ecosystem/DIRECT_REVIEW_2026-09-17.md"
     },
     {
       "id": "voron",
@@ -430,8 +678,8 @@
       "upstream_license_metadata": "GPL-3.0",
       "archived": false,
       "delivery_goal": "External printer-specific calibration protocol, not an untested user mod.",
-      "next_action": "Prepare a Voron test checklist with source models and evidence requirements; no claimed physical compatibility.",
-      "stage": "research_ready",
+      "next_action": "Perform applicable native application or physical acceptance and obtain human maintainer review before an upstream proposal.",
+      "stage": "contract_tested",
       "upstream_status": "not_submitted",
       "auto_contact_allowed": false,
       "submission_gate_blockers": [
@@ -440,11 +688,42 @@
       ],
       "policy_review": "selected_files_read_not_exhaustive",
       "policy_sources": [],
-      "artifact_paths": [],
-      "tests": [],
+      "artifact_paths": [
+        "integrations/voron/README.md",
+        "src/klipperlearn/voron_review.py",
+        "examples/voron-packet.template.json"
+      ],
+      "tests": [
+        {
+          "execution": "direct_interactive",
+          "command": "python tools/run_offline_tests.py",
+          "result": "passed",
+          "suite_cases": 503,
+          "suite_subtests": 185,
+          "scope": "Offline contracts; not upstream acceptance or hardware validation"
+        }
+      ],
       "fork_url": null,
       "submissions": [],
-      "acceptance_evidence": null
+      "acceptance_evidence": null,
+      "delivery_status": "published_in_own_repo",
+      "artifact_sha256": {
+        "integrations/voron/README.md": "95619998b0f84da48c696c1b26334823cb1c2509479b5ecc486eef846786c974",
+        "src/klipperlearn/voron_review.py": "64ae2cea473c3576df37ee6d1f27674bf72c0c3fd5f0f5c7b022389ac44c1321",
+        "examples/voron-packet.template.json": "149ceb9ee858ef2dbe305962a4a9df2fc5eee10197b0b2d53784be0a44b18e4a"
+      },
+      "delivery_state": {
+        "prepared": true,
+        "tested": true,
+        "published_in_own_repo": true,
+        "submitted": false,
+        "accepted": false,
+        "blocked": [
+          "physical_voron_test_required",
+          "cad_and_mod_scope_requirements"
+        ]
+      },
+      "direct_review": "integrations/ecosystem/DIRECT_REVIEW_2026-09-17.md"
     }
   ],
   "initial_validation": {
@@ -457,5 +736,22 @@
     "hardware_actions": false
   },
   "last_completed_round": 1,
-  "last_completed_at_utc": "2026-09-16T23:04:59.715538+00:00"
+  "last_completed_at_utc": "2026-09-16T23:04:59.715538+00:00",
+  "execution_mode": "direct_interactive",
+  "scheduled_rounds_enabled": false,
+  "direct_update_utc": "2026-09-17T00:46:33.917611+00:00",
+  "direct_base_commit": "0233f7d6dc2b921537137428bd7ad1e19ab7adcb",
+  "direct_validation": {
+    "python_tests": 503,
+    "python_subtests": 185,
+    "javascript_programs": 11,
+    "exporter_tests": 25,
+    "reference_tests": 47,
+    "native_nginx_checks": 7,
+    "standalone_without_site_packages": true,
+    "octoprint_wheel_built": true,
+    "upstream_submissions": 0,
+    "upstream_acceptances": 0,
+    "live_system_changes": false
+  }
 }

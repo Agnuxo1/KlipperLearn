@@ -1,0 +1,17 @@
+{
+  "native_nginx": true,
+  "passed_checks": [
+    "verified_TLS_and_private_header_isolation",
+    "exact_stream_mapping",
+    "writes_unknown_paths_and_query_credentials_blocked",
+    "unavailable_camera_not_replaced_with_cached_frame",
+    "redirects_rejected",
+    "wrong_certificate_identity_rejected",
+    "network_allowlist_enforced"
+  ],
+  "production_config_read": false,
+  "printer_or_LAN_contact": false,
+  "temporary_services_stopped": true,
+  "scope": "Disposable loopback TLS backend and actual nginx binary in an isolated Linux review container; not a Mainsail or Fluidd GUI test.",
+  "tested_nginx_version": "1.26.3"
+}

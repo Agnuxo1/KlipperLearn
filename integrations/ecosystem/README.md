@@ -54,3 +54,27 @@ verification and directory submission are explicitly postponed by the owner.
 The Flashforge Benchy series is operator-plus-ChatGPT evidence; the Anycubic 4Max
 Pro charts/cubes are the separate KlipperLearn/phone/webcam installation. Keep
 those cohorts distinct as documented in [provenance](../../docs/BENCHMARK_PROVENANCE.md).
+
+## Direct delivery after the owner's follow-up
+
+The owner requested active execution rather than continued scheduling. Pending
+hourly rounds were disabled to avoid overlapping changes. This direct work adds
+runnable artifacts for every remaining target and four source distributions.
+Use the [package index](../packages/README.md) for independent downloads.
+
+| Target | Concrete external artifact |
+| --- | --- |
+| [Klipper](../klipper/README.md) | Offline status/MCU diagnostics that cannot grant control permission. |
+| [Moonraker](../moonraker/HISTORY_REVIEW.md) | Strict history normalization with explicit timing and provenance. |
+| [OrcaSlicer](../orca/BUNDLE_AUDIT.md) | Audit six paired presets against their exact session without extraction/import. |
+| [Mainsail](../mainsail/README.md) | Exact-route TLS-verified camera proxy and compatible MJPEG settings. |
+| [Fluidd](../fluidd/README.md) | Restricted camera protocol with Fluidd-specific guidance. |
+| [OctoPrint](../octoprint/README.md) | Independent package with bounded hashing and sanitized lifecycle data. |
+| [PrusaSlicer](../prusaslicer/README.md) | Post-processing file contract and standalone MIT helper. |
+| [Cura](../cura/README.md) | Native Script-contract sidecar, preserving in-memory G-code unchanged. |
+| [KIAUH](../kiauh/README.md) | Read-only prerequisites; no modification of KIAUH-managed services. |
+| [Voron](../voron/README.md) | Consistency and file integrity checker for a future physical evidence packet. |
+
+No empty visibility forks, repeated promotional messages, fabricated DCO/CLA
+attestations, upstream PRs or official acceptance claims were created. Outstanding
+native acceptance and maintainer policy gates remain recorded in status.json.

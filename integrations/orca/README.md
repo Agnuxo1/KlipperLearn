@@ -7,3 +7,9 @@ without changing the input file. It never contacts a printer.
 See `../../docs/INTEGRATIONS.md`. The output is an artifact identity, not a quality
 score, a geometry-equivalence proof or confirmation that those bytes were printed.
 The adapter is not a native plugin and has not been tested inside Orca's desktop UI.
+
+## Three-mode artifact verification
+
+Use the [bundle auditor](BUNDLE_AUDIT.md) to compare all six preset files and the
+review against the exact input session. This does not replace native Orca import
+or supervised printing.

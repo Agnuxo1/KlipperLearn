@@ -1,0 +1,8 @@
+{
+  "backend_ip": "192.168.50.10",
+  "port": 8765,
+  "allow_network": "192.168.50.0/24",
+  "tls_name": "klipperlearn.internal",
+  "ca_certificate": "/etc/klipperlearn/ca.pem",
+  "viewer_header": "/etc/nginx/private/klipperlearn-viewer.conf"
+}

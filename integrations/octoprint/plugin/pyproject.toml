@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=78.1"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "OctoPrint-KlipperLearnEvidence"
-version = "0.1.0"
+version = "0.1.1"
 description = "Read-only, local evidence manifests for KlipperLearn calibration workflows"
 authors = [{name = "Francisco Angulo de Lafuente"}, {name = "KlipperLearn contributors"}]
 requires-python = ">=3.9,<4"

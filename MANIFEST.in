@@ -7,7 +7,7 @@ recursive-include docs *.md *.json
 recursive-include assets *.png *.md *.json
 recursive-include tools *.py *.cmd *.md
 recursive-include scripts *.cjs
-recursive-include integrations *.py *.md
+recursive-include integrations *.py *.md *.json *.toml *.example *.zip SHA256SUMS LICENSE COPYING
 recursive-include reference *.html *.js *.css
 recursive-include schemas *.json
 recursive-include config *.toml

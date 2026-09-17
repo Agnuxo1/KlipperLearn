@@ -1,0 +1,211 @@
+{
+  "archives": [
+    {
+      "bytes": 43652,
+      "entries": [
+        {
+          "bytes": 35149,
+          "path": "COPYING",
+          "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+          "source": "COPYING"
+        },
+        {
+          "bytes": 4728,
+          "path": "KlipperLearnEvidence.py",
+          "sha256": "10ccbe0d3e2b453947f4cd186dfd6397cf510f32617d73ea597e17e4e15c3f00",
+          "source": "integrations/cura/KlipperLearnEvidence.py"
+        },
+        {
+          "bytes": 559,
+          "path": "LICENSE",
+          "sha256": "663da5e1ffb91d8c5b44852c3b57dc489ec0369a2375b64527d4c1c5071c8c6a",
+          "source": "LICENSE"
+        },
+        {
+          "bytes": 2798,
+          "path": "README.md",
+          "sha256": "dbd54db5f28f4dd3450b52f9069f5e548cff610bca47e93d8f32e128e7ced48e",
+          "source": "integrations/cura/README.md"
+        }
+      ],
+      "file": "KlipperLearn-Cura-Evidence.zip",
+      "sha256": "c5a7f99acbe78bdd459d865ca16e2bbd028a13795bb568f882c571add83150fb"
+    },
+    {
+      "bytes": 119946,
+      "entries": [
+        {
+          "bytes": 35149,
+          "path": "COPYING",
+          "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+          "source": "COPYING"
+        },
+        {
+          "bytes": 559,
+          "path": "LICENSE",
+          "sha256": "663da5e1ffb91d8c5b44852c3b57dc489ec0369a2375b64527d4c1c5071c8c6a",
+          "source": "LICENSE"
+        },
+        {
+          "bytes": 1930,
+          "path": "README.md",
+          "sha256": "5fb1d6145a1e082d259db77143397a64bc173c057de70d1078e6445505f4d653",
+          "source": "integrations/ecosystem/TOOLKIT.md"
+        },
+        {
+          "bytes": 243,
+          "path": "examples/camera-proxy-spec.json",
+          "sha256": "ace05c9dfd72c7909d3544b75b8660e22fcb104780d319f4c12b00cae09fe5ae",
+          "source": "examples/camera-proxy-spec.json"
+        },
+        {
+          "bytes": 696,
+          "path": "examples/ecosystem-history.json",
+          "sha256": "2a07d3122d7d71280755aef8ca74edb5d6f126b95f839a5dbc07b65da9b24e00",
+          "source": "examples/ecosystem-history.json"
+        },
+        {
+          "bytes": 630,
+          "path": "examples/ecosystem-status.json",
+          "sha256": "e99b7896e555a983499e24892fc7a2d5bbcd07bf74a04c8ebf09c4b8b2a81349",
+          "source": "examples/ecosystem-status.json"
+        },
+        {
+          "bytes": 310,
+          "path": "examples/host-preflight.json",
+          "sha256": "56c1258d3c7ce8a6dbd31e727a636d47c60662f054b16f2776ba438b1c288f02",
+          "source": "examples/host-preflight.json"
+        },
+        {
+          "bytes": 5941,
+          "path": "examples/synthetic-slicer-session.json",
+          "sha256": "cb1aeded500b05658831357839ef6d2aed424ab0329a447803fea14e643c78c7",
+          "source": "examples/synthetic-slicer-session.json"
+        },
+        {
+          "bytes": 400,
+          "path": "examples/voron-packet.template.json",
+          "sha256": "149ceb9ee858ef2dbe305962a4a9df2fc5eee10197b0b2d53784be0a44b18e4a",
+          "source": "examples/voron-packet.template.json"
+        },
+        {
+          "bytes": 98,
+          "path": "klipperlearn/__init__.py",
+          "sha256": "f0a162a87f547fb10c40a0caa6124124e74f387ee09eb723f4bb0000553e6f11",
+          "source": "src/klipperlearn/__init__.py"
+        },
+        {
+          "bytes": 8695,
+          "path": "klipperlearn/camera_proxy.py",
+          "sha256": "b0a76f0181afc9806c7a89baa05cb0019f6acf06778c4232557af083c0c2d8f1",
+          "source": "src/klipperlearn/camera_proxy.py"
+        },
+        {
+          "bytes": 15508,
+          "path": "klipperlearn/ecosystem_evidence.py",
+          "sha256": "d1f3ac5cac38bfbd2d19009b16a1f1dc90a2d0e8a42151da81481bd58d2dbac7",
+          "source": "src/klipperlearn/ecosystem_evidence.py"
+        },
+        {
+          "bytes": 5685,
+          "path": "klipperlearn/host_preflight.py",
+          "sha256": "44ff40c0b7de6a7e9b9d1ba9e1376fbf47263ec558c785cd93e0926264520788",
+          "source": "src/klipperlearn/host_preflight.py"
+        },
+        {
+          "bytes": 4286,
+          "path": "klipperlearn/orca_bundle_audit.py",
+          "sha256": "ffb1c189ab242a14dc51e39e4c35994e8029405d6a2340a9288322cb67d7ba5e",
+          "source": "src/klipperlearn/orca_bundle_audit.py"
+        },
+        {
+          "bytes": 29194,
+          "path": "klipperlearn/slicer_optimizer.py",
+          "sha256": "12e9a302293ea828348a927ce2dbe62787c984c2f0eda4acafcf1be66c84b27c",
+          "source": "src/klipperlearn/slicer_optimizer.py"
+        },
+        {
+          "bytes": 8534,
+          "path": "klipperlearn/voron_review.py",
+          "sha256": "64ae2cea473c3576df37ee6d1f27674bf72c0c3fd5f0f5c7b022389ac44c1321",
+          "source": "src/klipperlearn/voron_review.py"
+        }
+      ],
+      "file": "KlipperLearn-Ecosystem-Toolkit.zip",
+      "sha256": "392466562fba761406252a8c8fef7483e1476c0f9f588ef92222a259e45b83ba"
+    },
+    {
+      "bytes": 7310,
+      "entries": [
+        {
+          "bytes": 1085,
+          "path": "LICENSE",
+          "sha256": "afa3de7e3edd0ad130afc2f31d1f8dbc0a4bda40899f7ecce9c032310e4701c5",
+          "source": "LICENSES/MIT-reference.txt"
+        },
+        {
+          "bytes": 1660,
+          "path": "README.md",
+          "sha256": "14871846690a8628bc5a78beff294f115a5452ee3e1208d3f7024cfa5e68298d",
+          "source": "integrations/ecosystem/SLICER_PACKAGE.md"
+        },
+        {
+          "bytes": 4235,
+          "path": "klipperlearn_manifest.py",
+          "sha256": "d0aa86078935ce33d84fc9b4012349e31742420cb7f75316bc686b5a57e6a75a",
+          "source": "integrations/orca/klipperlearn_manifest.py"
+        }
+      ],
+      "file": "KlipperLearn-Slicer-Evidence.zip",
+      "sha256": "16ad72bb5427f4dd7da5b75f337938adebd7342bd139abbc96d6a6fa1451fbed"
+    },
+    {
+      "bytes": 50710,
+      "entries": [
+        {
+          "bytes": 35149,
+          "path": "COPYING",
+          "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+          "source": "integrations/octoprint/plugin/COPYING"
+        },
+        {
+          "bytes": 559,
+          "path": "LICENSE",
+          "sha256": "663da5e1ffb91d8c5b44852c3b57dc489ec0369a2375b64527d4c1c5071c8c6a",
+          "source": "integrations/octoprint/plugin/LICENSE"
+        },
+        {
+          "bytes": 1277,
+          "path": "README.md",
+          "sha256": "bf470441fd35bfdb344c6e33851b688d73a663a38e7ae3d0c903464448caed23",
+          "source": "integrations/octoprint/plugin/README.md"
+        },
+        {
+          "bytes": 4891,
+          "path": "octoprint_klipperlearn_evidence/__init__.py",
+          "sha256": "9791fdcdb2118027a39cb370a3dba72cefa95db371187edd58ae0e911099e0aa",
+          "source": "integrations/octoprint/plugin/octoprint_klipperlearn_evidence/__init__.py"
+        },
+        {
+          "bytes": 7301,
+          "path": "octoprint_klipperlearn_evidence/core.py",
+          "sha256": "49b4d84bfccb4bf309fcbbb1df51037877620b6bdc385023caca3bf211bfc81d",
+          "source": "integrations/octoprint/plugin/octoprint_klipperlearn_evidence/core.py"
+        },
+        {
+          "bytes": 817,
+          "path": "pyproject.toml",
+          "sha256": "52e37a57679b4149a1e61bfd52d15f5869ad23cab6384ca6fd2aa7226bc75d64",
+          "source": "integrations/octoprint/plugin/pyproject.toml"
+        }
+      ],
+      "file": "OctoPrint-KlipperLearnEvidence-0.1.1.zip",
+      "sha256": "0f2f710d489effd579546c08615d578baa30e1fef46c0ffdcdbf55f65430699d"
+    }
+  ],
+  "bundle_revision": "2026.09.17",
+  "native_acceptance_verified": false,
+  "private_data_included": false,
+  "schema": "klipperlearn.ecosystem-packages/v1",
+  "upstream_registration": false
+}

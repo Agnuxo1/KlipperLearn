@@ -116,3 +116,24 @@ No printer, server, LAN host, firmware, credential or paid service was touched.
 - GitHub Actions run: https://github.com/Agnuxo1/KlipperLearn/actions/runs/35165372760
 - Both Python 3.11 and 3.13 jobs passed the complete CI workflow, including source/package validation, outbound-blocked application tests, simulated exporter tests and browser/JavaScript tests.
 - OctoPrint upstream and the official Plugin Repository remain **not submitted / not accepted**. No fork, issue, PR, directory entry or maintainer message was created.
+
+## Direct execution — all ten external integration paths
+
+- Responded to the owner's request to stop relying on scheduled rounds; disabled
+  pending automation and used the current public main at `0233f7d`.
+- Added concrete tools for Klipper, Moonraker, Orca, Mainsail, Fluidd, KIAUH and
+  Voron alongside the existing Cura, OctoPrint and PrusaSlicer integrations.
+- Corrected OctoPrint evidence validation, bounded hashing, error-data filtering
+  and shutdown/restart handling; packaged version 0.1.1 independently.
+- Built four reproducible source distributions, with per-file manifests and
+  checksums. The standalone toolkit runs without installed dependencies.
+- Passed 503 Python tests plus 185 subtests, 11 JavaScript programs, 25 exporter
+  tests and 47 reference tests. Ruff E9/F and repository consistency passed.
+- Built the OctoPrint wheel from its standalone ZIP. Actual isolated Nginx/TLS
+  tests passed seven groups; no frontend GUI acceptance is claimed.
+- No upstream issue, PR, fork, directory submission, hardware operation, live
+  deployment, LAN scan, paid service or identity operation was performed.
+- Final scope and remaining gates: [direct review](DIRECT_REVIEW_2026-09-17.md).
+
+The new artifacts are external integrations distributed by KlipperLearn. They are
+not evidence of inclusion in or endorsement by the ten upstream projects.

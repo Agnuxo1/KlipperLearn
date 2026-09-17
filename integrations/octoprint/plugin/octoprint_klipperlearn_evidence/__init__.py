@@ -37,6 +37,8 @@ class KlipperLearnEvidencePlugin(
     def on_after_startup(self) -> None:
         if self._worker is not None and self._worker.is_alive():
             return
+        if self._stop.is_set():
+            self._tasks = queue.Queue(maxsize=32)
         self._stop.clear()
         self._worker = threading.Thread(
             target=self._worker_loop,
@@ -59,7 +61,10 @@ class KlipperLearnEvidencePlugin(
     def on_event(self, event: str, payload: dict[str, Any] | None) -> None:
         if event != _FILE_EVENT and event not in _PRINT_EVENTS:
             return
-        task = (str(event), dict(payload or {}))
+        if self._stop.is_set() or not isinstance(payload, dict):
+            return
+        allowed = {"storage", "path", "origin", "name", "size", "time", "reason", "progress"}
+        task = (str(event), {key: value for key, value in payload.items() if key in allowed})
         try:
             self._tasks.put_nowait(task)
         except queue.Full:
@@ -84,8 +89,8 @@ class KlipperLearnEvidencePlugin(
                     self._capture_print_event(event, payload)
             except CaptureCancelled:
                 return
-            except Exception:
-                self._logger.exception("Evidence capture failed")
+            except Exception as error:
+                self._logger.warning("Evidence capture failed (%s)", type(error).__name__)
             finally:
                 self._tasks.task_done()
 
@@ -104,7 +109,7 @@ class KlipperLearnEvidencePlugin(
         try:
             store_manifest(self._manifest_directory(), "file-added", manifest)
         except FileExistsError:
-            self._logger.debug("Evidence already exists for %s", storage_path)
+            self._logger.debug("Evidence manifest already exists; original preserved")
 
     def _capture_print_event(self, event: str, payload: dict[str, Any]) -> None:
         manifest = build_print_manifest(event, payload)

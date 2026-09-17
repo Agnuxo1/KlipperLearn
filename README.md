@@ -213,3 +213,15 @@ external adapters, contribution rules, tests and upstream acceptance separately.
 A [PrusaSlicer post-processing setup](integrations/prusaslicer/README.md) reuses
 the existing read-only fingerprint helper. This is interoperability maintained
 here, not a claim that external projects have bundled or endorsed KlipperLearn.
+
+## Ten-project interoperability toolkit
+
+KlipperLearn now provides project-specific external artifacts for **Klipper,
+Moonraker, OrcaSlicer, Mainsail, Fluidd, OctoPrint, PrusaSlicer, Cura, KIAUH and
+Voron**. This is interoperability work in our repository, not a claim that those
+ten projects accepted or included KlipperLearn.
+
+Start with the [downloadable packages](integrations/packages/README.md) or the
+[project-by-project status and validation](integrations/ecosystem/README.md).
+The tools preserve printer/workflow provenance, avoid modifying G-code and make
+native-GUI, hardware and maintainer acceptance explicit rather than assumed.

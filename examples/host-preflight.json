@@ -1,0 +1,19 @@
+{
+  "python": [
+    3,
+    12,
+    0
+  ],
+  "system": "Linux",
+  "machine": "aarch64",
+  "ssl_available": true,
+  "disk_free_mib": 4096,
+  "packages": {
+    "fastapi": "0.115.0",
+    "uvicorn": "0.30.0",
+    "httpx": "0.27.0",
+    "Pillow": "10.4.0",
+    "numpy": "1.26.0",
+    "opencv-python": "4.10.0"
+  }
+}

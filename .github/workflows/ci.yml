@@ -34,6 +34,8 @@ jobs:
           python -m ruff check src tests --select E9,F
           python -m compileall -q src
           python tools/check_repository.py
+          python tools/build_ecosystem_packages.py --check
+          python -m pip wheel --no-deps --wheel-dir /tmp/klipperlearn-plugin-wheels integrations/packages/OctoPrint-KlipperLearnEvidence-0.1.1.zip
           python -m build
       - name: Application tests with outbound sockets blocked
         run: python tools/run_offline_tests.py
