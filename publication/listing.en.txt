@@ -1,0 +1,47 @@
+KlipperLearn: Calibration Card + Open-Source Printer Optimizer
+
+KEEP THE PRINTER. REUSE THE PHONE. LEARN FROM REAL PRINTS.
+
+This original 40 x 30 x 12 mm screening coupon is part of KlipperLearn, a free, open-source calibration and evidence toolkit. You can print the model with your usual slicer without installing KlipperLearn. The optional software helps you organize repeatable trials, original photographs, observations and the exact identity of your G-code files.
+
+COMPLETE PROJECT AND DOWNLOADS
+Source code, installation, documentation and tests:
+https://github.com/Agnuxo1/KlipperLearn
+Project website:
+https://agnuxo1.github.io/KlipperLearn/
+Versioned complete source and integration packages:
+https://github.com/Agnuxo1/KlipperLearn/releases/tag/community-preview-20260917
+Start here:
+https://github.com/Agnuxo1/KlipperLearn/blob/main/docs/START_HERE.md
+
+WHAT THE MODEL CONTAINS
+A connected 40 x 30 mm base, 1 mm thick; stepped features; 1, 2 and 3 mm wide blocks; a 1 mm wall; and a bridge with a 10 mm clear span. Overall height: 12 mm. The model contains 7,756 triangles and encloses 2,620 cubic millimetres of geometric volume. This is not a filament-consumption estimate. STL units are millimetres.
+
+PRINTING GUIDANCE
+Place the large flat base on the build plate, at 100% scale. Use your printer manufacturer's known-good profile and the filament supplier's temperature range. A 0.4 mm nozzle and 0.20 mm layers are a suggested starting point, not a physically validated profile. Keep supports off only when deliberately testing the bridge on a machine that can safely attempt it. A bridge failure is useful evidence, not a reason to increase limits blindly. No printer-ready G-code, firmware or universal speed/temperature preset is supplied. Review the sliced preview and supervise each physical trial.
+
+REPEATABLE WORKFLOW
+1. Record the printer, material, nozzle, slicer version and complete baseline settings.
+2. Slice the unchanged STL yourself and retain the exact resulting file.
+3. Photograph the finished part consistently and measure the same features.
+4. Change only one reviewed setting within the printer's safe limits.
+5. Keep unsuccessful trials, repeat promising settings and compare like-for-like evidence.
+
+OPTIONAL SOFTWARE
+The file-first Printer Optimizer does not require a phone, cloud API key or firmware modification. It can export evidence-supported Quality / Standard / Speed candidates as paired OrcaSlicer process and filament settings. Insufficient evidence blocks export; these are not universally optimal profiles. Other slicers receive reviewed settings reports or dedicated G-code fingerprint helpers, not invented native conversions.
+
+A separate Python-hosted application provides an optional phone interface and camera/sensor evidence for compatible Klipper/Moonraker installations. Python 3.11+ is required. Phone-only Android hosting is a development target, not a delivered Android installer. No trained defect-detection weights are included.
+
+External adapters and guides cover Klipper, Moonraker, OrcaSlicer, Mainsail, Fluidd, OctoPrint, PrusaSlicer, Cura, KIAUH and Voron. Their inclusion in this repository does not mean those projects have accepted or bundled KlipperLearn.
+
+VALIDATION AND HONEST LIMITS
+The supplied mesh has been checked computationally for finite coordinates, non-degenerate triangles, consistent orientation, closed edges and a single connected component. The editable Python source reproduces the original STL exactly. These checks do not certify print quality or hardware safety. The gallery image is a digital render of this exact geometry, NOT a photograph of a printed part. Physical validation of this exact released coupon is not asserted.
+
+The author's Flashforge Creator Pro Benchy trials involved an operator consulting ChatGPT, without KlipperLearn. The Anycubic 4Max Pro is a separate KlipperLearn/phone/webcam installation. Those results are not evidence that this particular coupon, or a Bambu print profile, has been physically validated.
+
+LICENSE AND ATTRIBUTION
+Original KlipperLearn coupon and core application: GPL-3.0-or-later. Preserve the included LICENSE and COPYING. Separately scoped MIT tools in the full repository retain their notices. Created for Francisco Angulo de Lafuente's KlipperLearn project with AI assistance, including distribution documentation. No claim of entirely human-authored design, manufacturer affiliation, certification or endorsement is made. This listing is free and non-exclusive.
+
+Support and reproducible bug reports:
+https://github.com/Agnuxo1/KlipperLearn/issues
+Do not post private printer addresses, credentials or unredacted histories.

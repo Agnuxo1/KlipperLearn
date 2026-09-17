@@ -1,0 +1,57 @@
+{
+  "schema": "klipperlearn.model-platform-validation/v1",
+  "verified_at_utc": "2026-09-17T10:15:00.421419+00:00",
+  "base_commit": "9e92d1e6173a87406dbeb2cfbe4e26d0ada2430f",
+  "command": "python tools/run_offline_tests.py",
+  "isolated_environment": "Fresh Python venv with learning/dev extras, no optional training extra",
+  "result": {
+    "passed": 515,
+    "skipped": 4,
+    "subtests_passed": 194,
+    "warnings": 2,
+    "seconds": 11.6,
+    "exit_code": 0
+  },
+  "new_packaging_tests": 11,
+  "lint": {
+    "command": "python -m ruff check --select E9,F tools/build_publication_kit.py tests/test_model_platform_kit.py",
+    "result": "passed"
+  },
+  "initial_global_environment": {
+    "passed": 505,
+    "skipped": 1,
+    "failed": 2,
+    "cause": "Installed global PyTorch is below the application-supported 2.10.0 minimum; the existing security guard correctly rejected checkpoint loads. Global environment and protection were not altered."
+  },
+  "optional_training_tested": false,
+  "hardware_tested": false,
+  "self_intersection_tested": false,
+  "native_slicer_import_tested": false,
+  "file_hashes": {
+    "tools/build_publication_kit.py": "251e19c1dce2474ca74edf4a031ad186d8b7554fe063dfa81d8f66c57d61e2f0",
+    "tests/test_model_platform_kit.py": "78371b4b48598ba562ef548776e5be0d18b0f97deee156192029997a46cefb85",
+    "publication/listing.en.txt": "6f12f05a17f4cf22545583256a338a37fa7e40588eaa108c692aef55833a49d0",
+    "publication/calibration-card-render.png": "01253941570064f5bdd34449b3bc29a5e9228cf1a1d43ff5cf99d48e33cb22ff"
+  },
+  "javascript": {
+    "command": "KL_TEST_BROWSER_CHANNEL=msedge node scripts/run-node-tests.cjs",
+    "programs_passed": 12,
+    "programs_total": 12,
+    "scope": "Isolated headless browser, synthetic endpoints; no printer traffic"
+  },
+  "reference_core": {
+    "command": "node --test tests/core.test.js",
+    "passed": 47,
+    "failed": 0
+  },
+  "exporter": {
+    "command": "python -m unittest discover -s tools/exporter/tests -v",
+    "passed": 25,
+    "failed": 0
+  },
+  "repository_consistency": {
+    "command": "python tools/check_repository.py",
+    "result": "passed",
+    "scope": "Consistency only, not an exhaustive security audit"
+  }
+}
