@@ -8,7 +8,6 @@
   "scheduled_rounds": 8,
   "active_round": null,
   "next_priority": [
-    "octoprint",
     "moonraker",
     "orca",
     "mainsail",
@@ -183,20 +182,22 @@
       "upstream_license_metadata": "AGPL-3.0",
       "archived": false,
       "delivery_goal": "Separately maintained local evidence plugin; no generated upstream core PR.",
-      "next_action": "Implement and test an independent export-only plugin or adapter; do not contact core or plugin directory automatically.",
-      "stage": "research_ready",
+      "next_action": "Install the standalone wheel in a disposable current OctoPrint instance, verify real event/plugin-manager behavior, then decide whether the maintainer commitment and standalone archive requirements for directory registration are satisfied.",
+      "stage": "contract_tested",
       "upstream_status": "not_submitted",
       "auto_contact_allowed": false,
       "submission_gate_blockers": [
-        "ai_generated_core_prs_and_descriptions_prohibited",
-        "directory_policy_separate"
+        "octoprint_core_ai_generated_contributions_prohibited",
+        "native_octoprint_acceptance_not_verified",
+        "plugin_directory_maintainer_commitment_not_verified",
+        "stable_standalone_archive_not_published"
       ],
-      "policy_review": "selected_files_read_not_exhaustive",
+      "policy_review": "current_core_ai_policy_and_plugin_registration_policy_reviewed",
       "policy_sources": [
         {
-          "path": "CODE_OF_CONDUCT.md",
-          "url": "https://github.com/OctoPrint/OctoPrint/blob/dev/CODE_OF_CONDUCT.md",
-          "sha256": "7a181cefaacc1939bfba8a38cc38532bad5cf3b932db3e6dfeb5bff44b5cc313"
+          "path": "AGENTS.md",
+          "url": "https://github.com/OctoPrint/OctoPrint/blob/dev/AGENTS.md",
+          "sha256": "28daa900cac9dc108d84a70b83112ab9913fb480"
         },
         {
           "path": "CONTRIBUTING.md",
@@ -204,11 +205,73 @@
           "sha256": "b5eda5cbc37772858762c01023ee7b87daa363594db5ab9d6c6bf473eef86c38"
         }
       ],
-      "artifact_paths": [],
-      "tests": [],
+      "artifact_paths": [
+        "integrations/octoprint/README.md",
+        "integrations/octoprint/REGISTRATION_CHECKLIST.md",
+        "integrations/octoprint/plugin/pyproject.toml",
+        "integrations/octoprint/plugin/octoprint_klipperlearn_evidence/__init__.py",
+        "integrations/octoprint/plugin/octoprint_klipperlearn_evidence/core.py",
+        "tests/test_octoprint_integration.py"
+      ],
+      "tests": [
+        {
+          "command": "python -m pytest tests/test_octoprint_integration.py -q",
+          "result": "passed",
+          "cases": 7,
+          "scope": "Stubbed OctoPrint plugin/event surface with real temporary files; no native OctoPrint instance."
+        },
+        {
+          "command": "python tools/run_offline_tests.py -k \"not weights_none_checkpoint_loads_and_returns_probabilities and not nonfinite_model_output_is_rejected_before_probabilities\"",
+          "result": "passed",
+          "cases": 360,
+          "skipped": 1,
+          "deselected": 2,
+          "scope": "Repository regression suite excluding two environment-gated real PyTorch smoke tests, matching the previous clean-runner limitation."
+        },
+        {
+          "command": "python -m pip wheel --no-deps --wheel-dir .round2-dist ./integrations/octoprint/plugin",
+          "result": "passed",
+          "artifact": "octoprint_klipperlearnevidence-0.1.0-py3-none-any.whl",
+          "sha256": "3ffe943eb84ff3056a85a127f06035d9f7292251652a3996c8ed1653a9928a52",
+          "scope": "Local build artifact only; not committed or registered."
+        }
+      ],
       "fork_url": null,
       "submissions": [],
-      "acceptance_evidence": null
+      "acceptance_evidence": null,
+      "external_policy_sources": [
+        {
+          "url": "https://plugins.octoprint.org/help/registering/",
+          "checked_at_utc": "2026-09-17T00:08:18.392356+00:00",
+          "notes": "Requires active maintenance; ai-developed attribute is supported; hidden system modifications are disallowed."
+        }
+      ],
+      "duplicate_search": {
+        "checked_at_utc": "2026-09-17T00:08:18.392380+00:00",
+        "term": "KlipperLearn",
+        "octoprint_issues": 0,
+        "octoprint_pull_requests": 0,
+        "plugin_repository_pull_requests": 0
+      },
+      "upstream_snapshot": {
+        "repository": "OctoPrint/OctoPrint",
+        "default_branch": "dev",
+        "active": true,
+        "checked_at_utc": "2026-09-17T00:08:18.392384+00:00"
+      },
+      "delivery_state": {
+        "prepared": true,
+        "tested": true,
+        "published_in_own_repo": false,
+        "submitted": false,
+        "accepted": false,
+        "blocked": [
+          "octoprint_core_ai_generated_contributions_prohibited",
+          "native_octoprint_acceptance_not_verified",
+          "plugin_directory_maintainer_commitment_not_verified",
+          "stable_standalone_archive_not_published"
+        ]
+      }
     },
     {
       "id": "prusaslicer",

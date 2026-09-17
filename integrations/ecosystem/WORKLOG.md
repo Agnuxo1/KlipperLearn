@@ -71,3 +71,41 @@ service, LAN host, credential or physical hardware was changed.
 - main was advanced by fast-forward only; no force push was used.
 - Cura upstream remains **not submitted / not accepted**; no fork or external message was created.
 
+
+## Round 2 ? OctoPrint external evidence plugin
+
+- Re-read public `main` at `3b6ec40`; the KlipperLearn repository still has no
+  root `AGENTS.md`. The authoritative next priority was OctoPrint.
+- Rechecked canonical `OctoPrint/OctoPrint` (`dev`) and current `CONTRIBUTING.md`
+  plus `AGENTS.md`. Core AI-authored contributions are prohibited, so no OctoPrint
+  core code, issue, PR description or reviewer message was generated or submitted.
+- Rechecked the official Plugin Repository registration guide. It supports an
+  `ai-developed` attribute but requires active maintainer responsibility and an
+  understanding of the implementation without depending on generative AI.
+- GitHub searches for the exact term `KlipperLearn` found 0 OctoPrint issues,
+  0 OctoPrint pull requests and 0 plugin-repository pull requests.
+- Added a separately maintained modern `pyproject.toml` OctoPrint plugin under
+  `integrations/octoprint/plugin/`. It listens only to `FileAdded`, `PrintStarted`,
+  `PrintDone`, `PrintFailed` and `PrintCancelled`.
+- Event handling is bounded and non-blocking: the OctoPrint event callback only
+  queues a task. One daemon worker hashes local files and writes manifests.
+- Manifests exclude G-code bodies, absolute host paths, users/owners, connector
+  identifiers, IP addresses and printer commands. Non-local files are ignored.
+- Added a registration-readiness checklist instead of making an invalid or
+  maintenance-unverified directory submission.
+
+### Round 2 validation
+
+- `python -m pytest tests/test_octoprint_integration.py -q`: **7 passed**.
+- Full offline regression with the same two environment-gated PyTorch smoke tests
+  deselected: **360 passed, 1 skipped, 2 deselected**.
+- Ruff E9/F passed for the plugin and focused tests; Ruff formatting was applied.
+- `pip wheel` produced `octoprint_klipperlearnevidence-0.1.0-py3-none-any.whl`;
+  SHA-256: `3ffe943eb84ff3056a85a127f06035d9f7292251652a3996c8ed1653a9928a52`.
+  Wheel inspection confirmed the `octoprint.plugin` entry point and bundled GPL
+  license files. The wheel is a local validation artifact, not an official release.
+
+The integration is **prepared and contract-tested in our repository only**. It is
+not claimed as installed in a real OctoPrint instance, listed in the official
+Plugin Repository, accepted by OctoPrint maintainers or physically printer-tested.
+No printer, server, LAN host, firmware, credential or paid service was touched.

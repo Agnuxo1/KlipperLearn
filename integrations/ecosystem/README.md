@@ -19,7 +19,7 @@ in English and retain the project licenses and third-party attribution.
 | OrcaSlicer | Paired Quality / Standard / Speed presets and file identity | Existing 0.6.0 generation needs real slicer import verification. |
 | Mainsail | Authenticated camera and external optimizer workflow | Do not bypass contributor-vouch requirements or alter control behavior. |
 | Fluidd | Equivalent Moonraker camera/evidence workflow | Read development guidance, keep the integration external until a focused patch is justified. |
-| OctoPrint | Separately maintained plugin or read-only export adapter | No AI-generated upstream PR, PR description or reviewer reply. |
+| OctoPrint | Separately maintained local evidence plugin | [Working contract-tested plugin](../octoprint/README.md); no AI-generated core contribution. |
 | PrusaSlicer | Read-only post-processing sidecar | [Working helper setup](../prusaslicer/README.md) and appended-file contract tests. |
 | Cura | Read-only PostProcessingPlugin evidence collector | [Working mocked-contract adapter](../cura/README.md); native Cura GUI/output acceptance remains pending. |
 | KIAUH | Read-only prerequisites and coexistence checks | Do not reinstall Klipper or change services as an incidental integration step. |

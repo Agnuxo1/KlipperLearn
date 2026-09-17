@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "OctoPrint-KlipperLearnEvidence"
+version = "0.1.0"
+description = "Read-only, local evidence manifests for KlipperLearn calibration workflows"
+authors = [{name = "Francisco Angulo de Lafuente"}, {name = "KlipperLearn contributors"}]
+requires-python = ">=3.9,<4"
+dependencies = []
+license = "GPL-3.0-or-later"
+license-files = ["LICENSE", "COPYING"]
+readme = "README.md"
+
+[project.entry-points."octoprint.plugin"]
+klipperlearn_evidence = "octoprint_klipperlearn_evidence"
+
+[project.urls]
+Homepage = "https://github.com/Agnuxo1/KlipperLearn"
+Issues = "https://github.com/Agnuxo1/KlipperLearn/issues"
+
+[tool.setuptools.packages.find]
+include = ["octoprint_klipperlearn_evidence", "octoprint_klipperlearn_evidence.*"]
