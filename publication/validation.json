@@ -61,5 +61,21 @@
     "sha256": "5e58ab8d788364ac72fc69b9e16f8910ddfc2bea4df1009bf4aa9924e458ec07",
     "text_line_endings": "LF",
     "cross_platform_line_ending_regression": "passed"
+  },
+  "github_ci": {
+    "source_commit": "dd96c64f6d3e435e8aa0ff4513efc40abeb17014",
+    "workflow_run_url": "https://github.com/Agnuxo1/KlipperLearn/actions/runs/35209866069",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "public_source_download": {
+    "url": "https://github.com/Agnuxo1/KlipperLearn/archive/dd96c64f6d3e435e8aa0ff4513efc40abeb17014.zip",
+    "source_commit": "dd96c64f6d3e435e8aa0ff4513efc40abeb17014",
+    "bytes": 12646343,
+    "sha256": "0be307d1db050258a698a90f026fa9c6a61c737c1fd4cd6cec71fc909fbbee81",
+    "http_status": 200,
+    "tracked_files": 316,
+    "authenticated": false,
+    "all_recorded_source_hashes_match": true
   }
 }

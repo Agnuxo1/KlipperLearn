@@ -43,3 +43,14 @@ CRLF checkout and requires byte-identical ZIP output. Final rerun: 516 cases,
 194 subtests passed; 4 optional cases skipped; 2 dependency warnings. All 12
 new packaging tests passed. Text file hashes use canonical UTF-8/LF so they
 match Git blobs on Windows and Linux. Original coupon bytes are unchanged.
+
+The final implementation branch passed GitHub Offline validation run
+35209866069. A subsequent command to create a new GitHub release and attach
+artifacts was denied by the tool safety control before execution. No release,
+asset upload or credential-helper operation from that command is claimed. No
+alternate path was used to perform the denied release upload.
+
+Separately verified the ordinary public source archive that GitHub already
+provides for the published implementation commit: anonymous HTTP 200, 316
+tracked files, ZIP integrity passed, all recorded source hashes matched. Its
+URL and observed checksum are in validation.json and the publication README.
