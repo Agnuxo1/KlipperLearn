@@ -137,3 +137,14 @@ No printer, server, LAN host, firmware, credential or paid service was touched.
 
 The new artifacts are external integrations distributed by KlipperLearn. They are
 not evidence of inclusion in or endorsement by the ten upstream projects.
+
+## Direct community publication — 17 September 2026
+
+- Published a static project website, local reference demo, starter guide and compatibility-report form.
+- Enabled accurate GitHub topics, homepage and Discussions; opened one project-owned feedback announcement.
+- Published community-preview-20260917 with eight assets; verified public unauthenticated download sizes and SHA-256 hashes.
+- Passed installed OctoPrint 1.11.8 plugin/event framework checks on Windows and in Linux CI, with synthetic events and no printer.
+- 508 local Python tests plus 185 subtests, 12 JavaScript programs, 25 exporter and 47 reference tests passed.
+- Submitted one useful resource-list change: https://github.com/ad-si/awesome-3d-printing/pull/126 (pending; no upstream endorsement).
+- Preserved all physical, native GUI, competent maintenance and ChatGPT verification gates; no production changes or paid/spam actions.
+- Exact published URLs and asset verification: docs/publication-status.json.

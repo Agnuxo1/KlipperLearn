@@ -1,0 +1,143 @@
+{
+  "schema": "klipperlearn.publication/v1",
+  "verified_at_utc": "2026-09-17T04:24:26.388910+00:00",
+  "release_source_commit": "21404b766c365f6fd5ba4b078f014b1197c4a0f4",
+  "website": {
+    "url": "https://agnuxo1.github.io/KlipperLearn/",
+    "https_http_status": 200,
+    "public_browser_test": {
+      "public_https": true,
+      "landing": true,
+      "reference_demo": true,
+      "synthetic_analysis": true,
+      "external_requests": 0,
+      "printer_contacted": false
+    },
+    "publisher_analytics": false
+  },
+  "release": {
+    "id": 390430077,
+    "tag": "community-preview-20260917",
+    "url": "https://github.com/Agnuxo1/KlipperLearn/releases/tag/community-preview-20260917",
+    "draft": false,
+    "prerelease": true,
+    "assets": [
+      {
+        "name": "KlipperLearn-Calibration-Card.stl",
+        "bytes": 387884,
+        "sha256": "aca62abefe6636652ebcb7f7821b8893b39e98c0e337bca5bdc004c3f7325630",
+        "anonymous_download_verified": true
+      },
+      {
+        "name": "KlipperLearn-community-preview-source.zip",
+        "bytes": 12526897,
+        "sha256": "f6734d644350c8d32c57e98db6bf29184ca6c7f8159b6f17fee58fa801de8d5c",
+        "anonymous_download_verified": true
+      },
+      {
+        "name": "KlipperLearn-Cura-Evidence.zip",
+        "bytes": 43652,
+        "sha256": "c5a7f99acbe78bdd459d865ca16e2bbd028a13795bb568f882c571add83150fb",
+        "anonymous_download_verified": true
+      },
+      {
+        "name": "KlipperLearn-Ecosystem-Toolkit.zip",
+        "bytes": 119946,
+        "sha256": "392466562fba761406252a8c8fef7483e1476c0f9f588ef92222a259e45b83ba",
+        "anonymous_download_verified": true
+      },
+      {
+        "name": "KlipperLearn-Printer-Optimizer-0.6.0.zip",
+        "bytes": 80951,
+        "sha256": "416ffb03ac95fa9aa7db5ff68ea3fa17bcde172bef9ce676ce50192e5419d429",
+        "anonymous_download_verified": true
+      },
+      {
+        "name": "KlipperLearn-Slicer-Evidence.zip",
+        "bytes": 7310,
+        "sha256": "16ad72bb5427f4dd7da5b75f337938adebd7342bd139abbc96d6a6fa1451fbed",
+        "anonymous_download_verified": true
+      },
+      {
+        "name": "OctoPrint-KlipperLearnEvidence-0.1.1.zip",
+        "bytes": 50710,
+        "sha256": "0f2f710d489effd579546c08615d578baa30e1fef46c0ffdcdbf55f65430699d",
+        "anonymous_download_verified": true
+      },
+      {
+        "name": "SHA256SUMS",
+        "bytes": 726,
+        "sha256": "36f57d1ed290320a479654f0b99bcfa863c998c17c9fe6ee4b8bb83259eb671a",
+        "anonymous_download_verified": true
+      }
+    ]
+  },
+  "community_discussion": "https://github.com/Agnuxo1/KlipperLearn/discussions/1",
+  "discoverability_topics": [
+    "3d-printing",
+    "klipper",
+    "moonraker",
+    "orcaslicer",
+    "octoprint",
+    "cura",
+    "prusaslicer",
+    "calibration",
+    "computer-vision",
+    "open-source",
+    "mcp",
+    "python",
+    "webcam",
+    "slicer-profiles"
+  ],
+  "external_submission": {
+    "repository": "ad-si/awesome-3d-printing",
+    "pull_request": 126,
+    "url": "https://github.com/ad-si/awesome-3d-printing/pull/126",
+    "fork": "https://github.com/Agnuxo1/awesome-3d-printing",
+    "change": "one resource-list entry",
+    "state": "open",
+    "merged": false,
+    "checks": [
+      {
+        "name": "check-urls",
+        "status": "completed",
+        "conclusion": "failure",
+        "details_url": "https://github.com/ad-si/awesome-3d-printing/actions/runs/35181514941/job/105074473555"
+      },
+      {
+        "name": "awesome-lint",
+        "status": "completed",
+        "conclusion": "success",
+        "details_url": "https://github.com/ad-si/awesome-3d-printing/actions/runs/35181514941/job/105074473407"
+      }
+    ],
+    "ai_assistance_disclosed": true
+  },
+  "validation": {
+    "local_python_tests": 508,
+    "local_python_subtests": 185,
+    "javascript_programs": 12,
+    "exporter_tests": 25,
+    "reference_tests": 47,
+    "native_octoprint": "1.11.8 plugin and event frameworks; synthetic storage/events; no HTTP UI or printer",
+    "branch_ci": [
+      35181281342,
+      35181281398
+    ],
+    "main_ci": [
+      35181436753,
+      35181436803
+    ]
+  },
+  "remaining_gates": [
+    "ChatGPT developer verification, installed testing, submission and approval",
+    "native Orca/Cura/PrusaSlicer GUI acceptance",
+    "OctoPrint native web-UI and physical acceptance; competent human maintainer commitment",
+    "Mainsail/Fluidd native acceptance and applicable contribution rules",
+    "physical Voron compatibility and source requirements",
+    "upstream review and acceptance"
+  ],
+  "printer_or_production_changes": false,
+  "paid_resources": false,
+  "mass_outreach": false
+}

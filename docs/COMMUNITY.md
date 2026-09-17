@@ -35,7 +35,7 @@ frontends also retain their recorded native-UI or physical acceptance gates.
 
 ## Appropriate external outreach
 
-One narrowly scoped resource-list suggestion is prepared for
+One narrowly scoped resource-list suggestion has been submitted to
 `ad-si/awesome-3d-printing`. Its contribution rules invite useful individual
 suggestions and require checking for duplicates. The public ledger records the
 actual proposal URL and disposition once submitted. A fork or pending PR is not
@@ -72,3 +72,23 @@ Release files carry checksums and licenses. The publication ledger must distingu
 prepared artifacts, public downloads, sent suggestions and accepted listings.
 Neither a release nor a resource-list entry proves physical safety, a speed gain,
 a public ChatGPT listing, or inclusion in Klipper, Orca, Mainsail or Voron.
+
+## Verified publication
+
+The [project website](https://agnuxo1.github.io/KlipperLearn/) and synthetic demo
+were opened successfully through public HTTPS in a real browser. All eight
+[preview release downloads](https://github.com/Agnuxo1/KlipperLearn/releases/tag/community-preview-20260917)
+were fetched without authentication and matched their expected sizes and SHA-256
+digests. The new [community discussion](https://github.com/Agnuxo1/KlipperLearn/discussions/1)
+is open for relevant feedback.
+
+[Awesome 3D Printing PR #126](https://github.com/ad-si/awesome-3d-printing/pull/126)
+contains one entry with AI assistance and project affiliation disclosed. It is
+submitted, not an accepted listing unless the upstream merge status says so.
+See [the publication record](publication-status.json) for verified outcomes and
+remaining gates, and [the information kit](PRESS_KIT.md) for accurate descriptions.
+
+The resource-list formatting check passed. Its global link checker reported HTTP
+200 for KlipperLearn but failed on three unrelated existing URLs; no unrelated
+entries were changed to make this proposal appear green. Maintainer acceptance
+is still pending.

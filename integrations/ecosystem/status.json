@@ -767,6 +767,13 @@
     "website_source": "docs/index.html",
     "official_upstream_acceptances": 0,
     "curated_list_target": "ad-si/awesome-3d-printing",
-    "curated_list_state": "fork_prepared_not_submitted"
+    "curated_list_state": "submitted_pending",
+    "website": "https://agnuxo1.github.io/KlipperLearn/",
+    "website_state": "public_https_verified",
+    "release_url": "https://github.com/Agnuxo1/KlipperLearn/releases/tag/community-preview-20260917",
+    "release_state": "published_prerelease_eight_verified_downloads",
+    "curated_list_pr": "https://github.com/ad-si/awesome-3d-printing/pull/126",
+    "community_discussion": "https://github.com/Agnuxo1/KlipperLearn/discussions/1",
+    "publication_record": "docs/publication-status.json"
   }
 }
