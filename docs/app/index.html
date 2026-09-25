@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>KlipperLearn Phone</title>
+<meta name="description" content="Tune an old 3D printer from your phone: USB control, calibration prints, camera, microphone and accelerometer measurements, and a one-change-per-trial advisor.">
+<meta name="theme-color" content="#0f1720">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; media-src 'self' blob:; connect-src 'self' https: http://localhost:* http://127.0.0.1:*; worker-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="app.css">
+<script type="module" src="js/main.js"></script>
+</head>
+<body>
+<header class="top">
+  <div class="brand">Klipper<span>Learn</span></div>
+  <span id="status" class="pill" data-i18n="disconnected">Sin conectar</span>
+  <button id="estop" class="estop" hidden data-i18n="estop">PARADA</button>
+</header>
+
+<main>
+<!-- ============ PRINTER ============ -->
+<section id="tab-printer" class="tab active">
+  <div class="card">
+    <h2 data-i18n="connect_title">Conectar la impresora</h2>
+    <p class="muted" data-i18n="connect_help"></p>
+    <p id="transport-warning" class="warn" hidden></p>
+    <div class="row">
+      <label><span data-i18n="baud">Baudios</span>
+        <select id="baud"><option>250000</option><option selected>115200</option><option>57600</option><option>500000</option></select>
+      </label>
+    </div>
+    <div class="row buttons">
+      <button id="btn-connect" class="primary" data-i18n="connect_usb">Conectar por USB</button>
+      <button id="btn-sim" data-i18n="connect_sim">Simulador</button>
+      <button id="btn-disconnect" hidden data-i18n="disconnect">Desconectar</button>
+    </div>
+    <dl id="fw-info" class="kv" hidden></dl>
+  </div>
+
+  <div class="card" id="controls" hidden>
+    <h2 data-i18n="temps">Temperaturas</h2>
+    <div class="temps">
+      <div><span data-i18n="hotend">Boquilla</span> <strong id="t-hotend">–</strong></div>
+      <div><span data-i18n="bed">Cama</span> <strong id="t-bed">–</strong></div>
+    </div>
+    <div class="row">
+      <input id="set-hotend" type="number" inputmode="numeric" min="0" max="300" placeholder="°C">
+      <button data-cmd-hotend data-i18n="set">Fijar</button>
+      <input id="set-bed" type="number" inputmode="numeric" min="0" max="120" placeholder="°C">
+      <button data-cmd-bed data-i18n="set">Fijar</button>
+    </div>
+    <div class="row buttons">
+      <button data-gcode="G28" data-i18n="home">Home</button>
+      <button data-gcode="M104 S0&#10;M140 S0" data-i18n="off">Apagar</button>
+      <button data-gcode="M106 S255"><span data-i18n="fan">Ventilador</span> 100%</button>
+      <button data-gcode="M107"><span data-i18n="fan">Ventilador</span> 0%</button>
+      <button data-gcode="M84" data-i18n="motors_off">Soltar motores</button>
+    </div>
+    <details>
+      <summary data-i18n="terminal">Terminal</summary>
+      <pre id="log" class="log" aria-live="polite"></pre>
+      <form id="term-form" class="row"><input id="term-input" autocomplete="off" autocapitalize="characters" placeholder="M503"><button data-i18n="send">Enviar</button></form>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2 data-i18n="profile">Perfil de la impresora</h2>
+    <div class="row"><select id="profile-select"></select><button id="btn-new-profile" data-i18n="new_profile">Nuevo perfil</button></div>
+    <form id="profile-form" class="grid">
+      <label class="wide"><span data-i18n="p_name"></span><input name="name" required></label>
+      <label><span data-i18n="p_bed_x"></span><input name="bed_x" type="number" step="1" min="50" max="1000"></label>
+      <label><span data-i18n="p_bed_y"></span><input name="bed_y" type="number" step="1" min="50" max="1000"></label>
+      <label><span data-i18n="p_max_z"></span><input name="max_z" type="number" step="1" min="50" max="1000"></label>
+      <label><span data-i18n="p_origin"></span><select name="origin"><option value="corner" data-i18n="origin_corner"></option><option value="center" data-i18n="origin_center"></option></select></label>
+      <label><span data-i18n="p_nozzle"></span><input name="nozzle_mm" type="number" step="0.05" min="0.1" max="1.5"></label>
+      <label><span data-i18n="p_filament"></span><input name="filament_mm" type="number" step="0.01" min="1" max="3"></label>
+      <label><span data-i18n="p_hotend"></span><input name="hotend_c" type="number" step="1" min="150" max="300"></label>
+      <label><span data-i18n="p_bed"></span><input name="bed_c" type="number" step="1" min="0" max="120"></label>
+      <label><span data-i18n="p_max_hotend"></span><input name="max_hotend_c" type="number" step="1" min="150" max="300"></label>
+      <label><span data-i18n="p_max_bed"></span><input name="max_bed_c" type="number" step="1" min="0" max="130"></label>
+      <label><span data-i18n="p_print_speed"></span><input name="print_mm_s" type="number" step="1" min="5" max="500"></label>
+      <label><span data-i18n="p_travel"></span><input name="travel_mm_s" type="number" step="1" min="10" max="500"></label>
+      <label><span data-i18n="p_retract"></span><input name="retract_mm" type="number" step="0.1" min="0" max="10"></label>
+      <label class="wide"><span data-i18n="p_start"></span><textarea name="start_gcode" rows="3" spellcheck="false"></textarea></label>
+      <label class="wide"><span data-i18n="p_end"></span><textarea name="end_gcode" rows="2" spellcheck="false"></textarea></label>
+      <button class="primary wide" data-i18n="save">Guardar</button>
+    </form>
+  </div>
+</section>
+
+<!-- ============ PRINT ============ -->
+<section id="tab-print" class="tab">
+  <div class="card">
+    <h2 data-i18n="print_title">Imprimir una prueba</h2>
+    <div class="row buttons">
+      <label class="file-btn"><span data-i18n="load_file">Abrir G-code</span><input id="file-input" type="file" accept=".gcode,.gco,.g,text/plain" hidden></label>
+      <button id="btn-download" data-i18n="download_gcode" disabled>Descargar</button>
+    </div>
+    <p><span data-i18n="program">Programa</span>: <strong id="program-name" data-i18n="none">Ninguno</strong> <span id="program-meta" class="muted"></span></p>
+    <p id="change-line" class="accent" hidden></p>
+    <details open>
+      <summary data-i18n="trial_params">Parámetros de esta prueba</summary>
+      <div id="param-editor" class="grid"></div>
+    </details>
+    <h3 data-i18n="sensors_during">Sensores</h3>
+    <div class="row wrap">
+      <label class="check"><input id="use-camera" type="checkbox"> <span data-i18n="use_camera">Foto cada</span> <input id="camera-every" type="number" value="10" min="1" max="200" class="tiny"> <span data-i18n="layers">capas</span></label>
+      <label class="check"><input id="use-mic" type="checkbox"> <span data-i18n="use_mic"></span></label>
+      <label class="check"><input id="use-motion" type="checkbox"> <span data-i18n="use_motion"></span></label>
+    </div>
+    <p class="muted small" data-i18n="wake_lock_warn"></p>
+    <div class="row buttons">
+      <button id="btn-start" class="primary" data-i18n="start_print" disabled>Iniciar prueba</button>
+      <button id="btn-pause" data-i18n="pause" hidden>Pausa</button>
+      <button id="btn-cancel" class="danger" data-i18n="cancel" hidden>Cancelar</button>
+    </div>
+    <div id="job" hidden>
+      <progress id="job-progress" max="1" value="0"></progress>
+      <p><span data-i18n="progress">Progreso</span> <strong id="job-pct">0 %</strong> · <span data-i18n="layer">Capa</span> <strong id="job-layer">0</strong> · <span id="job-time">0:00</span></p>
+      <p id="job-warnings" class="warn" hidden></p>
+    </div>
+    <video id="print-video" class="preview" playsinline muted hidden></video>
+  </div>
+</section>
+
+<!-- ============ CALIBRATE ============ -->
+<section id="tab-calibrate" class="tab">
+  <div class="card">
+    <h2 data-i18n="cal_title">Pruebas de calibración</h2>
+    <p class="muted" data-i18n="cal_help"></p>
+    <div id="cal-list" class="cal-list"></div>
+  </div>
+</section>
+
+<!-- ============ MEASURE ============ -->
+<section id="tab-measure" class="tab">
+  <div class="card">
+    <h2 data-i18n="camera">Cámara</h2>
+    <div class="row buttons">
+      <button id="btn-camera" data-i18n="start_camera">Encender cámara</button>
+      <button id="btn-torch" data-i18n="torch" hidden>Linterna</button>
+    </div>
+    <div class="camera-box">
+      <video id="measure-video" playsinline muted></video>
+      <canvas id="roi-canvas" aria-label="ROI"></canvas>
+    </div>
+    <h3 data-i18n="ringing_photo">Analizar ondas</h3>
+    <p class="muted small" data-i18n="ringing_help"></p>
+    <div class="grid">
+      <label><span data-i18n="roi_mm"></span><input id="roi-mm" type="number" step="0.5" value="20"></label>
+      <label><span data-i18n="speed_mm_s"></span><input id="roi-speed" type="number" step="1" value="80"></label>
+      <label><span data-i18n="axis"></span><select id="roi-axis"><option>x</option><option>y</option></select></label>
+      <button id="btn-analyze" data-i18n="analyze">Analizar</button>
+    </div>
+    <p id="ringing-result" class="result"></p>
+  </div>
+  <div class="card">
+    <h3 data-i18n="manual_ringing">Cálculo manual</h3>
+    <div class="grid">
+      <label><span data-i18n="ripples"></span><input id="mr-n" type="number" step="1" min="1" value="5"></label>
+      <label><span data-i18n="distance_mm"></span><input id="mr-d" type="number" step="0.1" min="0.1" value="10"></label>
+      <label><span data-i18n="speed_mm_s"></span><input id="mr-v" type="number" step="1" min="1" value="80"></label>
+      <label><span data-i18n="axis"></span><select id="mr-axis"><option>x</option><option>y</option></select></label>
+    </div>
+    <p id="manual-result" class="result"></p>
+    <button id="btn-manual-shaper" data-i18n="use_as_shaper">Usar para input shaping</button>
+  </div>
+  <div class="card">
+    <h3 data-i18n="resonance">Barrido de resonancia</h3>
+    <p class="muted small" data-i18n="resonance_help"></p>
+    <div class="grid">
+      <label><span data-i18n="axis"></span><select id="sw-axis"><option>X</option><option>Y</option></select></label>
+      <label>Hz min<input id="sw-from" type="number" value="20"></label>
+      <label>Hz max<input id="sw-to" type="number" value="80"></label>
+      <label>mm/s²<input id="sw-accel" type="number" value="2000"></label>
+    </div>
+    <button id="btn-sweep" data-i18n="run_sweep" disabled>Ejecutar barrido</button>
+    <p id="sweep-result" class="result"></p>
+    <canvas id="sweep-chart" class="chart" width="600" height="180" hidden></canvas>
+    <p class="muted small"><span data-i18n="mic_level"></span>: <span id="mic-level">–</span> · <span data-i18n="motion_rate"></span>: <span id="motion-rate">–</span></p>
+  </div>
+</section>
+
+<!-- ============ LEARN ============ -->
+<section id="tab-learn" class="tab">
+  <div class="card">
+    <h2 data-i18n="learn_title">Valorar la última prueba</h2>
+    <p id="rate-target" class="muted" data-i18n="no_trials"></p>
+    <form id="rating-form" hidden>
+      <div class="stars">
+        <label><span data-i18n="overall"></span><input name="overall" type="range" min="1" max="5" value="3"><output>3</output></label>
+        <label><span data-i18n="surface"></span><input name="surface" type="range" min="1" max="5" value="3"><output>3</output></label>
+        <label><span data-i18n="dimensions"></span><input name="dimensions" type="range" min="1" max="5" value="3"><output>3</output></label>
+      </div>
+      <div id="band-pick" class="row wrap" hidden>
+        <label><span data-i18n="best_band">Mejor franja</span><select id="band-select"></select></label>
+        <button type="button" id="btn-apply-band" data-i18n="apply_value">Aplicar valor</button>
+      </div>
+      <h3 data-i18n="defects">Defectos</h3>
+      <div id="defect-list" class="stars"></div>
+      <label class="wide"><span data-i18n="notes"></span><textarea name="notes" rows="2"></textarea></label>
+      <dl id="measured-summary" class="kv"></dl>
+      <button class="primary" data-i18n="save_rating">Guardar valoración</button>
+    </form>
+  </div>
+  <div class="card" id="rec-card" hidden>
+    <h2 data-i18n="recommend">Siguiente ajuste</h2>
+    <p id="rec-reason" class="muted"></p>
+    <div id="rec-list" class="rec-list"></div>
+    <p id="jev-result" class="result"></p>
+    <div class="row buttons">
+      <button id="btn-ask-jev" data-i18n="ask_jev" hidden>Consultar a JEV</button>
+      <button id="btn-use-next" class="primary" data-i18n="use_next">Usar en la próxima prueba</button>
+    </div>
+  </div>
+  <div class="card">
+    <h2 data-i18n="history">Historial</h2>
+    <div class="table-wrap"><table id="history"><thead><tr><th>#</th><th data-i18n="program"></th><th>Δ</th><th data-i18n="measured"></th><th data-i18n="human"></th><th data-i18n="score"></th></tr></thead><tbody></tbody></table></div>
+  </div>
+  <div class="card">
+    <h2 data-i18n="settings">Ajustes</h2>
+    <div class="grid">
+      <label><span data-i18n="goal"></span><select id="goal"><option value="quality" data-i18n="goal_quality"></option><option value="balanced" data-i18n="goal_balanced"></option><option value="speed" data-i18n="goal_speed"></option></select></label>
+      <label><span data-i18n="language"></span><select id="lang"><option value="es">Español</option><option value="en">English</option></select></label>
+      <label class="wide"><span data-i18n="advisor_endpoint"></span><input id="advisor-url" type="url" placeholder="http://127.0.0.1:8765/advisor"></label>
+    </div>
+    <div class="row buttons">
+      <button id="btn-export" data-i18n="export">Exportar</button>
+      <label class="file-btn"><span data-i18n="import">Importar</span><input id="import-input" type="file" accept="application/json" hidden></label>
+      <button id="btn-install" hidden data-i18n="install">Instalar app</button>
+    </div>
+    <p class="muted small" data-i18n="disclaimer"></p>
+    <p class="muted small"><a href="../">KlipperLearn</a> · <a href="https://github.com/Agnuxo1/KlipperLearn/blob/main/docs/PHONE_APP.md">Docs</a> · GPL-3.0-or-later</p>
+  </div>
+</section>
+</main>
+
+<nav class="tabs" aria-label="Sections">
+  <button data-tab="printer" class="active"><span class="ico">⎓</span><span data-i18n="tab_printer">Impresora</span></button>
+  <button data-tab="print"><span class="ico">▶</span><span data-i18n="tab_print">Imprimir</span></button>
+  <button data-tab="calibrate"><span class="ico">≣</span><span data-i18n="tab_calibrate">Calibrar</span></button>
+  <button data-tab="measure"><span class="ico">◎</span><span data-i18n="tab_measure">Medir</span></button>
+  <button data-tab="learn"><span class="ico">★</span><span data-i18n="tab_learn">Aprender</span></button>
+</nav>
+<div id="toast" class="toast" role="status" hidden></div>
+</body>
+</html>

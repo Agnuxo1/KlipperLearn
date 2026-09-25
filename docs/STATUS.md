@@ -16,6 +16,7 @@ reviewer. Software verification is separate from hardware and statistical valida
 | Optional MobileNet training/inference | Included | Requires trusted labelled data and patched optional dependencies; no trained weights bundled. |
 | External advisor | Manual request export and response validation | No automatic cloud API integration or direct model-to-G-code execution. |
 | Phone-only Klipper host over USB | Design target | Not shipped or newly hardware-validated. |
+| Phone-only G-code host over USB (KlipperLearn Phone, `docs/app/`) | Preview: WebUSB/Web Serial, Marlin protocol, trial transforms, calibration generators, sensors, one-change advisor | Simulator and headless Chromium tests only; no physical Android/USB/printer acceptance yet. See [PHONE_APP.md](PHONE_APP.md). |
 | Unattended recursive optimization | Not claimed | No automatic bed clearing or independent visual safety certification. |
 | Upstream acceptance | Not claimed | Interoperability tools live in this repository. |
 
