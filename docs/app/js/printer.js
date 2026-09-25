@@ -174,11 +174,15 @@ export class Printer {
     this.abortAll('Emergency stop');
   }
 
-  abortAll(reason) {
-    if (this.job) this.job.cancelled = true;
-    const err = new Error(reason);
+  dropPending(err) {
     if (this.inflight) { this.inflight.reject(err); this.inflight = null; }
     for (const q of this.queue.splice(0)) q.reject(err);
+    this.replay = []; this.pendingResend = null;
+  }
+
+  abortAll(reason) {
+    if (this.job) this.job.cancelled = true;
+    this.dropPending(new Error(reason));
     this.emit('abort', reason);
   }
 
@@ -197,12 +201,23 @@ export class Printer {
   }
 
   async handshake() {
-    await sleep(this.conn.label === 'Simulator' ? 50 : 2500); // boards with DTR reset need time to boot
+    // Opening the port resets many 8-bit boards (DTR). Wait for their "start" banner, or
+    // up to 3 s for boards that don't reset, then give the firmware a moment to settle.
+    const sim = this.conn.label === 'Simulator';
+    let started = false;
+    this.on('reset', () => { started = true; });
+    const t0 = Date.now();
+    while (!sim && !started && Date.now() - t0 < 3000) await sleep(100);
+    await sleep(sim ? 50 : started ? 1500 : 200);
     this.startWatchdog();
     const withTimeout = (p, ms, what) => Promise.race([p, sleep(ms).then(() => { throw new Error(what); })]);
     try {
-      await withTimeout(this.send('M110 N0'), 8000,
-        'No G-code firmware answered. Check the baud rate (115200/250000). A board flashed with Klipper firmware needs a Klipper host instead.');
+      let answered = false;
+      for (let attempt = 0; attempt < 3 && !answered; attempt++) {
+        try { await withTimeout(this.send('M110 N0'), 4000, 'timeout'); answered = true; }
+        catch (_) { this.dropPending(new Error('M110 retry')); }
+      }
+      if (!answered) throw new Error('No G-code firmware answered. Check the baud rate (115200/250000). A board flashed with Klipper firmware needs a Klipper host instead.');
       this.lineNo = 1; this.history.clear();
       const m115 = await withTimeout(this.send('M115'), 8000, 'M115 timed out');
       this.info = parseFirmwareInfo(m115);

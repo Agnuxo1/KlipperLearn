@@ -93,6 +93,12 @@ test('handshake over the simulator reads firmware and settings', async () => {
   printer.stopTimers();
 });
 
+test('handshake retries M110 when the board is still booting', async () => {
+  const {printer, features} = await connectedPrinter({ignoreFirst: 1});
+  assert.equal(features.firmware, 'Marlin 2.1.2.1');
+  printer.stopTimers();
+});
+
 test('job streaming survives injected checksum errors (resend)', async () => {
   const {sim, printer} = await connectedPrinter({corruptEvery: 7});
   const lines = Array.from({length: 60}, (_, i) => `G1 X${i} Y${i} F3000`);

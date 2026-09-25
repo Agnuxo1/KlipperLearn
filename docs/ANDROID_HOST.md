@@ -1,6 +1,11 @@
 # Android phone as the Klipper host
 
-**Design and validation requirements. No working Android host package is shipped.**
+**Design and validation requirements. No working Android *Klipper* host package is shipped.**
+
+For printers that run Marlin or compatible G-code firmware, the phone can already act
+as the host through the browser: see [KlipperLearn Phone](PHONE_APP.md), which uses
+WebUSB drivers (CDC-ACM, CH340/CH341, CP210x and FTDI) and the firmware's serial
+G-code protocol. The requirements below still apply to running Klipper itself on a phone.
 
 The target is a compatible old phone connected directly to the printer by USB,
 without a Raspberry Pi. A browser interface can handle presentation and some
