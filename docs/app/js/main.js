@@ -577,8 +577,10 @@ function showRecommendation(tr, trials) {
     radio.addEventListener('change', () => { S.chosen = c; $$('.rec').forEach(r => r.classList.remove('chosen')); row.classList.add('chosen'); });
     const text = document.createElement('span');
     text.textContent = c.parameter ? `${localized(space[c.parameter]?.label) || c.parameter}: ${tr.params?.[c.parameter] ?? '–'} → ${c.value}` : t('converged');
-    const small = document.createElement('small'); small.className = 'muted'; small.textContent = ' ' + c.description;
-    text.append(document.createElement('br'), small);
+    if (getLanguage() === 'en' && c.parameter) {
+      const small = document.createElement('small'); small.className = 'muted'; small.textContent = c.description;
+      text.append(document.createElement('br'), small);
+    }
     row.append(radio, text); list.append(row);
   }
   $('#btn-ask-jev').hidden = !S.advisorUrl;
