@@ -125,7 +125,8 @@ def build_plot(base_lines: list[str], plot: int, p: dict, bed_c: float, total_pl
             continue                               # the trial controls the fan
         if line.startswith("END_PRINT"):
             out += ["M220 S100", "M221 S100", "SET_PRESSURE_ADVANCE ADVANCE=0",
-                    "SET_VELOCITY_LIMIT ACCEL=5000", "END_PRINT"]
+                    "SET_VELOCITY_LIMIT ACCEL=5000", "END_PRINT",
+                    "G90", f"G1 Z{TRAVEL_Z + 5} F600", "G1 X260 Y210 F6000 ; park so the front camera sees the bed"]
             continue
         out.append(shift_line(line, dx, dy) if in_body else line)
     return out
@@ -317,6 +318,8 @@ def cmd_decide(args, state):
                    "from camera snapshots assessed by the supervising agent; the operator stands by the emergency stop.",
         "machine": {"max_velocity": 250, "max_accel_config": 5000, "extruder": "direct drive, 0.4 mm nozzle, PLA",
                     "slicer_limits": "base card sliced with 4 mm3/s max volumetric speed (~33-47 mm/s walls), fan off"},
+        "assessment_protocol": state.get("assessment_protocol"),
+        "change_policy": state.get("change_policy"),
         "current_params": p, "history": history,
     }
     cands = candidates_for(p, assessment)
