@@ -1,0 +1,12 @@
+{
+  "name": "KlipperLearn Phone",
+  "short_name": "KlipperLearn",
+  "description": "Tune an old 3D printer from your phone over USB, with calibration prints, phone sensors and a one-change-per-trial advisor.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f1720",
+  "theme_color": "#0f1720",
+  "icons": [{"src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any"}]
+}
