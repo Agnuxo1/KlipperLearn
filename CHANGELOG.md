@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased — KlipperLearn Phone (preview)
+
+- Add a static, installable phone web app at `docs/app/` (GitHub Pages `/app/`).
+- Control Marlin-compatible printers directly over WebUSB (CDC-ACM, CH340/CH341, CP210x, FTDI) or Web Serial.
+- Add a browser G-code host with line numbers, checksums, resends, temperatures, pause, cancel and M112.
+- Apply per-trial settings by rewriting the streamed G-code; restore firmware values after every job.
+- Add slicer-free calibration generators and an experimental accelerometer resonance sweep.
+- Add camera, microphone and accelerometer indicators, a 40/60 measured/human score and a one-change advisor.
+- Add an optional external advisor (JEV) contract that can only choose among the app's bounded candidates.
+- Validated with a simulated printer and headless Chromium only; physical Android USB acceptance is pending.
+
 ## 0.6.0 — File-first Printer Optimizer
 
 - Add a portable skills-only plugin, repository marketplace and optional read-only MCP tools.

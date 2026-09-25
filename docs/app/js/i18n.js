@@ -1,0 +1,110 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// Spanish / English interface strings. Elements use data-i18n="key".
+
+const STRINGS = {
+  es: {
+    tab_printer: 'Impresora', tab_print: 'Imprimir', tab_calibrate: 'Calibrar', tab_measure: 'Medir', tab_learn: 'Aprender',
+    estop: 'PARADA', disconnected: 'Sin conectar', connected: 'Conectada', printing: 'Imprimiendo',
+    connect_title: 'Conectar la impresora', connect_help: 'Conecta el móvil a la impresora con un cable USB-OTG y pulsa Conectar. Funciona con Chrome en Android y con Chrome/Edge en ordenador.',
+    connect_usb: 'Conectar por USB', connect_sim: 'Probar con simulador', disconnect: 'Desconectar', baud: 'Velocidad (baudios)',
+    no_transport: 'Este navegador no puede acceder al USB. Usa Chrome en Android o Chrome/Edge en ordenador.',
+    insecure: 'La página debe abrirse por HTTPS para acceder al USB y a los sensores.',
+    firmware: 'Firmware', features: 'Funciones detectadas', temps: 'Temperaturas', hotend: 'Boquilla', bed: 'Cama',
+    set: 'Fijar', off: 'Apagar', home: 'Home', fan: 'Ventilador', motors_off: 'Soltar motores',
+    terminal: 'Terminal', send: 'Enviar', profile: 'Perfil de la impresora', save: 'Guardar', new_profile: 'Nuevo perfil',
+    p_name: 'Nombre', p_bed_x: 'Cama X (mm)', p_bed_y: 'Cama Y (mm)', p_max_z: 'Altura Z (mm)', p_origin: 'Origen',
+    origin_corner: 'Esquina', origin_center: 'Centro (delta)', p_nozzle: 'Boquilla (mm)', p_filament: 'Filamento (mm)',
+    p_hotend: 'Temp. boquilla (°C)', p_bed: 'Temp. cama (°C)', p_max_hotend: 'Máx. boquilla (°C)', p_max_bed: 'Máx. cama (°C)',
+    p_print_speed: 'Velocidad de impresión (mm/s)', p_travel: 'Velocidad de viaje (mm/s)', p_retract: 'Retracción (mm)',
+    p_start: 'G-code de inicio (opcional; vacío = calentar y G28)', p_end: 'G-code final (opcional)',
+    print_title: 'Imprimir una prueba', load_file: 'Abrir G-code', program: 'Programa', none: 'Ninguno',
+    trial_params: 'Parámetros de esta prueba', changed_param: 'Cambio respecto a la anterior', start_print: 'Iniciar prueba',
+    pause: 'Pausa', resume: 'Reanudar', cancel: 'Cancelar', progress: 'Progreso', layer: 'Capa',
+    sensors_during: 'Sensores durante la impresión', use_camera: 'Foto cada', layers: 'capas', use_mic: 'Micrófono (ruidos, pasos perdidos)',
+    use_motion: 'Acelerómetro (vibraciones)', confirm_start: 'Comprueba que la cama está libre y la boquilla limpia. ¿Iniciar la impresión?',
+    download_gcode: 'Descargar .gcode', wake_lock_warn: 'Mantén esta pestaña abierta y la pantalla encendida mientras imprime.',
+    cal_title: 'Pruebas de calibración', cal_help: 'Generan G-code directamente, sin laminador. Imprime una, valora el resultado y aplica el mejor valor.',
+    generate: 'Generar', send_to_print: 'Preparar para imprimir', start: 'Inicio', step: 'Paso', count: 'Franjas',
+    best_band: 'Mejor franja', apply_value: 'Aplicar valor', est_time: 'Tiempo estimado',
+    measure_title: 'Medir con el móvil', camera: 'Cámara', start_camera: 'Encender cámara', stop_camera: 'Apagar cámara', torch: 'Linterna',
+    ringing_photo: 'Analizar ondas en la foto', ringing_help: 'Encuadra una pared de la torre de vibraciones justo después de una esquina y arrastra un rectángulo sobre la franja. Indica cuántos mm mide el rectángulo y la velocidad a la que se imprimió.',
+    roi_mm: 'Ancho del rectángulo (mm)', speed_mm_s: 'Velocidad (mm/s)', analyze: 'Analizar',
+    manual_ringing: 'Cálculo manual (método Klipper)', ripples: 'Ondas contadas (N)', distance_mm: 'Distancia (mm, D)', axis: 'Eje',
+    use_as_shaper: 'Usar para input shaping', resonance: 'Barrido de resonancia (experimental)',
+    resonance_help: 'Sujeta el móvil firmemente a la cama (eje Y) o al cabezal (eje X). La impresora vibrará sin calentar ni extruir.',
+    run_sweep: 'Ejecutar barrido', mic_level: 'Nivel de micrófono', motion_rate: 'Frecuencia del acelerómetro',
+    learn_title: 'Valorar la última prueba', overall: 'General', surface: 'Superficie', dimensions: 'Medidas/forma',
+    defects: 'Defectos (0 = ninguno, 3 = grave)', notes: 'Notas', save_rating: 'Guardar valoración',
+    recommend: 'Siguiente ajuste recomendado', ask_jev: 'Consultar a JEV', use_next: 'Usar en la próxima prueba',
+    history: 'Historial de pruebas', score: 'Puntuación', measured: 'Medido', human: 'Humano',
+    settings: 'Ajustes', goal: 'Objetivo', goal_quality: 'Calidad', goal_balanced: 'Equilibrado', goal_speed: 'Velocidad',
+    advisor_endpoint: 'Asesor externo (JEV) — URL opcional', export: 'Exportar datos', import: 'Importar datos', language: 'Idioma',
+    no_trials: 'Aún no hay pruebas. Imprime una calibración o tu propio G-code.',
+    rate_first: 'Valora la prueba para obtener una recomendación.',
+    converged: 'Sin cambios: la pieza cumple el objetivo o no hay evidencia suficiente.',
+    reason_revert: 'El último cambio empeoró el resultado: se propone volver atrás.',
+    reason_fix: 'Se corrige el defecto más grave con un solo cambio.', reason_explore: 'Sin defectos importantes: se prueba ir más rápido.',
+    offline_ready: 'Lista para usar sin conexión.', install: 'Instalar app',
+    disclaimer: 'Software experimental. Supervisa siempre la impresora. Los ajustes se aplican solo durante la prueba y se restauran al terminar.',
+  },
+  en: {
+    tab_printer: 'Printer', tab_print: 'Print', tab_calibrate: 'Calibrate', tab_measure: 'Measure', tab_learn: 'Learn',
+    estop: 'STOP', disconnected: 'Not connected', connected: 'Connected', printing: 'Printing',
+    connect_title: 'Connect the printer', connect_help: 'Connect the phone to the printer with a USB-OTG cable and press Connect. Works with Chrome on Android and Chrome/Edge on desktop.',
+    connect_usb: 'Connect over USB', connect_sim: 'Try the simulator', disconnect: 'Disconnect', baud: 'Baud rate',
+    no_transport: 'This browser cannot access USB. Use Chrome on Android or Chrome/Edge on desktop.',
+    insecure: 'Open this page over HTTPS to access USB and sensors.',
+    firmware: 'Firmware', features: 'Detected features', temps: 'Temperatures', hotend: 'Hotend', bed: 'Bed',
+    set: 'Set', off: 'Off', home: 'Home', fan: 'Fan', motors_off: 'Motors off',
+    terminal: 'Terminal', send: 'Send', profile: 'Printer profile', save: 'Save', new_profile: 'New profile',
+    p_name: 'Name', p_bed_x: 'Bed X (mm)', p_bed_y: 'Bed Y (mm)', p_max_z: 'Z height (mm)', p_origin: 'Origin',
+    origin_corner: 'Corner', origin_center: 'Centre (delta)', p_nozzle: 'Nozzle (mm)', p_filament: 'Filament (mm)',
+    p_hotend: 'Hotend temp (°C)', p_bed: 'Bed temp (°C)', p_max_hotend: 'Max hotend (°C)', p_max_bed: 'Max bed (°C)',
+    p_print_speed: 'Print speed (mm/s)', p_travel: 'Travel speed (mm/s)', p_retract: 'Retraction (mm)',
+    p_start: 'Start G-code (optional; empty = heat and G28)', p_end: 'End G-code (optional)',
+    print_title: 'Print a trial', load_file: 'Open G-code', program: 'Program', none: 'None',
+    trial_params: 'Parameters for this trial', changed_param: 'Change from previous trial', start_print: 'Start trial',
+    pause: 'Pause', resume: 'Resume', cancel: 'Cancel', progress: 'Progress', layer: 'Layer',
+    sensors_during: 'Sensors while printing', use_camera: 'Photo every', layers: 'layers', use_mic: 'Microphone (noises, skipped steps)',
+    use_motion: 'Accelerometer (vibration)', confirm_start: 'Check the bed is clear and the nozzle clean. Start printing?',
+    download_gcode: 'Download .gcode', wake_lock_warn: 'Keep this tab open and the screen on while printing.',
+    cal_title: 'Calibration tests', cal_help: 'They generate G-code directly, no slicer needed. Print one, rate it and apply the best value.',
+    generate: 'Generate', send_to_print: 'Prepare to print', start: 'Start', step: 'Step', count: 'Bands',
+    best_band: 'Best band', apply_value: 'Apply value', est_time: 'Estimated time',
+    measure_title: 'Measure with the phone', camera: 'Camera', start_camera: 'Start camera', stop_camera: 'Stop camera', torch: 'Torch',
+    ringing_photo: 'Analyse ripples in the photo', ringing_help: 'Frame a ringing-tower wall just after a corner and drag a rectangle over the band. Enter how many mm the rectangle spans and the print speed.',
+    roi_mm: 'Rectangle width (mm)', speed_mm_s: 'Speed (mm/s)', analyze: 'Analyse',
+    manual_ringing: 'Manual calculation (Klipper method)', ripples: 'Ripples counted (N)', distance_mm: 'Distance (mm, D)', axis: 'Axis',
+    use_as_shaper: 'Use for input shaping', resonance: 'Resonance sweep (experimental)',
+    resonance_help: 'Attach the phone firmly to the bed (Y axis) or toolhead (X axis). The printer will vibrate without heating or extruding.',
+    run_sweep: 'Run sweep', mic_level: 'Microphone level', motion_rate: 'Accelerometer rate',
+    learn_title: 'Rate the last trial', overall: 'Overall', surface: 'Surface', dimensions: 'Dimensions/shape',
+    defects: 'Defects (0 = none, 3 = severe)', notes: 'Notes', save_rating: 'Save rating',
+    recommend: 'Recommended next adjustment', ask_jev: 'Ask JEV', use_next: 'Use for the next trial',
+    history: 'Trial history', score: 'Score', measured: 'Measured', human: 'Human',
+    settings: 'Settings', goal: 'Goal', goal_quality: 'Quality', goal_balanced: 'Balanced', goal_speed: 'Speed',
+    advisor_endpoint: 'External advisor (JEV) — optional URL', export: 'Export data', import: 'Import data', language: 'Language',
+    no_trials: 'No trials yet. Print a calibration or your own G-code.',
+    rate_first: 'Rate the trial to get a recommendation.',
+    converged: 'No change: the part meets the goal or evidence is insufficient.',
+    reason_revert: 'The last change made the result worse: revert proposed.',
+    reason_fix: 'The worst defect is addressed with a single change.', reason_explore: 'No major defects: trying faster settings.',
+    offline_ready: 'Ready to use offline.', install: 'Install app',
+    disclaimer: 'Experimental software. Always supervise the printer. Settings apply only during the trial and are restored afterwards.',
+  },
+};
+
+let lang = 'es';
+export function detectLanguage(saved) {
+  if (saved && STRINGS[saved]) return saved;
+  const nav = (typeof navigator !== 'undefined' && navigator.language) || 'es';
+  return nav.toLowerCase().startsWith('es') ? 'es' : 'en';
+}
+export function setLanguage(l) { lang = STRINGS[l] ? l : 'es'; if (typeof document !== 'undefined') document.documentElement.lang = lang; }
+export function getLanguage() { return lang; }
+export function t(key) { return STRINGS[lang][key] ?? STRINGS.en[key] ?? key; }
+export function localized(obj) { return obj ? (obj[lang] ?? obj.en ?? '') : ''; }
+export function applyTranslations(root = document) {
+  for (const el of root.querySelectorAll('[data-i18n]')) el.textContent = t(el.dataset.i18n);
+  for (const el of root.querySelectorAll('[data-i18n-placeholder]')) el.placeholder = t(el.dataset.i18nPlaceholder);
+}
