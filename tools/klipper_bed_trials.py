@@ -252,8 +252,9 @@ def measured_score(m: dict, ref: dict | None) -> float:
     if ref and m.get("print_duration_s") and ref.get("print_duration_s"):
         speedup = ref["print_duration_s"] / m["print_duration_s"]
         parts.append((min(1.0, max(0.0, 0.5 + (speedup - 1) * 1.5)), 0.4))
-    if m.get("max_temp_dev_c") is not None:
-        parts.append((min(1.0, max(0.0, 1 - m["max_temp_dev_c"] / 10)), 0.2))
+    # JEV (0.61): judge hotend stability by mean deviation; fan-start transients are expected.
+    if m.get("mean_temp_dev_c") is not None:
+        parts.append((min(1.0, max(0.0, 1 - m["mean_temp_dev_c"] / 2)), 0.2))
     w = sum(x for _, x in parts)
     return sum(v * x for v, x in parts) / w
 
@@ -306,6 +307,11 @@ def cmd_decide(args, state):
     v_score = (assessment["overall"] - 1) / 4
     entry["score"] = {"measured": round(m_score, 3), "visual": round(v_score, 3),
                       "total": round(0.4 * m_score + 0.6 * v_score, 3)}
+    for other in state["plots"].values():                   # keep every plot on the same metric
+        if other.get("assessment") and other.get("measured") and other is not entry:
+            ms = measured_score(other["measured"], ref)
+            vs = (other["assessment"]["overall"] - 1) / 4
+            other["score"] = {"measured": round(ms, 3), "visual": round(vs, 3), "total": round(0.4 * ms + 0.6 * vs, 3)}
     p = entry["params"]
     history = [{"plot": int(k), "params": v["params"], "measured": v.get("measured"), "assessment": v.get("assessment"),
                 "score": v.get("score"), "jev": v.get("jev", {}).get("candidate_id")}
