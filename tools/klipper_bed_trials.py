@@ -36,6 +36,7 @@ from klipperlearn.jev_adapter import PARAMETER_LIMITS, build_decision_request, p
 BRIDGE = Path(r"D:\PROJECTS\.cognition\jev_health_bridge.py")
 BASE_CENTER = (135.0, 107.5)          # centre of the card in the sliced base file
 TRAVEL_Z = 20.0                       # safe height above finished 12 mm cards
+CONFIG_ACCEL = 1000.0                 # operator limit set as max_accel in printer config
 
 # 3 x 2 grid inside the printable area, away from the X/Y homing corner (-8, -1).
 PLOTS = {1: (50.0, 55.0), 2: (135.0, 55.0), 3: (220.0, 55.0),
@@ -47,7 +48,7 @@ BED_C = 50.0
 
 # One-step candidate moves offered to JEV (never more than the adapter step limit).
 MOVES = {
-    "speed_factor_pct": 25.0, "accel_mm_s2": 1000.0, "pressure_advance": 0.02,
+    "speed_factor_pct": 25.0, "accel_mm_s2": 250.0, "pressure_advance": 0.02,
     "hotend_temp_c": 5.0, "fan_percent": 50.0, "extrusion_factor": 0.02,
 }
 
@@ -125,7 +126,7 @@ def build_plot(base_lines: list[str], plot: int, p: dict, bed_c: float, total_pl
             continue                               # the trial controls the fan
         if line.startswith("END_PRINT"):
             out += ["M220 S100", "M221 S100", "SET_PRESSURE_ADVANCE ADVANCE=0",
-                    "SET_VELOCITY_LIMIT ACCEL=5000", "END_PRINT",
+                    f"SET_VELOCITY_LIMIT ACCEL={round(CONFIG_ACCEL)}", "END_PRINT",
                     "G90", f"G1 Z{TRAVEL_Z + 5} F600", "G1 X260 Y210 F6000 ; park so the front camera sees the bed"]
             continue
         out.append(shift_line(line, dx, dy) if in_body else line)
@@ -264,6 +265,8 @@ def candidates_for(p: dict, assessment: dict) -> list[dict]:
     cands = []
     for param, step in MOVES.items():
         lo, hi, limit = PARAMETER_LIMITS[param]
+        if param == "accel_mm_s2":
+            hi = CONFIG_ACCEL                          # never above the operator limit
         for sign in (+1, -1):
             value = round(min(hi, max(lo, p[param] + sign * step)), 4)
             if value == p[param]:
@@ -322,7 +325,7 @@ def cmd_decide(args, state):
         "plots_remaining": 6 - args.plot,
         "scoring": "total = 0.4 measured (completion, print time vs plot 1, temperature stability) + 0.6 visual rating (1-5) "
                    "from camera snapshots assessed by the supervising agent; the operator stands by the emergency stop.",
-        "machine": {"max_velocity": 250, "max_accel_config": 5000, "extruder": "direct drive, 0.4 mm nozzle, PLA",
+        "machine": {"max_velocity": 250, "max_accel_config": CONFIG_ACCEL, "max_accel_history": "plots 1-4 ran at 5000 (config before operator correction)", "extruder": "direct drive, 0.4 mm nozzle, PLA",
                     "slicer_limits": "base card sliced with 4 mm3/s max volumetric speed (~33-47 mm/s walls), fan off"},
         "assessment_protocol": state.get("assessment_protocol"),
         "change_policy": state.get("change_policy"),
