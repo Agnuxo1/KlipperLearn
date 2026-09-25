@@ -5,8 +5,8 @@
 
 export class MarlinSimulator {
   constructor({version = '2.1.2.1', autoReport = true, inputShaping = true, linearAdvance = true,
-    corruptEvery = 0, heatRate = 40, lineDelayMs = 0} = {}) {
-    Object.assign(this, {version, autoReport, inputShaping, linearAdvance, corruptEvery, heatRate, lineDelayMs});
+    corruptEvery = 0, heatRate = 40, lineDelayMs = 0, ignoreFirst = 0} = {}) {
+    Object.assign(this, {version, autoReport, inputShaping, linearAdvance, corruptEvery, heatRate, lineDelayMs, ignoreFirst});
     this.emit = () => {};
     this.expected = 0;
     this.count = 0;
@@ -43,6 +43,7 @@ export class MarlinSimulator {
     line = line.trim();
     if (line === 'M112') { this.emit('Error:Printer halted. kill() called!'); this.halted = true; return; }
     if (this.halted) return;
+    if (this.ignoreFirst > 0) { this.ignoreFirst--; return; }   // still booting: bytes are lost
     let cmd = line;
     const numbered = line.match(/^N(\d+)\s+(.*?)\*(\d+)$/);
     if (numbered) {

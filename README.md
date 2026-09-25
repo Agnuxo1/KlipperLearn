@@ -17,11 +17,15 @@ Python application and its HTML/JavaScript phone companion, not only the earlier
 advisory demonstration. The original installation is not overwritten by this
 publication. Read the [capability matrix](docs/STATUS.md) before connecting hardware.
 
-> **Phone-only hosting is a development target, not a delivered Android installer.**
-> The shipped deployment uses a Python host running beside Klipper/Moonraker and
-> a phone browser as interface, camera and sensor source. An HTML page alone does
-> not supply a native Klipper process or reliable USB access. No trained defect
-> weights or universally validated automatic calibration profile are bundled.
+> **New preview: [KlipperLearn Phone](docs/PHONE_APP.md), a phone-only web app.**
+> Open <https://agnuxo1.github.io/KlipperLearn/app/> in Chrome for Android, connect
+> the printer's USB port with an OTG cable and tune Marlin-compatible printers
+> without a Raspberry Pi or PC. It controls the printer over WebUSB, generates
+> calibration prints, measures with the camera, microphone and accelerometer, and
+> recommends one bounded change per trial. It has been tested only against a
+> simulated printer so far. Printers flashed with Klipper firmware still need a
+> Klipper host (the Python deployment below). No trained defect weights or
+> universally validated automatic calibration profile are bundled.
 
 ## Download and try the community preview
 
