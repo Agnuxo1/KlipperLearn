@@ -88,8 +88,9 @@ def shift_line(line: str, dx: float, dy: float) -> str:
     return code + (sep + comment if sep else "")
 
 
-def build_plot(base_lines: list[str], plot: int, p: dict, bed_c: float, total_plots: int = 6) -> list[str]:
-    cx, cy = PLOTS[plot]
+def build_plot(base_lines: list[str], plot: int, p: dict, bed_c: float, total_plots: int = 6,
+               center: tuple[float, float] | None = None) -> list[str]:
+    cx, cy = center or PLOTS[plot]
     dx, dy = cx - BASE_CENTER[0], cy - BASE_CENTER[1]
     temp = round(p["hotend_temp_c"])
     fan_s = round(255 * p["fan_percent"] / 100)
@@ -221,7 +222,9 @@ def cmd_prepare(args, state):
     base = Path(state.get("base_file") or args.base)
     state["base_file"] = str(base)
     p = state["params"][str(args.plot)]
-    lines = build_plot(base.read_text(encoding="utf-8").splitlines(), args.plot, p, state["bed_c"])
+    # session.json "plot_positions" can move a plot away from debris left on the bed.
+    center = tuple(state.get("plot_positions", {}).get(str(args.plot), PLOTS[args.plot]))
+    lines = build_plot(base.read_text(encoding="utf-8").splitlines(), args.plot, p, state["bed_c"], center=center)
     box = check_bounds(lines)
     name = f"KL-bed-plot{args.plot}-{time.strftime('%Y%m%d-%H%M')}.gcode"
     (root / name).write_text("\n".join(lines) + "\n", encoding="utf-8")
