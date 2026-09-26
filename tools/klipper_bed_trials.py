@@ -304,8 +304,10 @@ def cmd_run(args, state):
         "mcu_retransmit_bytes": mcu1.get("bytes_retransmit", 0) - mcu0.get("bytes_retransmit", 0),
         "mcu_invalid_bytes": mcu1.get("bytes_invalid", 0) - mcu0.get("bytes_invalid", 0),
         "phone_sensors": "camera only (accelerometer/microphone need the companion pairing token, not used)"})
-    entry["measured"] = measured
-    save_state(root, state)
+    # Re-read the session so edits made while this plot printed are not overwritten.
+    fresh = load_state(root)
+    fresh["plots"].setdefault(str(args.plot), {}).update({**entry, "measured": measured})
+    save_state(root, fresh)
     print(json.dumps(measured))
 
 
