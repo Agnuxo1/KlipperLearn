@@ -42,6 +42,7 @@ PARAMETER_LIMITS: dict[str, tuple[float, float, float]] = {
     "pressure_advance": (0.0, 0.2, 0.02),
     "accel_mm_s2": (100.0, 10000.0, 1000.0),
     "speed_factor_pct": (50.0, 200.0, 25.0),
+    "bridge_speed_mm_s": (10.0, 80.0, 10.0),
     "extrusion_factor": (0.8, 1.2, 0.02),
     "flow_multiplier": (0.95, 1.05, 0.005),
     "hotend_temp_c": (180.0, 275.0, 5.0),

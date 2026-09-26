@@ -46,11 +46,13 @@ PLOTS = {1: (50.0, 55.0), 2: (135.0, 55.0), 3: (220.0, 55.0),
 BASELINE = {"hotend_temp_c": 220.0, "speed_factor_pct": 100.0, "accel_mm_s2": 5000.0,
             "pressure_advance": 0.0, "fan_percent": 0.0, "extrusion_factor": 1.0}
 BED_C = 50.0
+BRIDGE_TYPES = (";TYPE:Bridge", ";TYPE:Internal Bridge", ";TYPE:Overhang wall")
+BRIDGE_FAN_PCT = 100.0                # JEV 0.91: full part cooling on bridges and overhang walls
 
 # One-step candidate moves offered to JEV (never more than the adapter step limit).
 MOVES = {
     "speed_factor_pct": 25.0, "accel_mm_s2": 250.0, "pressure_advance": 0.02,
-    "hotend_temp_c": 5.0, "fan_percent": 50.0, "extrusion_factor": 0.02,
+    "hotend_temp_c": 5.0, "fan_percent": 50.0, "extrusion_factor": 0.02, "bridge_speed_mm_s": 5.0,
 }
 
 
@@ -94,9 +96,37 @@ def build_plot(base_lines: list[str], plot: int, p: dict, bed_c: float, total_pl
     out: list[str] = []
     layer = 0
     in_body = False
+    # Bridge/overhang handling: full fan and an absolute bridge speed (compensating M220).
+    bridge_speed = p.get("bridge_speed_mm_s")
+    bridge_f = round(bridge_speed * 60 * 100 / p["speed_factor_pct"]) if bridge_speed else None
+    in_bridge = restore_f = False
+    modal_f = None
     for raw in base_lines:
         line = raw.rstrip("\n")
         low = line.lower()
+        fm = re.match(r"^G[0123]\b.*\bF(\d+\.?\d*)", line.partition(";")[0])
+        if in_body and bridge_f and line.startswith(";TYPE:"):
+            entering = line.startswith(BRIDGE_TYPES)
+            if entering and not in_bridge:
+                out += [line, f"M106 S{round(255 * BRIDGE_FAN_PCT / 100)} ; KlipperLearn bridge/overhang fan"]
+                in_bridge = True
+                continue
+            if not entering and in_bridge:
+                out += [f"M106 S{fan_s if layer >= 3 else 0} ; KlipperLearn restore trial fan", line]
+                in_bridge, restore_f = False, True
+                continue
+        if in_bridge and re.match(r"^G[123]\b.*\bE-?\.?\d", line.partition(";")[0]):
+            code = re.sub(r"\s*\bF\d+\.?\d*", "", line.partition(";")[0]).rstrip()
+            out.append(shift_line(f"{code} F{bridge_f}", dx, dy))
+            if fm:
+                modal_f = fm.group(1)
+            continue
+        if restore_f and re.match(r"^G[0123]\b", line):
+            if not fm and modal_f:
+                line = f"{line.partition(';')[0].rstrip()} F{modal_f}"
+            restore_f = False
+        if fm:
+            modal_f = fm.group(1)
         if low.startswith(("m109 ", "m104 ")):
             out.append(f"M109 S{temp}" if low.startswith("m109") else f"M104 S{temp}")
             continue
@@ -175,7 +205,7 @@ class Moonraker:
             return json.loads(r.read())
 
     def status(self):
-        q = "print_stats&extruder&heater_bed&toolhead&webhooks&display_status&fan"
+        q = "print_stats&extruder&heater_bed&toolhead&webhooks&display_status&fan&mcu"
         return self.get(f"/printer/objects/query?{q}")["status"]
 
     def snapshot(self, path: str, dest: Path):
@@ -211,6 +241,9 @@ def cmd_run(args, state):
     mr.post("/printer/print/start?filename=" + urllib.parse.quote(entry["file"]))
     started = time.time()
     samples, max_dev, last_print = [], 0.0, None
+    powers, mid_shot = [], False
+    mcu0 = (st.get("mcu") or {}).get("last_stats", {})
+    stalls0 = st["toolhead"].get("stalls", 0)
     while True:
         time.sleep(5)
         try:
@@ -224,6 +257,14 @@ def cmd_run(args, state):
             dev = abs(ex["temperature"] - ex["target"])
             max_dev = max(max_dev, dev)
             samples.append(round(dev, 2))
+            powers.append(ex.get("power", 0.0))
+        if not mid_shot and st.get("display_status", {}).get("progress", 0) >= 0.5:
+            try:
+                mr.snapshot("/webcam/snapshot", root / f"plot{args.plot}-mid-eye.jpg")
+                mr.snapshot("/samsung/snapshot", root / f"plot{args.plot}-mid-samsung.jpg")
+            except Exception as exc:
+                print("mid snapshot error", exc, flush=True)
+            mid_shot = True
         if last_print != state_now or int(time.time() - started) % 60 < 5:
             prog = st.get("display_status", {}).get("progress", 0)
             print(f"[{int(time.time() - started)}s] {state_now} {prog * 100:.0f}% T={ex['temperature']:.1f}/{ex['target']:.0f} "
@@ -231,7 +272,7 @@ def cmd_run(args, state):
             last_print = state_now
         if state_now in ("complete", "cancelled", "error") or (state_now == "standby" and time.time() - started > 60):
             break
-    time.sleep(4)                                           # let END_PRINT park the head
+    time.sleep(12)                                          # let END_PRINT park the head
     shots = {}
     for cam, path in (("samsung", "/samsung/snapshot"), ("eye", "/webcam/snapshot")):
         dest = root / f"plot{args.plot}-{cam}.jpg"
@@ -244,6 +285,14 @@ def cmd_run(args, state):
                 "total_duration_s": round(ps["total_duration"], 1), "filament_mm": round(ps["filament_used"], 1),
                 "max_temp_dev_c": round(max_dev, 2),
                 "mean_temp_dev_c": round(sum(samples) / len(samples), 2) if samples else None, "snapshots": shots}
+    mcu1 = (st.get("mcu") or {}).get("last_stats", {})
+    measured.update({
+        "max_heater_power": round(max(powers), 3) if powers else None,
+        "mean_heater_power": round(sum(powers) / len(powers), 3) if powers else None,
+        "planner_stalls": st["toolhead"].get("stalls", 0) - stalls0,
+        "mcu_retransmit_bytes": mcu1.get("bytes_retransmit", 0) - mcu0.get("bytes_retransmit", 0),
+        "mcu_invalid_bytes": mcu1.get("bytes_invalid", 0) - mcu0.get("bytes_invalid", 0),
+        "phone_sensors": "camera only (accelerometer/microphone need the companion pairing token, not used)"})
     entry["measured"] = measured
     save_state(root, state)
     print(json.dumps(measured))
@@ -326,8 +375,8 @@ def cmd_decide(args, state):
         "plots_remaining": 6 - args.plot,
         "scoring": "total = 0.4 measured (completion, print time vs plot 1, temperature stability) + 0.6 visual rating (1-5) "
                    "from camera snapshots assessed by the supervising agent; the operator stands by the emergency stop.",
-        "machine": {"max_velocity": 250, "max_accel_config": CONFIG_ACCEL, "max_accel_history": "plots 1-4 ran at 5000 (config before operator correction)", "extruder": "direct drive, 0.4 mm nozzle, PLA",
-                    "slicer_limits": "base card sliced with 4 mm3/s max volumetric speed (~33-47 mm/s walls), fan off"},
+        "machine": {"max_velocity": 250, "max_accel_config": CONFIG_ACCEL, "accel_hard_cap": ACCEL_CAP, "max_accel_history": "plots 1-4 ran at 5000 (config before operator correction)", "extruder": "direct drive, 0.4 mm nozzle, PLA",
+                    "slicer_limits": "base card sliced with 4 mm3/s max volumetric speed (~33-47 mm/s walls), fan off; bridges and overhang walls now get 100 % fan and bridge_speed_mm_s"},
         "assessment_protocol": state.get("assessment_protocol"),
         "change_policy": state.get("change_policy"),
         "current_params": p, "history": history,
