@@ -36,7 +36,8 @@ from klipperlearn.jev_adapter import PARAMETER_LIMITS, build_decision_request, p
 BRIDGE = Path(r"D:\PROJECTS\.cognition\jev_health_bridge.py")
 BASE_CENTER = (135.0, 107.5)          # centre of the card in the sliced base file
 TRAVEL_Z = 20.0                       # safe height above finished 12 mm cards
-CONFIG_ACCEL = 1000.0                 # operator limit set as max_accel in printer config
+CONFIG_ACCEL = 1000.0                 # startup max_accel in printer config
+ACCEL_CAP = 2000.0                    # hard cap enforced by config/klipper/klipperlearn-limits.cfg
 
 # 3 x 2 grid inside the printable area, away from the X/Y homing corner (-8, -1).
 PLOTS = {1: (50.0, 55.0), 2: (135.0, 55.0), 3: (220.0, 55.0),
@@ -266,7 +267,7 @@ def candidates_for(p: dict, assessment: dict) -> list[dict]:
     for param, step in MOVES.items():
         lo, hi, limit = PARAMETER_LIMITS[param]
         if param == "accel_mm_s2":
-            hi = CONFIG_ACCEL                          # never above the operator limit
+            hi = ACCEL_CAP                             # never above the operator hard cap
         for sign in (+1, -1):
             value = round(min(hi, max(lo, p[param] + sign * step)), 4)
             if value == p[param]:
