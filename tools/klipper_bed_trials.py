@@ -241,7 +241,10 @@ def cmd_run(args, state):
     # Preflight (JEV 1.0 after an empty print): refuse to start without detected filament.
     sensor = mr.get("/printer/objects/query?filament_switch_sensor%20filament_sensor")["status"].get(
         "filament_switch_sensor filament_sensor")
-    if (sensor is not None and sensor.get("enabled") and not sensor.get("filament_detected")
+    # The Anycubic has no physical sensor fitted (config stub reads "no filament" forever):
+    # session.json "filament_sensor_installed": false disables this check.
+    if (state.get("filament_sensor_installed", True) and sensor is not None and sensor.get("enabled")
+            and not sensor.get("filament_detected")
             and not getattr(args, "allow_no_filament", False)):
         raise SystemExit("Preflight failed: the filament sensor reports no filament. Load filament and purge first.")
     data = (root / entry["file"]).read_bytes()
