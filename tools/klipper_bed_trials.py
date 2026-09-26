@@ -115,7 +115,9 @@ def build_plot(base_lines: list[str], plot: int, p: dict, bed_c: float, total_pl
                 out += [f"M106 S{fan_s if layer >= 3 else 0} ; KlipperLearn restore trial fan", line]
                 in_bridge, restore_f = False, True
                 continue
-        if in_bridge and re.match(r"^G[123]\b.*\bE-?\.?\d", line.partition(";")[0]):
+        code_part = line.partition(";")[0]
+        if (in_bridge and re.match(r"^G[123]\b", code_part) and re.search(r"\b[XY]-?\d", code_part)
+                and re.search(r"\bE\.?\d", code_part)):              # extruding moves only, not retract/wipe
             code = re.sub(r"\s*\bF\d+\.?\d*", "", line.partition(";")[0]).rstrip()
             out.append(shift_line(f"{code} F{bridge_f}", dx, dy))
             if fm:
