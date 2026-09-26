@@ -238,6 +238,11 @@ def cmd_run(args, state):
         raise SystemExit("Printer is busy; refusing to start.")
     if st["webhooks"]["state"] != "ready":
         raise SystemExit("Klipper is not ready: " + st["webhooks"].get("state_message", ""))
+    # Preflight (JEV 1.0 after an empty print): refuse to start without detected filament.
+    sensor = mr.get("/printer/objects/query?filament_switch_sensor%20filament_sensor")["status"].get(
+        "filament_switch_sensor filament_sensor")
+    if sensor is not None and sensor.get("enabled") and not sensor.get("filament_detected"):
+        raise SystemExit("Preflight failed: the filament sensor reports no filament. Load filament and purge first.")
     data = (root / entry["file"]).read_bytes()
     mr.upload(entry["file"], data)
     mr.post("/printer/print/start?filename=" + urllib.parse.quote(entry["file"]))
@@ -255,7 +260,7 @@ def cmd_run(args, state):
             continue
         ps, ex, bed = st["print_stats"], st["extruder"], st["heater_bed"]
         state_now = ps["state"]
-        if state_now == "printing" and ps["print_duration"] > 30:
+        if state_now == "printing" and ps["print_duration"] > 30 and ex["target"] > 0:
             dev = abs(ex["temperature"] - ex["target"])
             max_dev = max(max_dev, dev)
             samples.append(round(dev, 2))
