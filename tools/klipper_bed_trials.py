@@ -102,10 +102,14 @@ def build_plot(base_lines: list[str], plot: int, p: dict, bed_c: float, total_pl
     bridge_f = round(bridge_speed * 60 * 100 / p["speed_factor_pct"]) if bridge_speed else None
     in_bridge = restore_f = False
     modal_f = None
+    bridge_flow = p.get("bridge_flow", 1.0)      # JEV 0.66: thinner, tauter bridge strands (not overhang walls)
+    section = ""
     for raw in base_lines:
         line = raw.rstrip("\n")
         low = line.lower()
         fm = re.match(r"^G[0123]\b.*\bF(\d+\.?\d*)", line.partition(";")[0])
+        if line.startswith(";TYPE:"):
+            section = line
         if in_body and bridge_f and line.startswith(";TYPE:"):
             entering = line.startswith(BRIDGE_TYPES)
             if entering and not in_bridge:
@@ -120,6 +124,8 @@ def build_plot(base_lines: list[str], plot: int, p: dict, bed_c: float, total_pl
         if (in_bridge and re.match(r"^G[123]\b", code_part) and re.search(r"\b[XY]-?\d", code_part)
                 and re.search(r"\bE\.?\d", code_part)):              # extruding moves only, not retract/wipe
             code = re.sub(r"\s*\bF\d+\.?\d*", "", line.partition(";")[0]).rstrip()
+            if bridge_flow != 1.0 and section.startswith((";TYPE:Bridge", ";TYPE:Internal Bridge")):
+                code = re.sub(r"\bE(\d*\.?\d+)", lambda m: f"E{float(m.group(1)) * bridge_flow:.5f}", code)
             out.append(shift_line(f"{code} F{bridge_f}", dx, dy))
             if fm:
                 modal_f = fm.group(1)
@@ -399,7 +405,10 @@ def cmd_decide(args, state):
     }
     cands = candidates_for(p, assessment)
     request = build_decision_request(jev_state, cands)
-    decision = parse_jev_response(ask_jev(root, args.plot, request), cands)
+    # Session gates (JEV plan 1.0: exploration applies the candidate when acceptance >= 0.50).
+    decision = parse_jev_response(ask_jev(root, args.plot, request), cands,
+                                  minimum_confidence=state.get("min_confidence", 0.65),
+                                  minimum_acceptance=state.get("min_acceptance", 0.65))
     entry["jev"] = decision
     nxt = dict(p)
     if decision["status"] == "candidate":
