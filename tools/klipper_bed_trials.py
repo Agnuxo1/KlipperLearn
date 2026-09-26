@@ -241,7 +241,8 @@ def cmd_run(args, state):
     # Preflight (JEV 1.0 after an empty print): refuse to start without detected filament.
     sensor = mr.get("/printer/objects/query?filament_switch_sensor%20filament_sensor")["status"].get(
         "filament_switch_sensor filament_sensor")
-    if sensor is not None and sensor.get("enabled") and not sensor.get("filament_detected"):
+    if (sensor is not None and sensor.get("enabled") and not sensor.get("filament_detected")
+            and not getattr(args, "allow_no_filament", False)):
         raise SystemExit("Preflight failed: the filament sensor reports no filament. Load filament and purge first.")
     data = (root / entry["file"]).read_bytes()
     mr.upload(entry["file"], data)
@@ -417,6 +418,9 @@ def main(argv=None):
         s.add_argument("plot", type=int, choices=range(1, 7))
         if name == "decide":
             s.add_argument("--assessment", required=True)
+        if name == "run":
+            s.add_argument("--allow-no-filament", action="store_true",
+                           help="one-time operator-requested diagnostic run despite the filament sensor")
     sub.add_parser("status")
     args = ap.parse_args(argv)
     args.session = session_dir(args.session)
