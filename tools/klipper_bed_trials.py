@@ -32,6 +32,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from klipperlearn.jev_adapter import PARAMETER_LIMITS, build_decision_request, parse_jev_response  # noqa: E402
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from trial_dataset import HostAudio, TrialDataset, rebuild_manifest, write_labels  # noqa: E402
 
 BRIDGE = Path(r"D:\PROJECTS\.cognition\jev_health_bridge.py")
 BASE_CENTER = (135.0, 107.5)          # centre of the card in the sliced base file
@@ -214,7 +216,7 @@ class Moonraker:
             return json.loads(r.read())
 
     def status(self):
-        q = "print_stats&extruder&heater_bed&toolhead&webhooks&display_status&fan&mcu"
+        q = "print_stats&extruder&heater_bed&toolhead&webhooks&display_status&fan&mcu&gcode_move&virtual_sdcard"
         return self.get(f"/printer/objects/query?{q}")["status"]
 
     def snapshot(self, path: str, dest: Path):
@@ -258,19 +260,32 @@ def cmd_run(args, state):
         raise SystemExit("Preflight failed: the filament sensor reports no filament. Load filament and purge first.")
     data = (root / entry["file"]).read_bytes()
     mr.upload(entry["file"], data)
+    ds = audio = None
+    if args.dataset:
+        ds = TrialDataset(args.dataset, f"{root.name}-plot{args.plot}", every_layers=args.photo_every)
+        if args.audio_host:
+            audio = HostAudio(args.audio_host, args.ssh_key)
+            audio.start()
     mr.post("/printer/print/start?filename=" + urllib.parse.quote(entry["file"]))
     started = time.time()
+    if ds:
+        ds.begin()
     samples, max_dev, last_print = [], 0.0, None
     powers, mid_shot = [], False
     mcu0 = (st.get("mcu") or {}).get("last_stats", {})
     stalls0 = st["toolhead"].get("stalls", 0)
+    last_log = 0.0
     while True:
-        time.sleep(5)
+        time.sleep(1 if ds else 5)
         try:
             st = mr.status()
         except Exception as exc:                            # transient network hiccup
             print("poll error", exc, flush=True)
             continue
+        if ds:
+            layer = ds.sample(st)
+            if layer:
+                ds.photo(mr.snapshot, f"L{layer:03d}")
         ps, ex, bed = st["print_stats"], st["extruder"], st["heater_bed"]
         state_now = ps["state"]
         if state_now == "printing" and ps["print_duration"] > 30 and ex["target"] > 0:
@@ -282,10 +297,13 @@ def cmd_run(args, state):
             try:
                 mr.snapshot("/webcam/snapshot", root / f"plot{args.plot}-mid-eye.jpg")
                 mr.snapshot("/samsung/snapshot", root / f"plot{args.plot}-mid-samsung.jpg")
+                if ds:
+                    ds.photo(mr.snapshot, "mid")
             except Exception as exc:
                 print("mid snapshot error", exc, flush=True)
             mid_shot = True
-        if last_print != state_now or int(time.time() - started) % 60 < 5:
+        if last_print != state_now or time.time() - last_log >= 60:
+            last_log = time.time()
             prog = st.get("display_status", {}).get("progress", 0)
             print(f"[{int(time.time() - started)}s] {state_now} {prog * 100:.0f}% T={ex['temperature']:.1f}/{ex['target']:.0f} "
                   f"B={bed['temperature']:.1f}/{bed['target']:.0f} Z={st['toolhead']['position'][2]:.2f}", flush=True)
@@ -312,7 +330,14 @@ def cmd_run(args, state):
         "planner_stalls": st["toolhead"].get("stalls", 0) - stalls0,
         "mcu_retransmit_bytes": mcu1.get("bytes_retransmit", 0) - mcu0.get("bytes_retransmit", 0),
         "mcu_invalid_bytes": mcu1.get("bytes_invalid", 0) - mcu0.get("bytes_invalid", 0),
-        "phone_sensors": "camera only (accelerometer/microphone need the companion pairing token, not used)"})
+        "phone_sensors": "cameras + host microphone (PS Eye); no phone accelerometer" if audio else "camera only"})
+    if ds:
+        ds.photo(mr.snapshot, "final")
+        wav = audio.stop_and_fetch(ds.dir / "host_mic.wav") if audio else None
+        offset = (audio.started_ms - ds.t0_ms) / 1000 if audio and audio.started_ms else None
+        meta = ds.finish(gcode=root / entry["file"], params=entry["params"], measured=measured, session=root.name,
+                         plot=args.plot, audio_wav=wav, audio_offset_s=offset, repo=Path(__file__).resolve().parents[1])
+        measured["dataset"] = {"trial_id": ds.trial_id, **{k: meta["sensors"][k] for k in ("printer_rows", "photos", "audio")}}
     # Re-read the session so edits made while this plot printed are not overwritten.
     fresh = load_state(root)
     fresh["plots"].setdefault(str(args.plot), {}).update({**entry, "measured": measured})
@@ -377,6 +402,9 @@ def cmd_decide(args, state):
     entry = state["plots"][key]
     assessment = json.loads(Path(args.assessment).read_text(encoding="utf-8"))
     entry["assessment"] = assessment
+    if args.dataset and (args.dataset / "trials" / f"{root.name}-plot{args.plot}").exists():
+        write_labels(args.dataset / "trials" / f"{root.name}-plot{args.plot}", assessment=assessment)
+        rebuild_manifest(args.dataset)
     ref = state["plots"].get("1", {}).get("measured")
     m_score = measured_score(entry["measured"], ref)
     v_score = (assessment["overall"] - 1) / 4
@@ -429,6 +457,10 @@ def main(argv=None):
     ap.add_argument("--session", type=Path, required=True)
     ap.add_argument("--url", default="http://192.168.0.16")
     ap.add_argument("--base", type=Path)
+    ap.add_argument("--dataset", type=Path, help="klipperlearn-dataset/v1 root to record each plot into")
+    ap.add_argument("--audio-host", help="ssh target of the Klipper host with a USB microphone, e.g. root@192.168.0.16")
+    ap.add_argument("--ssh-key", type=Path, default=Path.home() / ".ssh" / "md08tv_codex_ed25519")
+    ap.add_argument("--photo-every", type=int, default=10, help="dataset photos every N layers")
     sub = ap.add_subparsers(dest="cmd", required=True)
     for name in ("prepare", "run", "decide"):
         s = sub.add_parser(name)
