@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 // Offline app shell. Only public application files are cached; user data lives in IndexedDB.
-const CACHE = 'klipperlearn-phone-v1';
+const CACHE = 'klipperlearn-phone-v2';
 const SHELL = ['./', 'index.html', 'app.css', 'manifest.webmanifest', 'icon.svg',
   'js/main.js', 'js/i18n.js', 'js/connection.js', 'js/usb-drivers.js', 'js/printer.js', 'js/simulator.js',
   'js/gcode-transform.js', 'js/calibration.js', 'js/analysis.js', 'js/advisor.js', 'js/store.js',
-  'js/jev-client.js', 'js/sensors.js'];
+  'js/jev-client.js', 'js/sensors.js', 'js/audio-tap.js', 'js/dataset.js', 'js/moonraker.js'];
 
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())); });
 self.addEventListener('activate', e => {

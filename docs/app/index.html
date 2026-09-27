@@ -7,7 +7,7 @@
 <meta name="description" content="Tune an old 3D printer from your phone: USB control, calibration prints, camera, microphone and accelerometer measurements, and a one-change-per-trial advisor.">
 <meta name="theme-color" content="#0f1720">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; media-src 'self' blob:; connect-src 'self' https: http://localhost:* http://127.0.0.1:*; worker-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; media-src 'self' blob:; connect-src 'self' https: wss: http://localhost:* http://127.0.0.1:* ws://localhost:* ws://127.0.0.1:*; worker-src 'self'; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="app.css">
@@ -38,6 +38,15 @@
       <button id="btn-disconnect" hidden data-i18n="disconnect">Desconectar</button>
     </div>
     <dl id="fw-info" class="kv" hidden></dl>
+  </div>
+
+  <div class="card" id="klipper-card">
+    <h2 data-i18n="klipper_title">Klipper en este móvil (Moonraker)</h2>
+    <p class="muted small" data-i18n="klipper_help"></p>
+    <div class="row">
+      <label class="grow"><span data-i18n="moonraker_url">Dirección de Moonraker</span><input id="moonraker-url" type="url" inputmode="url" placeholder="http://localhost:7125"></label>
+    </div>
+    <div class="row buttons"><button id="btn-klipper" class="primary" data-i18n="connect_klipper">Conectar a Klipper</button></div>
   </div>
 
   <div class="card" id="controls" hidden>
@@ -111,9 +120,11 @@
       <label class="check"><input id="use-mic" type="checkbox"> <span data-i18n="use_mic"></span></label>
       <label class="check"><input id="use-motion" type="checkbox"> <span data-i18n="use_motion"></span></label>
     </div>
+    <label class="check"><input id="use-dataset" type="checkbox" checked> <span data-i18n="ds_record">Grabar dataset</span></label>
     <p class="muted small" data-i18n="wake_lock_warn"></p>
     <div class="row buttons">
       <button id="btn-start" class="primary" data-i18n="start_print" disabled>Iniciar prueba</button>
+      <button id="btn-record-current" data-i18n="record_current" hidden>Grabar el trabajo en curso</button>
       <button id="btn-pause" data-i18n="pause" hidden>Pausa</button>
       <button id="btn-cancel" class="danger" data-i18n="cancel" hidden>Cancelar</button>
     </div>
@@ -121,6 +132,7 @@
       <progress id="job-progress" max="1" value="0"></progress>
       <p><span data-i18n="progress">Progreso</span> <strong id="job-pct">0 %</strong> · <span data-i18n="layer">Capa</span> <strong id="job-layer">0</strong> · <span id="job-time">0:00</span></p>
       <p id="job-warnings" class="warn" hidden></p>
+      <p id="job-sensors" class="muted small"></p>
     </div>
     <video id="print-video" class="preview" playsinline muted hidden></video>
   </div>
@@ -190,6 +202,12 @@
     <h2 data-i18n="learn_title">Valorar la última prueba</h2>
     <p id="rate-target" class="muted" data-i18n="no_trials"></p>
     <form id="rating-form" hidden>
+      <div class="row wrap">
+        <label><span data-i18n="outcome">Resultado</span><select name="outcome">
+          <option value="" data-i18n="outcome_unknown">Sin decidir</option>
+          <option value="success" data-i18n="outcome_success">Éxito</option>
+          <option value="failure" data-i18n="outcome_failure">Fallo</option></select></label>
+      </div>
       <div class="stars">
         <label><span data-i18n="overall"></span><input name="overall" type="range" min="1" max="5" value="3"><output>3</output></label>
         <label><span data-i18n="surface"></span><input name="surface" type="range" min="1" max="5" value="3"><output>3</output></label>
@@ -229,6 +247,7 @@
     </div>
     <div class="row buttons">
       <button id="btn-export" data-i18n="export">Exportar</button>
+      <button id="btn-export-dataset" data-i18n="ds_export">Exportar dataset (ZIP)</button>
       <label class="file-btn"><span data-i18n="import">Importar</span><input id="import-input" type="file" accept="application/json" hidden></label>
       <button id="btn-install" hidden data-i18n="install">Instalar app</button>
     </div>

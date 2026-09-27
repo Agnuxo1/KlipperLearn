@@ -107,7 +107,13 @@ export class Printer {
     this.lastRx = Date.now();
     this.log('<', line);
     const temps = parseTemps(line);
-    if (temps && /(^ok)?\s*T\d?:|B:/.test(line)) { Object.assign(this.temps, temps); this.emit('temps', this.temps); }
+    if (temps && /(^ok)?\s*T\d?:|B:/.test(line)) {
+      // Marlin reports heater PWM as @:0-127 (hotend) and B@:0-127 (bed).
+      const hp = line.match(/(?:^|\s)@:(\d+)/), bp = line.match(/B@:(\d+)/);
+      if (hp && temps.hotend) temps.hotend.power = Math.min(1, parseInt(hp[1], 10) / 127);
+      if (bp && temps.bed) temps.bed.power = Math.min(1, parseInt(bp[1], 10) / 127);
+      Object.assign(this.temps, temps); this.emit('temps', this.temps);
+    }
     const rs = line.match(/^(?:Resend|rs)\s*:?\s*N?(\d+)/i);
     if (rs) { this.pendingResend = parseInt(rs[1], 10); return; }
     if (/^start\b/.test(line)) { this.emit('reset'); return; }
@@ -241,7 +247,8 @@ export class Printer {
   // Stream a G-code program. `lines` is an array of strings; `transform` may rewrite them.
   async runJob(lines, {transform = null, onProgress = () => {}, onLayer = () => {}, onMarker = () => {}} = {}) {
     if (this.job) throw new Error('A job is already running');
-    const job = this.job = {paused: false, cancelled: false, relativeE: false, startedAt: Date.now(), layer: 0, z: null};
+    const job = this.job = {paused: false, cancelled: false, relativeE: false, startedAt: Date.now(), layer: 0, z: null,
+      pos: {x: null, y: null, z: null, f: null}};
     const program = transform ? transform(lines) : lines;
     const total = program.length;
     try {
@@ -255,8 +262,10 @@ export class Printer {
         if (!cmd) continue;
         if (/^M83\b/.test(cmd)) job.relativeE = true;
         if (/^M82\b/.test(cmd)) job.relativeE = false;
-        const z = cmd.match(/^G[01]\b.*\bZ(-?[\d.]+)/);
-        if (z) job.z = parseFloat(z[1]);
+        if (/^G[01]\b/.test(cmd)) {
+          for (const m of cmd.matchAll(/\b([XYZF])(-?[\d.]+)/g)) job.pos[m[1].toLowerCase()] = parseFloat(m[2]);
+          job.z = job.pos.z;
+        }
         await this.send(cmd);
         if (i % 25 === 0 || i === total - 1) onProgress((i + 1) / total, job);
       }
