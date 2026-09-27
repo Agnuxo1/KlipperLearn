@@ -11,6 +11,10 @@ import {parameterSpace, DEFECTS, recommend, nextParams, baselineParams, scoreTri
 import {openStore, newId, hashText} from './store.js';
 import {buildAdvisorRequest, parseAdvisorResponse, askAdvisor} from './jev-client.js';
 import {Camera, Microphone, MotionRecorder, WakeLock, sensorSupport} from './sensors.js';
+import {TrialRecorder, buildDatasetZip} from './dataset.js';
+import {MoonrakerClient, MoonrakerPrinter, defaultMoonrakerUrl, statusRow} from './moonraker.js';
+
+const APP_VERSION = '0.7.0-dataset';
 
 const $ = sel => document.querySelector(sel);
 const $$ = sel => [...document.querySelectorAll(sel)];
@@ -25,7 +29,8 @@ const S = {
   store: null, profiles: [], profile: null, printer: null, features: null, settings: {},
   params: null, program: null, goal: 'balanced', advisorUrl: '', measuredShaper: {},
   camera: null, measureCamera: null, mic: null, motion: null, wake: new WakeLock(),
-  currentTrial: null, rec: null, chosen: null, logLines: [], installPrompt: null,
+  currentTrial: null, rec: null, chosen: null, logLines: [], installPrompt: null, moonrakerUrl: '',
+  recorder: null, jobProgress: null,
 };
 
 // ---------------------------------------------------------------- helpers
@@ -68,7 +73,9 @@ function setStatus(kind) {
   $('#estop').hidden = !connected;
   $('#controls').hidden = !connected;
   $('#btn-connect').hidden = connected; $('#btn-sim').hidden = connected; $('#btn-disconnect').hidden = !connected;
+  $('#btn-klipper').disabled = connected;
   $('#btn-start').disabled = !connected || !S.program || kind === 'printing';
+  $('#btn-record-current').hidden = !(S.printer?.features?.klipper) || kind !== 'connected';
   $('#btn-sweep').disabled = !connected || kind === 'printing';
 }
 
@@ -159,24 +166,47 @@ async function connect(kind) {
   try {
     const sim = kind === 'sim' ? new MarlinSimulator({lineDelayMs: 3}) : null;
     const conn = createConnection(kind, sim);
-    const printer = new Printer(conn, {log});
-    printer.on('temps', temps => {
-      const f = h => h ? `${fmtNum(h.current, 1)} / ${fmtNum(h.target, 0)} °C` : '–';
-      $('#t-hotend').textContent = f(temps.hotend); $('#t-bed').textContent = f(temps.bed);
-    });
-    printer.on('close', () => { S.printer = null; setStatus('disconnected'); });
-    printer.on('abort', reason => toast('⚠ ' + reason, 6000));
-    printer.on('error', line => log('!', line));
+    const printer = wirePrinter(new Printer(conn, {log}));
     await conn.open(parseInt($('#baud').value, 10));
-    S.printer = printer;
-    toast(conn.label + '…');
-    S.features = await printer.handshake();
-    S.settings = printer.settings;
-    renderFirmware(printer);
-    await loadParams(); renderParams();
-    setStatus('connected');
+    await finishConnect(printer);
   } catch (e) {
     if (e.name === 'NotFoundError') return;                      // user closed the device picker
+    toast('⚠ ' + e.message, 7000);
+    try { await S.printer?.close(); } catch (_) {}
+    S.printer = null; setStatus('disconnected');
+  }
+}
+
+function wirePrinter(printer) {
+  printer.on('temps', temps => {
+    const f = h => h ? `${fmtNum(h.current, 1)} / ${fmtNum(h.target, 0)} °C` : '–';
+    $('#t-hotend').textContent = f(temps.hotend); $('#t-bed').textContent = f(temps.bed);
+  });
+  printer.on('close', () => { S.printer = null; setStatus('disconnected'); });
+  printer.on('abort', reason => { toast('⚠ ' + reason, 6000); S.recorder?.addEvent(performance.now(), 'error', {message: reason}); });
+  printer.on('error', line => { log('!', line); S.recorder?.addEvent(performance.now(), 'error', {message: line}); });
+  return printer;
+}
+
+async function finishConnect(printer) {
+  S.printer = printer;
+  toast(printer.conn.label + '…');
+  S.features = await printer.handshake();
+  S.settings = printer.settings;
+  renderFirmware(printer);
+  await loadParams(); renderParams();
+  setStatus('connected');
+}
+
+// Klipper host on the same phone (or on the LAN when the page itself is served from there).
+async function connectKlipper() {
+  S.moonrakerUrl = $('#moonraker-url').value.trim() || defaultMoonrakerUrl();
+  kvSet('moonrakerUrl', $('#moonraker-url').value.trim());
+  try {
+    const printer = wirePrinter(new MoonrakerPrinter(new MoonrakerClient(S.moonrakerUrl), {log}));
+    await printer.open();
+    await finishConnect(printer);
+  } catch (e) {
     toast('⚠ ' + e.message, 7000);
     try { await S.printer?.close(); } catch (_) {}
     S.printer = null; setStatus('disconnected');
@@ -188,12 +218,19 @@ function renderFirmware(printer) {
   const yes = v => (v ? '✓' : '✗');
   const rows = [
     [t('firmware'), f.firmware + (printer.info?.machine ? ` · ${printer.info.machine}` : '')],
-    ['USB', printer.conn.label],
-    ['M204', f.accelStyle === 'PRT' ? 'P/R/T' : 'S'],
-    ['M205', f.jerkStyle === 'junction' ? 'Junction deviation' : 'Jerk'],
-    ['Linear Advance (M900)', yes(f.linearAdvance)],
-    ['Input shaping (M593)', yes(f.inputShaping)],
-    ['EEPROM', yes(f.eeprom)],
+    [f.klipper ? 'Host' : 'USB', printer.conn.label],
+    ...(f.klipper ? [
+      ['max_accel', fmtNum(printer.settings.klipper?.max_accel, 0)],
+      ['max_velocity', fmtNum(printer.settings.klipper?.max_velocity, 0)],
+      ['square_corner_velocity', fmtNum(printer.settings.klipper?.square_corner_velocity, 1)],
+      ['pressure_advance', fmtNum(printer.settings.klipper?.pressure_advance, 3)],
+    ] : [
+      ['M204', f.accelStyle === 'PRT' ? 'P/R/T' : 'S'],
+      ['M205', f.jerkStyle === 'junction' ? 'Junction deviation' : 'Jerk'],
+      ['Linear Advance (M900)', yes(f.linearAdvance)],
+      ['Input shaping (M593)', yes(f.inputShaping)],
+      ['EEPROM', yes(f.eeprom)],
+    ]),
   ];
   dl.innerHTML = '';
   for (const [k, v] of rows) { const dt = document.createElement('dt'); dt.textContent = k; const dd = document.createElement('dd'); dd.textContent = v; dl.append(dt, dd); }
@@ -249,56 +286,63 @@ function diffParams(parent, params) {
   return changed.length === 1 ? {param: changed[0], from: parent.params[changed[0]], to: params[changed[0]]} : changed.length ? {multiple: changed} : null;
 }
 
+// One printer.csv row: Moonraker gives the full status; the USB host knows temperatures,
+// the last commanded position/feed rate and the stream progress.
+function printerSample() {
+  const p = S.printer;
+  if (!p) return null;
+  if (p.features?.klipper) return statusRow(p.status, p.job?.layer ?? null);
+  const h = p.temps.hotend || {}, b = p.temps.bed || {}, pos = p.job?.pos || {};
+  return {hotend: h.current, hotend_target: h.target, hotend_power: h.power, bed: b.current, bed_target: b.target, bed_power: b.power,
+    x: pos.x, y: pos.y, z: pos.z, speed_mm_s: pos.f != null ? pos.f / 60 : null, progress: S.jobProgress,
+    layer: p.job?.layer ?? null, state: p.job ? (p.job.paused ? 'paused' : 'printing') : 'standby'};
+}
+
+async function savePhoto(trial, name) {
+  if (!S.camera) return;
+  const blob = await S.camera.snapshot();
+  if (!blob) return;
+  const key = `${trial.id}/photos/${name}.jpg`;
+  await S.store.saveMedia(key, blob);
+  trial.media.push(key);
+  S.recorder?.addPhoto(performance.now(), `photos/${name}.jpg`);
+}
+
 async function startTrial() {
   if (!S.printer || !S.program || S.printer.job) return;
   if (!confirm(t('confirm_start'))) return;
-  const trials = await S.store.trials(S.profile.id);
-  const same = trials.filter(tr => tr.source?.hash === S.program.hash);
-  const parent = same.at(-1) || null;
-  const params = paramsForProgram();
-  const {lines, report} = transformed();
-  const trial = {
-    id: newId('trial'), printerId: S.profile.id, createdAt: Date.now(),
-    source: {kind: S.program.kind, name: S.program.name, hash: S.program.hash, calId: S.program.calId || null,
-      values: S.program.values || null, param: S.program.param || null, speed: S.program.speed || null},
-    params, parentId: parent?.id || null, changed: diffParams(parent, params), baseline: !parent,
-    firmware: S.features?.firmware || null, measured: {}, human: null, media: [],
-  };
-  const warn = $('#job-warnings');
-  warn.hidden = !report.warnings.length; warn.textContent = report.warnings.join(' ');
+  await runTrial({attach: false});
+}
 
-  // Sensors
-  const every = Math.max(1, parseInt($('#camera-every').value, 10) || 10);
+// Record a print that is running (or about to start) on Klipper, e.g. launched from
+// Mainsail/Fluidd or by the KlipperLearn bed-trial tool on a computer.
+async function recordCurrentJob() {
+  if (!S.printer?.features?.klipper || S.printer.job) return;
+  await runTrial({attach: true});
+}
+
+async function startSensors(rec) {
+  const record = !!rec;
   try {
-    if ($('#use-camera').checked) { S.camera = new Camera($('#print-video')); await S.camera.start(); $('#print-video').hidden = false; }
-    if ($('#use-mic').checked) { S.mic = new Microphone(); await S.mic.start(); }
-    if ($('#use-motion').checked) { S.motion = new MotionRecorder(); await S.motion.start(); }
-  } catch (e) { toast('⚠ ' + e.message); }
+    if ($('#use-camera').checked || record) { S.camera = new Camera($('#print-video')); await S.camera.start(); $('#print-video').hidden = false; }
+  } catch (e) { S.camera = null; toast('⚠ ' + e.message); }
+  try {
+    if ($('#use-mic').checked || record) {
+      S.mic = new Microphone(); await S.mic.start();
+      if (rec) await S.mic.tap((block, rate, ms) => rec.addAudio(ms, block, rate));
+    }
+  } catch (e) { S.mic = null; toast('⚠ ' + e.message); }
+  try {
+    if (($('#use-motion').checked || record) && sensorSupport().motion) {
+      S.motion = new MotionRecorder();
+      if (rec) S.motion.onSample = (ms, x, y, z) => rec.addMotion(ms, x, y, z);
+      await S.motion.start();
+    }
+  } catch (e) { S.motion = null; toast('⚠ ' + e.message); }
   await S.wake.acquire();
+}
 
-  setStatus('printing');
-  $('#job').hidden = false; $('#btn-pause').hidden = false; $('#btn-cancel').hidden = false;
-  $('#btn-pause').textContent = t('pause');
-  const started = Date.now();
-  const clock = setInterval(() => { $('#job-time').textContent = fmtTime((Date.now() - started) / 1000); }, 1000);
-  let completed = false;
-  try {
-    completed = await S.printer.runJob(lines, {
-      onProgress: (f) => { $('#job-progress').value = f; $('#job-pct').textContent = `${Math.floor(f * 100)} %`; },
-      onLayer: async (n) => {
-        $('#job-layer').textContent = n;
-        if (S.camera && n % every === 0) {
-          const blob = await S.camera.snapshot();
-          if (blob) { const key = `${trial.id}/L${n}`; await S.store.saveMedia(key, blob); trial.media.push(key); }
-        }
-      },
-    });
-  } catch (e) { toast('⚠ ' + e.message, 6000); }
-  clearInterval(clock);
-
-  // Measurements
-  trial.measured.completed = completed;
-  trial.measured.seconds = (Date.now() - started) / 1000;
+async function stopSensors(trial) {
   if (S.mic) {
     const a = analyzeAudio(S.mic.take(), S.mic.sampleRate);
     if (a.ok) Object.assign(trial.measured, {clicks_per_min: a.clicksPerMin, audio_rms: a.rms, audio_centroid_hz: a.centroidHz});
@@ -313,11 +357,84 @@ async function startTrial() {
   if (S.camera) {
     const frame = S.camera.frame(640);
     if (frame) trial.measured.sharpness = sharpness(frame.getContext('2d').getImageData(0, 0, frame.width, frame.height));
-    const blob = await S.camera.snapshot();
-    if (blob) { const key = `${trial.id}/final`; await S.store.saveMedia(key, blob); trial.media.push(key); }
+    await savePhoto(trial, 'final');
     S.camera.stop(); S.camera = null; $('#print-video').hidden = true;
   }
   await S.wake.release();
+}
+
+async function runTrial({attach}) {
+  const trials = await S.store.trials(S.profile.id);
+  const program = attach ? {kind: 'external', name: S.printer.status?.print_stats?.filename || 'klipper-job', hash: null} : S.program;
+  const parent = program.hash ? trials.filter(tr => tr.source?.hash === program.hash).at(-1) || null : null;
+  const params = attach ? {} : paramsForProgram();
+  const {lines, report} = attach ? {lines: null, report: {warnings: []}} : transformed();
+  const trial = {
+    id: newId('trial'), printerId: S.profile.id, createdAt: Date.now(),
+    source: {kind: program.kind, name: program.name, hash: program.hash, calId: program.calId || null,
+      values: program.values || null, param: program.param || null, speed: program.speed || null},
+    params, parentId: parent?.id || null, changed: attach ? null : diffParams(parent, params), baseline: !attach && !parent,
+    firmware: S.features?.firmware || null, host: S.features?.klipper ? 'moonraker' : 'usb',
+    measured: {}, human: null, media: [],
+  };
+  const warn = $('#job-warnings');
+  warn.hidden = !report.warnings.length; warn.textContent = report.warnings.join(' ');
+
+  const rec = S.recorder = $('#use-dataset').checked ? new TrialRecorder({t0: performance.now()}) : null;
+  await startSensors(rec);
+  const every = Math.max(1, parseInt($('#camera-every').value, 10) || 10);
+
+  setStatus('printing');
+  $('#job').hidden = false; $('#btn-pause').hidden = false; $('#btn-cancel').hidden = false;
+  $('#btn-pause').textContent = t('pause');
+  $('#job-sensors').textContent = '';
+  if (attach) toast(t('waiting_job'), 6000);
+  const started = Date.now();
+  S.jobProgress = 0;
+  let midTaken = false, lastState = null;
+  const sample = () => {
+    const row = printerSample();
+    if (row) {
+      rec.addPrinter(performance.now(), row);
+      if (row.state !== lastState && lastState && ['paused', 'printing'].includes(row.state)) rec.addEvent(performance.now(), row.state === 'paused' ? 'pause' : 'resume');
+      lastState = row.state;
+    }
+    const sum = rec.summary();
+    $('#job-sensors').textContent = `📈 ${sum.accel_rows} · 🔊 ${sum.audio_frames} · ${t('knocks')} ${sum.knocks_accel + sum.knocks_audio} · ${t('jams')} ${sum.jam_suspects} · 📷 ${sum.photos}`;
+  };
+  if (rec) sample();
+  const sampler = rec ? setInterval(sample, 1000) : null;
+  const clock = setInterval(() => { $('#job-time').textContent = fmtTime((Date.now() - started) / 1000); }, 1000);
+  const hooks = {
+    name: program.name,
+    onProgress: (f) => {
+      S.jobProgress = f;
+      $('#job-progress').value = f; $('#job-pct').textContent = `${Math.floor(f * 100)} %`;
+      if (!midTaken && f >= 0.5) { midTaken = true; savePhoto(trial, 'mid'); }
+    },
+    onLayer: async (n) => {
+      $('#job-layer').textContent = n;
+      if (S.camera && n > 0 && n % every === 0) await savePhoto(trial, `L${String(n).padStart(3, '0')}`);
+    },
+  };
+  let completed = false;
+  try {
+    completed = attach ? await S.printer.followJob(hooks) : await S.printer.runJob(lines, hooks);
+  } catch (e) { toast('⚠ ' + e.message, 6000); rec?.addEvent(performance.now(), 'error', {message: e.message}); }
+  clearInterval(clock); clearInterval(sampler);
+  if (rec) sample();
+  if (!completed) rec?.addEvent(performance.now(), 'cancel', {});
+
+  trial.measured.completed = completed;
+  trial.measured.seconds = (Date.now() - started) / 1000;
+  await stopSensors(trial);
+  if (rec) {
+    trial.sensors = rec.summary();
+    Object.assign(trial.measured, {knocks: trial.sensors.knocks_accel + trial.sensors.knocks_audio, jam_suspects: trial.sensors.jam_suspects});
+    await S.store.saveMedia(`${trial.id}/dataset`, {files: rec.parts()});
+    trial.media.push(`${trial.id}/dataset`);
+  }
+  S.recorder = null; S.jobProgress = null;
   await S.store.saveTrial(trial);
   S.currentTrial = trial;
   await kvSet('lastTrial:' + S.profile.id, trial.id);
@@ -505,6 +622,7 @@ async function renderLearn() {
   // ratings
   for (const k of ['overall', 'surface', 'dimensions']) { form.elements[k].value = tr.human?.[k] ?? 3; form.elements[k].nextElementSibling.value = form.elements[k].value; }
   form.elements.notes.value = tr.human?.notes || '';
+  form.elements.outcome.value = tr.human?.outcome || '';
   const dl = $('#defect-list');
   dl.innerHTML = '';
   for (const [key, def] of Object.entries(DEFECTS)) {
@@ -526,6 +644,7 @@ async function renderLearn() {
   const rows = [['⏱', m.seconds ? fmtTime(m.seconds) : '–'], ['✓', m.completed ? '✓' : '✗'],
     ['🔊 clicks/min', fmtNum(m.clicks_per_min, 1)], ['📈 Hz', m.motion_peak_hz ? `x ${fmtNum(m.motion_peak_hz.x, 1)} · y ${fmtNum(m.motion_peak_hz.y, 1)} (${fmtNum(m.motion_rate_hz, 0)} Hz)` : '–'],
     ['📷', m.sharpness != null ? fmtNum(m.sharpness, 0) : '–']];
+  if (tr.sensors) rows.push([t('ds_summary'), `${t('knocks')} ${tr.sensors.knocks_accel + tr.sensors.knocks_audio} · ${t('jams')} ${tr.sensors.jam_suspects} · ${t('clips')} ${tr.sensors.clips} · 📷 ${tr.sensors.photos}`]);
   for (const [k, v] of rows) { const dt = document.createElement('dt'); dt.textContent = k; const dd = document.createElement('dd'); dd.textContent = v; md.append(dt, dd); }
   if (tr.human) showRecommendation(tr, trials); else { $('#rec-card').hidden = true; }
 }
@@ -555,7 +674,8 @@ async function saveRating(e) {
   const defects = {};
   for (const key of Object.keys(DEFECTS)) { const v = parseInt(form.elements['defect_' + key].value, 10); if (v) defects[key] = v; }
   tr.human = {...(tr.human || {}), overall: +form.elements.overall.value, surface: +form.elements.surface.value,
-    dimensions: +form.elements.dimensions.value, defects, notes: form.elements.notes.value};
+    dimensions: +form.elements.dimensions.value, defects, notes: form.elements.notes.value,
+    outcome: form.elements.outcome.value || null, labeled_by: 'human', labeled_at: new Date().toISOString()};
   const trials = await S.store.trials(S.profile.id);
   const ref = trials.find(x => x.source?.hash === tr.source?.hash && x.baseline) || tr;
   tr.score = scoreTrial(tr, ref, S.goal);
@@ -614,6 +734,33 @@ async function exportData() {
   const data = await S.store.exportAll();
   download(`klipperlearn-${new Date().toISOString().slice(0, 10)}.json`, JSON.stringify(data, null, 2), 'application/json');
 }
+// Dataset ZIP (klipperlearn-dataset/v1): every trial of every profile with its recorded files.
+async function exportDataset() {
+  const trials = await S.store.trials();
+  if (!trials.length) { toast(t('ds_empty')); return; }
+  const profiles = Object.fromEntries(S.profiles.map(p => [p.id, p]));
+  const items = [];
+  for (const tr of trials) {
+    const extra = {};
+    for (const key of tr.media || []) {
+      const v = await S.store.media(key);
+      if (!v) continue;
+      if (key.endsWith('/dataset')) Object.assign(extra, v.files || {});
+      else if (v instanceof Blob) {
+        const rel = key.slice(tr.id.length + 1);
+        extra[rel.startsWith('photos/') ? rel : `photos/${rel}.jpg`] = new Uint8Array(await v.arrayBuffer());
+      }
+    }
+    items.push({trial: tr, extra, profile: profiles[tr.printerId]});
+  }
+  const zip = buildDatasetZip(items, {appVersion: APP_VERSION});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([zip], {type: 'application/zip'}));
+  a.download = `klipperlearn-dataset-${new Date().toISOString().slice(0, 10)}.zip`; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 10000);
+  toast(`✓ ${items.length}`);
+}
+
 async function importData(file) {
   try { const r = await S.store.importAll(JSON.parse(await file.text())); toast(`✓ ${r.profiles} / ${r.trials}`); await loadProfiles(); renderProfile(); renderLearn(); }
   catch (e) { toast('⚠ ' + e.message); }
@@ -639,6 +786,9 @@ function bind() {
   $('#file-input').addEventListener('change', e => e.target.files[0] && loadFile(e.target.files[0]));
   $('#btn-download').addEventListener('click', () => S.program && download(S.program.name.replace(/\.[^.]*$/, '') + '-klipperlearn.gcode', transformed().lines.join('\n')));
   $('#btn-start').addEventListener('click', startTrial);
+  $('#btn-record-current').addEventListener('click', recordCurrentJob);
+  $('#btn-klipper').addEventListener('click', connectKlipper);
+  $('#btn-export-dataset').addEventListener('click', exportDataset);
   $('#btn-pause').addEventListener('click', togglePause);
   $('#btn-cancel').addEventListener('click', () => S.printer?.cancel());
   $('#btn-camera').addEventListener('click', toggleMeasureCamera);
@@ -672,6 +822,8 @@ async function init() {
   $('#lang').value = getLanguage();
   S.goal = (await S.store.kv('goal')) || 'balanced'; $('#goal').value = S.goal;
   S.advisorUrl = (await S.store.kv('advisorUrl')) || ''; $('#advisor-url').value = S.advisorUrl;
+  $('#moonraker-url').value = (await S.store.kv('moonrakerUrl')) || '';
+  $('#moonraker-url').placeholder = defaultMoonrakerUrl();
   await loadProfiles();
   S.measuredShaper = (await S.store.kv('shaper:' + S.profile.id)) || {};
   await loadParams();
@@ -683,7 +835,7 @@ async function init() {
   bind();
   renderProfile(); renderParams(); renderCalibrations();
   setStatus('disconnected');
-  if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
+  if ('serviceWorker' in navigator && window.isSecureContext) navigator.serviceWorker.register('sw.js').catch(() => {});
   if (S.store.volatile) toast('⚠ IndexedDB');
 }
 

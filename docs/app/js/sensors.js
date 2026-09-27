@@ -67,7 +67,23 @@ export class Microphone {
   }
   level() { if (!this.running) return 0; this.analyser.getFloatTimeDomainData(this.buf); let s = 0; for (const v of this.buf) s += v * v; return Math.sqrt(s / this.buf.length); }
   take() { const f = this.frames; this.frames = []; return f; }
-  stop() { clearInterval(this.timer); this.running = false; this.stream?.getTracks().forEach(t => t.stop()); this.ctx?.close(); }
+  // Continuous raw samples for the dataset recorder: onBlock(Float32Array, sampleRate, time).
+  // AudioWorklet where available, ScriptProcessor as the fallback for older WebViews.
+  async tap(onBlock) {
+    const src = this.ctx.createMediaStreamSource(this.stream);
+    try {
+      await this.ctx.audioWorklet.addModule(new URL('./audio-tap.js', import.meta.url));
+      this.tapNode = new AudioWorkletNode(this.ctx, 'kl-tap');
+      this.tapNode.port.onmessage = e => onBlock(e.data, this.sampleRate, performance.now());
+    } catch (_) {
+      this.tapNode = this.ctx.createScriptProcessor(4096, 1, 1);
+      this.tapNode.onaudioprocess = e => onBlock(Float32Array.from(e.inputBuffer.getChannelData(0)), this.sampleRate, performance.now());
+    }
+    const sink = this.ctx.createGain(); sink.gain.value = 0;   // keep the graph pulling without playing sound
+    src.connect(this.tapNode); this.tapNode.connect(sink); sink.connect(this.ctx.destination);
+    if (this.ctx.state === 'suspended') await this.ctx.resume();
+  }
+  stop() { clearInterval(this.timer); this.running = false; try { this.tapNode?.disconnect(); } catch (_) {} this.stream?.getTracks().forEach(t => t.stop()); this.ctx?.close(); }
 }
 
 export class MotionRecorder {
@@ -85,7 +101,9 @@ export class MotionRecorder {
   onMotion(e) {
     const a = e.acceleration?.x != null ? e.acceleration : e.accelerationIncludingGravity;
     if (!a || a.x == null) return;
-    this.samples.push({t: performance.now(), x: a.x, y: a.y, z: a.z});
+    const t = performance.now();
+    this.samples.push({t, x: a.x, y: a.y, z: a.z});
+    this.onSample?.(t, a.x, a.y, a.z);
     if (this.samples.length > 200000) this.samples.shift();
   }
   mark() { return this.samples.length; }
