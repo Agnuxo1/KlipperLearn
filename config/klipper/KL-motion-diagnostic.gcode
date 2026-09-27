@@ -8,7 +8,6 @@ M400
 G4 P3000
 ; BLOCK 1: axis X, accel 500, speed 50 mm/s, 40 mm strokes x6
 SET_VELOCITY_LIMIT ACCEL=500
-RESPOND MSG="Bloque 1: eje X, acel 500, 50 mm/s"
 G1 X155 F3000
 G1 X115 F3000
 G1 X155 F3000
@@ -26,7 +25,6 @@ M400
 G4 P3000
 ; BLOCK 2: axis X, accel 500, speed 100 mm/s, 40 mm strokes x6
 SET_VELOCITY_LIMIT ACCEL=500
-RESPOND MSG="Bloque 2: eje X, acel 500, 100 mm/s"
 G1 X155 F6000
 G1 X115 F6000
 G1 X155 F6000
@@ -44,7 +42,6 @@ M400
 G4 P3000
 ; BLOCK 3: axis X, accel 500, speed 150 mm/s, 40 mm strokes x6
 SET_VELOCITY_LIMIT ACCEL=500
-RESPOND MSG="Bloque 3: eje X, acel 500, 150 mm/s"
 G1 X155 F9000
 G1 X115 F9000
 G1 X155 F9000
@@ -62,7 +59,6 @@ M400
 G4 P3000
 ; BLOCK 4: axis X, accel 1000, speed 50 mm/s, 40 mm strokes x6
 SET_VELOCITY_LIMIT ACCEL=1000
-RESPOND MSG="Bloque 4: eje X, acel 1000, 50 mm/s"
 G1 X155 F3000
 G1 X115 F3000
 G1 X155 F3000
@@ -80,7 +76,6 @@ M400
 G4 P3000
 ; BLOCK 5: axis X, accel 1000, speed 100 mm/s, 40 mm strokes x6
 SET_VELOCITY_LIMIT ACCEL=1000
-RESPOND MSG="Bloque 5: eje X, acel 1000, 100 mm/s"
 G1 X155 F6000
 G1 X115 F6000
 G1 X155 F6000
@@ -98,7 +93,6 @@ M400
 G4 P3000
 ; BLOCK 6: axis X, accel 1000, speed 150 mm/s, 40 mm strokes x6
 SET_VELOCITY_LIMIT ACCEL=1000
-RESPOND MSG="Bloque 6: eje X, acel 1000, 150 mm/s"
 G1 X155 F9000
 G1 X115 F9000
 G1 X155 F9000
@@ -116,7 +110,6 @@ M400
 G4 P3000
 ; BLOCK 7: axis Y, accel 500, speed 50 mm/s, 40 mm strokes x6
 SET_VELOCITY_LIMIT ACCEL=500
-RESPOND MSG="Bloque 7: eje Y, acel 500, 50 mm/s"
 G1 Y127 F3000
 G1 Y87 F3000
 G1 Y127 F3000
@@ -134,7 +127,6 @@ M400
 G4 P3000
 ; BLOCK 8: axis Y, accel 500, speed 100 mm/s, 40 mm strokes x6
 SET_VELOCITY_LIMIT ACCEL=500
-RESPOND MSG="Bloque 8: eje Y, acel 500, 100 mm/s"
 G1 Y127 F6000
 G1 Y87 F6000
 G1 Y127 F6000
@@ -152,7 +144,6 @@ M400
 G4 P3000
 ; BLOCK 9: axis Y, accel 500, speed 150 mm/s, 40 mm strokes x6
 SET_VELOCITY_LIMIT ACCEL=500
-RESPOND MSG="Bloque 9: eje Y, acel 500, 150 mm/s"
 G1 Y127 F9000
 G1 Y87 F9000
 G1 Y127 F9000
@@ -170,7 +161,6 @@ M400
 G4 P3000
 ; BLOCK 10: axis Y, accel 1000, speed 50 mm/s, 40 mm strokes x6
 SET_VELOCITY_LIMIT ACCEL=1000
-RESPOND MSG="Bloque 10: eje Y, acel 1000, 50 mm/s"
 G1 Y127 F3000
 G1 Y87 F3000
 G1 Y127 F3000
@@ -188,7 +178,6 @@ M400
 G4 P3000
 ; BLOCK 11: axis Y, accel 1000, speed 100 mm/s, 40 mm strokes x6
 SET_VELOCITY_LIMIT ACCEL=1000
-RESPOND MSG="Bloque 11: eje Y, acel 1000, 100 mm/s"
 G1 Y127 F6000
 G1 Y87 F6000
 G1 Y127 F6000
@@ -206,7 +195,6 @@ M400
 G4 P3000
 ; BLOCK 12: axis Y, accel 1000, speed 150 mm/s, 40 mm strokes x6
 SET_VELOCITY_LIMIT ACCEL=1000
-RESPOND MSG="Bloque 12: eje Y, acel 1000, 150 mm/s"
 G1 Y127 F9000
 G1 Y87 F9000
 G1 Y127 F9000
@@ -223,5 +211,4 @@ G1 Y107 F9000
 M400
 G4 P3000
 SET_VELOCITY_LIMIT ACCEL=1000
-RESPOND MSG="Prueba terminada"
 M84
