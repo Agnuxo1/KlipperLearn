@@ -65,7 +65,37 @@ export function fileValues(lines) {
   };
 }
 
+// Klipper (through Moonraker) takes its own commands for accel, corner velocity, pressure
+// advance and input shaping; speed/flow factors (M220/M221) are the same as Marlin.
+export function klipperHeader(p) {
+  const out = [];
+  if (p.speed_factor_pct != null) out.push(`M220 S${Math.round(p.speed_factor_pct)}`);
+  if (p.flow_percent != null) out.push(`M221 S${Math.round(p.flow_percent)}`);
+  const lim = [];
+  if (p.accel_mm_s2 != null) lim.push(`ACCEL=${Math.round(p.accel_mm_s2)}`);
+  if (p.square_corner_velocity != null) lim.push(`SQUARE_CORNER_VELOCITY=${fmt(p.square_corner_velocity, 1)}`);
+  if (lim.length) out.push('SET_VELOCITY_LIMIT ' + lim.join(' '));
+  if (p.pressure_advance != null) out.push(`SET_PRESSURE_ADVANCE ADVANCE=${fmt(p.pressure_advance, 3)}`);
+  const sh = ['x', 'y'].filter(a => p['shaper_freq_' + a] != null).map(a => `SHAPER_FREQ_${a.toUpperCase()}=${fmt(p['shaper_freq_' + a], 1)}`);
+  if (sh.length) out.push('SET_INPUT_SHAPER ' + sh.join(' '));
+  if (p.retract_mm != null) out.push(`SET_RETRACTION RETRACT_LENGTH=${fmt(p.retract_mm, 2)}`);
+  const warn = [];
+  if (p.jerk_mm_s != null || p.junction_deviation_mm != null) warn.push('Klipper uses square_corner_velocity; jerk/junction deviation ignored.');
+  return {commands: out, warnings: warn};
+}
+
+export function klipperRestore(k = {}) {
+  const out = ['M220 S100', 'M221 S100'];
+  const lim = [];
+  if (k.max_accel != null) lim.push(`ACCEL=${Math.round(k.max_accel)}`);
+  if (k.square_corner_velocity != null) lim.push(`SQUARE_CORNER_VELOCITY=${fmt(k.square_corner_velocity, 1)}`);
+  if (lim.length) out.push('SET_VELOCITY_LIMIT ' + lim.join(' '));
+  if (k.pressure_advance != null) out.push(`SET_PRESSURE_ADVANCE ADVANCE=${fmt(k.pressure_advance, 3)}`);
+  return out;
+}
+
 export function headerCommands(p, features = {}) {
+  if (features.klipper) return klipperHeader(p);
   const out = [];
   const warn = [];
   if (p.speed_factor_pct != null) out.push(`M220 S${Math.round(p.speed_factor_pct)}`);
@@ -94,6 +124,7 @@ export function headerCommands(p, features = {}) {
 }
 
 export function restoreCommands(baseline = {}, features = {}) {
+  if (features.klipper) return klipperRestore(baseline.klipper);
   const out = ['M220 S100', 'M221 S100'];
   const a = baseline.M204;
   if (a) out.push(features.accelStyle === 'S' ? `M204 S${a.S ?? a.P}` : `M204 P${a.P ?? a.S}`);
@@ -146,6 +177,10 @@ export function applyTrial(lines, p = {}, {features = {}, baseline = {}, limits 
       l = setParam(c, 'S', Math.round(p.speed_factor_pct)); report.changed++;
     } else if (/^M221\b/.test(c) && p.flow_percent != null && num(c, 'S') !== null) {
       l = setParam(c, 'S', Math.round(p.flow_percent)); report.changed++;
+    } else if (features.klipper && /^SET_VELOCITY_LIMIT\b/i.test(c) && p.accel_mm_s2 != null && /\bACCEL=/i.test(c)) {
+      l = c.replace(/\bACCEL=[\d.]+/i, `ACCEL=${Math.round(p.accel_mm_s2)}`); report.changed++;
+    } else if (features.klipper && /^SET_PRESSURE_ADVANCE\b/i.test(c) && p.pressure_advance != null && /\bADVANCE=/i.test(c)) {
+      l = c.replace(/\bADVANCE=[\d.]+/i, `ADVANCE=${fmt(p.pressure_advance, 3)}`); report.changed++;
     } else if (/^M204\b/.test(c) && p.accel_mm_s2 != null) {
       l = c;
       for (const letter of ['P', 'S']) if (num(l, letter) !== null) l = setParam(l, letter, Math.round(p.accel_mm_s2));
