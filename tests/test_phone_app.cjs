@@ -241,6 +241,141 @@ test('memory store export/import round trip', async () => {
   assert.deepEqual(await other.importAll(dump), {profiles: 1, trials: 1});
 });
 
+test('dataset encoders: CRC32, stored ZIP round trip, 16-bit WAV', async () => {
+  const d = await mod('dataset.js');
+  assert.equal(d.crc32(new TextEncoder().encode('123456789')), 0xcbf43926);
+  const zip = d.zipStore([{path: 'a/b.txt', data: 'hola'}, {path: 'c.bin', data: Uint8Array.from([0, 1, 255])}]);
+  const back = d.unzipStore(zip);
+  assert.equal(new TextDecoder().decode(back['a/b.txt']), 'hola');
+  assert.deepEqual([...back['c.bin']], [0, 1, 255]);
+  const wav = d.encodeWav(Float32Array.from([0, 0.5, -1]), 16000);
+  const dv = new DataView(wav.buffer);
+  assert.equal(new TextDecoder().decode(wav.slice(0, 4)), 'RIFF');
+  assert.equal(dv.getUint32(24, true), 16000);
+  assert.equal(dv.getInt16(44 + 4, true), -32767);
+  assert.equal(d.toCsv(['t', 'v'], [{t: 1, v: null}, {t: 0.123456789, v: 'x'}]), 't,v\n1,\n0.12346,x\n');
+});
+
+test('recorder detects accelerometer knocks, periodic extruder clicks and saves clips', async () => {
+  const d = await mod('dataset.js');
+  let seed = 7; const rnd = () => ((seed = (seed * 1103515245 + 12345) % 2147483648) / 2147483648) - 0.5;
+  const rec = new d.TrialRecorder({t0: 0});
+  // 20 s of phone accelerometer at 100 Hz: gravity on z, small noise, three frame knocks.
+  const knocks = [5, 11, 16];
+  for (let i = 0; i < 2000; i++) {
+    const t = i / 100;
+    const hit = knocks.some(k => Math.abs(t - k) < 0.005) ? 6 : 0;
+    rec.addMotion(t * 1000, 0.05 * rnd() + hit, 0.05 * rnd(), 9.81 + 0.05 * rnd());
+  }
+  // 12 s of 48 kHz audio: quiet noise, then clicks every 0.4 s from 6 s on (a skipping extruder).
+  const rate = 48000, block = 4800;
+  for (let b = 0; b < 12 * rate / block; b++) {
+    const x = new Float32Array(block);
+    for (let i = 0; i < block; i++) {
+      const t = (b * block + i) / rate;
+      x[i] = 0.004 * rnd();
+      const ph = (t - 6) % 0.4;
+      if (t >= 6 && ph >= 0 && ph < 0.004) x[i] += 0.6 * Math.sin(2 * Math.PI * 3000 * t);
+    }
+    rec.addAudio(((b + 1) * block / rate) * 1000, x, rate);
+  }
+  rec.addPrinter(1000, {hotend: 220, hotend_target: 220, x: 10, y: 20, z: 0.2, progress: 0.1, layer: 1, state: 'printing'});
+  const sum = rec.summary();
+  assert.equal(sum.knocks_accel, 3, JSON.stringify(sum));
+  const accelTimes = rec.events.filter(e => e.source === 'accel').map(e => Math.round(e.t));
+  assert.deepEqual(accelTimes, knocks);
+  assert.ok(sum.knocks_audio >= 5 && sum.knocks_audio <= 16, 'audio clicks ' + sum.knocks_audio);
+  assert.ok(rec.events.every(e => e.type !== 'knock' || e.source !== 'audio' || e.t >= 5.9), 'no false clicks in the quiet part');
+  assert.ok(sum.jam_suspects >= 1, 'periodic clicks flagged as a possible jam');
+  assert.ok(sum.clips >= 1);
+  const parts = rec.parts();
+  assert.match(parts['printer.csv'], /^t,hotend,hotend_target/);
+  assert.equal(parts['accel.csv'].trim().split('\n').length, 2001);
+  assert.ok(parts['audio_features.csv'].split('\n').length > 100);
+  const clip = Object.keys(parts).find(k => k.startsWith('audio_events/'));
+  assert.equal(parts[clip].length, 44 + 2 * 16000 * 2, '2 s clip at 16 kHz');
+  for (const line of parts['events.jsonl'].trim().split('\n')) JSON.parse(line);
+});
+
+test('dataset ZIP: trial folder, labels and manifest follow klipperlearn-dataset/v1', async () => {
+  const d = await mod('dataset.js');
+  const tr = {id: 'trial-1', printerId: 'p1', createdAt: Date.UTC(2026, 8, 27), source: {name: 'card', hash: 'abc'},
+    params: {hotend_temp_c: 225}, measured: {completed: true}, media: [],
+    human: {overall: 2, defects: {stringing: 2}, outcome: 'failure', labeled_by: 'human'}};
+  const zip = d.buildDatasetZip([{trial: tr, extra: {'printer.csv': 't\n', 'photos/final.jpg': Uint8Array.from([255, 216])}}]);
+  const files = d.unzipStore(zip);
+  const names = Object.keys(files);
+  for (const n of ['dataset/manifest.jsonl', 'dataset/README.md', 'dataset/trials/trial-1/meta.json', 'dataset/trials/trial-1/labels.json',
+    'dataset/trials/trial-1/gcode_params.json', 'dataset/trials/trial-1/printer.csv', 'dataset/trials/trial-1/photos/final.jpg']) assert.ok(names.includes(n), n);
+  const m = JSON.parse(new TextDecoder().decode(files['dataset/manifest.jsonl']).trim());
+  assert.equal(m.schema, 'klipperlearn-dataset/v1');
+  assert.equal(m.outcome, 'failure');
+  assert.ok(m.paths.includes('photos/final.jpg'));
+  assert.equal(d.labelsFromTrial({measured: {completed: false}}).outcome, 'failure');
+  assert.equal(d.labelsFromTrial({measured: {completed: true}}).outcome, 'unknown');
+});
+
+test('Klipper transform uses SET_VELOCITY_LIMIT / SET_PRESSURE_ADVANCE and restores the baseline', async () => {
+  const g = await mod('gcode-transform.js');
+  const features = {klipper: true, accelStyle: 'S', linearAdvance: true, inputShaping: true};
+  const src = ['M104 S220', 'SET_VELOCITY_LIMIT ACCEL=3000', ';LAYER_CHANGE', 'G1 X10 Y10 E1', 'M106 S128'];
+  const {lines} = g.applyTrial(src, {accel_mm_s2: 1250, pressure_advance: 0.02, speed_factor_pct: 90, hotend_temp_c: 225},
+    {features, baseline: {klipper: {max_accel: 1000, square_corner_velocity: 3, pressure_advance: 0}}});
+  assert.ok(lines.includes('SET_VELOCITY_LIMIT ACCEL=1250'));
+  assert.ok(lines.includes('SET_PRESSURE_ADVANCE ADVANCE=0.02'));
+  assert.ok(lines.includes('M220 S90'));
+  assert.ok(lines.includes('M104 S225'));
+  assert.ok(!lines.some(l => /^M(204|900|593|205)\b/.test(l)), 'no Marlin-only commands');
+  assert.deepEqual(lines.slice(-4), ['M220 S100', 'M221 S100', 'SET_VELOCITY_LIMIT ACCEL=1000 SQUARE_CORNER_VELOCITY=3', 'SET_PRESSURE_ADVANCE ADVANCE=0']);
+});
+
+test('Moonraker printer: handshake, upload + start, layers and completion from status updates', async () => {
+  const m = await mod('moonraker.js');
+  const calls = [], uploads = [];
+  const client = {
+    base: 'http://localhost:7125', onNotify: null, onClose: null,
+    async open() {}, close() {},
+    async upload(path, text) { uploads.push({path, text}); return {}; },
+    async call(method, params) {
+      calls.push(method);
+      if (method === 'printer.info') return {state: 'ready', software_version: 'v0.12.0', hostname: 'phone'};
+      if (method === 'printer.objects.subscribe') return {status: {extruder: {temperature: 25, target: 0, power: 0, pressure_advance: 0},
+        heater_bed: {temperature: 24, target: 0, power: 0}, toolhead: {max_accel: 1000, max_velocity: 150, square_corner_velocity: 3},
+        print_stats: {state: 'standby', info: {current_layer: null}}}};
+      if (method === 'printer.print.start') {
+        const steps = [
+          {print_stats: {state: 'printing'}, virtual_sdcard: {progress: 0.01}, gcode_move: {gcode_position: [10, 10, 0.2, 0]}},
+          {extruder: {temperature: 219.5, target: 220, power: 0.6}},
+          {gcode_move: {gcode_position: [12, 10, 0.4, 0]}, virtual_sdcard: {progress: 0.5}},
+          {gcode_move: {gcode_position: [12, 11, 0.6, 0]}, virtual_sdcard: {progress: 0.9}},
+          {print_stats: {state: 'complete'}, virtual_sdcard: {progress: 1}},
+        ];
+        steps.forEach((st, i) => setTimeout(() => client.onNotify('notify_status_update', [st, 0]), 5 * (i + 1)));
+      }
+      return 'ok';
+    },
+  };
+  const printer = new m.MoonrakerPrinter(client);
+  const temps = [];
+  printer.on('temps', t => temps.push(t.hotend?.current));
+  await printer.open();
+  const f = await printer.handshake();
+  assert.equal(f.klipper, true);
+  assert.equal(printer.settings.klipper.max_accel, 1000);
+  const layers = [], progress = [];
+  const ok = await printer.runJob(['G28', 'G1 X10'], {name: 'card base.gcode', onLayer: n => layers.push(n), onProgress: p => progress.push(p)});
+  assert.equal(ok, true);
+  assert.match(uploads[0].path, /^klipperlearn\/card_base-[a-z0-9]+\.gcode$/);
+  assert.ok(calls.includes('printer.print.start'));
+  assert.deepEqual(layers, [1, 2]);
+  assert.equal(progress.at(-1), 1);
+  assert.ok(temps.includes(219.5));
+  const row = m.statusRow(printer.status, 2);
+  assert.equal(row.hotend_power, 0.6); assert.equal(row.z, 0.6); assert.equal(row.state, 'complete');
+  assert.equal(m.defaultMoonrakerUrl({hostname: 'localhost', protocol: 'http:', origin: 'http://localhost:8080'}), 'http://localhost:8080');
+  assert.equal(m.defaultMoonrakerUrl({hostname: 'agnuxo1.github.io', protocol: 'https:', origin: 'https://agnuxo1.github.io'}), 'http://127.0.0.1:7125');
+});
+
 (async () => {
   let failed = 0;
   for (const t of tests) {

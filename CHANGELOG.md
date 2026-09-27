@@ -2,6 +2,9 @@
 
 ## Unreleased — KlipperLearn Phone (preview)
 
+- Add a training dataset recorder (klipperlearn-dataset/v1): printer telemetry, accelerometer, audio features, knock and jam events with WAV clips, photos per layer/mid/final, human labels, ZIP export with manifest.jsonl.
+- Add a Klipper/Moonraker mode: same-origin connection when the app is served on the Klipper machine, trial upload and start, recording of jobs started elsewhere, Klipper-native trial commands with restore.
+- Add tools/migrate_bed_trials_to_dataset.py and a read-only Termux check (tools/android/phone_host_check.sh) for the phone-as-host route.
 - Add a static, installable phone web app at `docs/app/` (GitHub Pages `/app/`).
 - Control Marlin-compatible printers directly over WebUSB (CDC-ACM, CH340/CH341, CP210x, FTDI) or Web Serial.
 - Add a browser G-code host with line numbers, checksums, resends, temperatures, pause, cancel and M112.

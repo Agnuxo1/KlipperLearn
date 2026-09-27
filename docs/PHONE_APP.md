@@ -41,11 +41,13 @@ tap **Try the simulator**.
 | Function | How | Limits |
 |---|---|---|
 | Printer control | WebUSB or Web Serial and G-code over the firmware's serial protocol | Needs Marlin or compatible G-code firmware. A board running **Klipper firmware** needs a Klipper host; this app doesn't replace klippy. |
+| Klipper mode | Connects to Moonraker (the page origin when served from `localhost`, or a typed address). Uploads the trial file and starts it, or records a job already running (Mainsail, Fluidd, a computer tool). Trial settings use `SET_VELOCITY_LIMIT`, `SET_PRESSURE_ADVANCE`, `SET_INPUT_SHAPER`, M220/M221, and are restored at the end. | Moonraker must trust the client (local address). From the public HTTPS page, browsers block plain `ws://` to other hosts, so serve the app from the Klipper machine itself. |
 | Tuning without re-slicing | Streamed G-code is rewritten per trial: M220 speed, M221 flow, M204 acceleration, M205 junction deviation or jerk, M900 linear advance, M593 input shaping, temperature and fan offsets, retraction length | M900 and M593 only work if the firmware reports them in M503. Every trial ends by restoring the firmware values it read at connect. EEPROM is never written. |
 | Calibration prints | Built-in generators: temperature tower, ringing (acceleration) tower, speed tower, retraction test, linear advance pattern, first-layer squares, standard trial part | Band values are written as `;KL_BAND` comments. A calibration never overrides the parameter it tests. |
 | Camera | Photo every N layers plus a final photo; ringing wavelength from a user-drawn rectangle (f = v / λ) | Indicators for comparing trials taken under the same conditions, not metrology. |
 | Manual ringing | Klipper's method: f = v · N / D | Uses your ruler count. |
-| Microphone | Loudness, spectral centroid, click rate (possible skipped steps or extruder grinding) | Room noise affects it. Only features are kept, never audio. |
+| Microphone | Loudness, spectral centroid, click rate (possible skipped steps or extruder grinding) | Room noise affects it. Without the dataset recorder only features are kept. With it, 2 s WAV clips around detected knocks/jams are stored on the phone. |
+| Dataset recorder | On by default. Each trial keeps printer telemetry (1 Hz), accelerometer samples, audio features (10 Hz), events (knocks from accelerometer or audio, suspected jams from periodic clicks, pauses, errors), photos per layer, at half and at the end, and your labels. **Export dataset (ZIP)** writes `klipperlearn-dataset/v1`. | Detections are hints for training, not diagnoses. Data stays on the phone until you export it. |
 | Accelerometer | Records during a trial; an experimental resonance sweep drives one axis at known frequencies without heating or extruding | Phone sensors often sample at 60–200 Hz. The sweep compares energy per excitation frequency, so it's only a rough indicator. |
 | Advisor | Score = 40 % measured + 60 % human rating. Fixes the worst defect first. Reverts a change that lowered the score. Explores faster settings when no major defect remains. | Compares only trials of the same printer and the same G-code. Never applies anything without your tap. |
 | JEV (optional) | Set an advisor URL. The app POSTs the rated trial and the bounded candidates, and accepts only one of those candidates. | The public app holds no credentials. JEV runs behind your own local service. |
@@ -72,6 +74,23 @@ Response: `{candidate_id, confidence, provenance}`. The app rejects any id that
 isn't among the candidates it sent. The app is served over HTTPS, so the endpoint
 must be HTTPS or `http://localhost` / `http://127.0.0.1`.
 
+## Dataset format (`klipperlearn-dataset/v1`)
+
+```
+dataset/manifest.jsonl              one line per trial: id, params, outcome, labels, paths
+dataset/trials/<trial_id>/
+  meta.json  gcode_params.json  labels.json  events.jsonl
+  printer.csv         t, hotend, hotend_target, hotend_power, bed..., x, y, z, speed_mm_s, speed_factor, progress, layer, state
+  accel.csv           t, ax, ay, az (m/s², phone axes)
+  audio_features.csv  t, rms, peak, crest, centroid_hz, 4 band energies
+  audio_events/*.wav  16 kHz mono clips, 1 s before and after an event
+  photos/*.jpg        L010.jpg ..., mid.jpg, final.jpg
+```
+
+Times are seconds from the start of the trial. `labels.json` holds the human outcome
+(success/failure), ratings and defects; it is the ground truth for training.
+`tools/migrate_bed_trials_to_dataset.py` converts older bed-trial sessions to the same layout.
+
 ## Validation status
 
 - `tests/test_phone_app.cjs`: CH340 and FTDI baud encodings, the CH340 init sequence
@@ -79,8 +98,11 @@ must be HTTPS or `http://localhost` / `http://127.0.0.1`.
   and shutdown, G-code trial transforms (absolute and relative E), calibration
   bounds, FFT, ringing analysis and advisor decisions.
 - `tests/test_phone_app_browser.cjs`: real Chromium at phone and desktop widths,
-  simulator connect, generated trial, rating and recommendation, with no external
-  requests.
+  simulator connect, generated trial recorded with fake camera and microphone, rating
+  and recommendation, dataset ZIP export and layout check, with no external requests.
+- Dataset and Klipper unit tests: CRC32/ZIP/WAV encoders, knock and jam detection on
+  synthetic signals, manifest layout, Klipper trial commands, Moonraker job flow
+  against a fake Moonraker.
 - **Not yet done:** printing on a real printer over Android USB. Record the phone
   model, Android and Chrome versions, the USB chipset, baud rate and results in a
   compatibility report before claiming support for a combination.
