@@ -117,7 +117,10 @@ class TrialDataset:
             self.layer = new_layer = cur
         elif cur is None and state == "printing" and z is not None and 0 < z < 15:
             # Only extrusion heights count; the 20 mm travel lifts between plots are ignored.
-            if self.last_z is None or z > self.last_z + 0.05:
+            # A drop of more than 1 mm means the start-G-code lift is over: restart from here.
+            if self.last_z is not None and z < self.last_z - 1.0:
+                self.last_z, self.layer = z, 0
+            elif self.last_z is None or z > self.last_z + 0.05:
                 if self.last_z is not None:
                     self.layer += 1
                     new_layer = self.layer
