@@ -32,6 +32,30 @@ solves the integration. Record the exact model, OS, runtime, USB bridge, serial
 chipset, power arrangement and recovery behavior for every supported combination.
 An old Android version may also have browser/security limitations.
 
+## Candidate route under test: Termux without root (2026-09-27)
+
+[klipper_termux](https://github.com/thingsapart/klipper_termux) runs mainline Klipper,
+Moonraker and Mainsail in Termux on Android 7+ without root. A companion APK owns the
+USB device through Android's USB host API (usb-serial-for-android: CDC-ACM, CH340,
+CP210x, FTDI, PL2303) and forwards the bytes to a pseudo-terminal that Klippy opens as
+its serial port. Klipper needs one small patch for old Android clocks. The project is
+young, so the requirements above still apply and nothing here is marked supported.
+
+KlipperLearn fits on top of it without keys: serve `docs/app/` from the same local web
+server as Mainsail (for example `http://localhost:8080/klipperlearn/`). The page is then
+a secure context (camera, microphone and accelerometer work), its Moonraker mode uses
+the page origin, and every trial is recorded as a `klipperlearn-dataset/v1` folder.
+
+Order of work, one step at a time, keeping the existing Linux host as the fallback:
+
+1. Run `tools/android/phone_host_check.sh` in Termux (read-only) and keep its output.
+2. Install Termux (F-Droid or GitHub build) and the klipper_termux APK; grant USB access.
+3. Reuse the working `printer.cfg`, including the safety limits (acceleration cap,
+   velocity cap, square corner velocity); do not change thermal protections.
+4. Connect only the printer by OTG, check `FIRMWARE_RESTART` and temperatures, then a
+   motion test without heat before any print.
+5. Record the model, Android version, OTG/charging arrangement and recovery behaviour.
+
 ## Sensor capability matrix
 
 Probe each capability rather than promising every sensor on every phone. Camera
