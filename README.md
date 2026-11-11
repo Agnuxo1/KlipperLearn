@@ -27,6 +27,10 @@ publication. Read the [capability matrix](docs/STATUS.md) before connecting hard
 > Klipper host (the Python deployment below). No trained defect weights or
 > universally validated automatic calibration profile are bundled.
 
+<!-- impact-note:start -->
+<sub><strong>Efficiency and practical value.</strong> KlipperLearn aims to extend the usefulness of existing printers and phones through local evidence collection and bounded calibration proposals. Reusable slicer profiles and one-variable trials can focus tuning effort and help avoid repeated trial-and-error adjustments. The <a href="#printer-optimizer-phone-optional-slicer-first">file-first optimizer</a> requires comparable reviewed evidence; material, time and energy savings depend on physical validation for each printer and print configuration.</sub>
+<!-- impact-note:end -->
+
 ## Download and try the community preview
 
 [Project website](https://agnuxo1.github.io/KlipperLearn/) · [Start here](docs/START_HERE.md) · [Versioned downloads](https://github.com/Agnuxo1/KlipperLearn/releases/tag/community-preview-20260917) · [Browser-only reference demo](https://agnuxo1.github.io/KlipperLearn/demo/index.html)
